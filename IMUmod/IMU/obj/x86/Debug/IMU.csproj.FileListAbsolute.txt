@@ -1,0 +1,114 @@
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.Form1.resources
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.Properties.Resources.resources
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\bin\Debug\IMU.exe
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\bin\Debug\IMU.pdb
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.exe
+c:\users\jzimmerman\documents\visual studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.pdb
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ZedGraph.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ZedGraph.xml
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\jzimmerman\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.frmPlotChart.resources
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.exe
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.pdb
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\IMU.exe
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\IMU.pdb
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ZedGraph.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.csprojResolveAssemblyReference.cache
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.Form1.resources
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.frmPlotChart.resources
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.Properties.Resources.resources
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Debug\IMU.csproj.GenerateResource.Cache
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Controls.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\ZedGraph.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Video.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Imaging.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Math.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Controls.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Video.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Imaging.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Debug\AForge.Math.xml
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\IMU.exe
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\IMU.pdb
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\IMU.Form1.resources
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\IMU.frmPlotChart.resources
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\IMU.Properties.Resources.resources
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\jzimmerman\Desktop\IMU\IMU\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\IMU.exe
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\IMU.pdb
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.Video.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.Imaging.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.Math.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.Controls.xml
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\ZedGraph.xml
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.Video.xml
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.xml
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.Imaging.xml
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\AForge.Math.xml
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\de\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\es\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\fr\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\hu\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\it\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\ja\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\pt\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\ru\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\sk\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\sv\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\tr\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\zh-cn\ZedGraph.resources.dll
+C:\Users\jzimmerman\Desktop\IMU\IMU\bin\Debug\zh-tw\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.exe
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.pdb
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\IMU.exe
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\IMU.pdb
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Controls.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Video.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Imaging.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Math.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Controls.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Video.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Imaging.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Debug\AForge.Math.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.Form1.resources
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.Properties.Resources.resources
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.csproj.GenerateResource.Cache
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.frmBodePlotChart.resources
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.frmBodePlot.resources
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Debug\IMU.csprojResolveAssemblyReference.cache
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMUmod\IMU\obj\x86\Debug\IMU.exe
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMUmod\IMU\obj\x86\Debug\IMU.pdb

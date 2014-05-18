@@ -1,0 +1,67 @@
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Release\IMU.csprojResolveAssemblyReference.cache
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Release\IMU.Form1.resources
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Release\IMU.frmPlotChart.resources
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Release\IMU.Properties.Resources.resources
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Release\IMU.csproj.GenerateResource.Cache
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\IMU.exe
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\IMU.pdb
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Controls.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\ZedGraph.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Video.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Imaging.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Math.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Controls.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\ZedGraph.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Video.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Imaging.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\AForge.Math.xml
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\de\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\es\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\fr\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\hu\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\it\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\ja\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\pt\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\ru\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\sk\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\sv\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\tr\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\zh-cn\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\bin\Release\zh-tw\ZedGraph.resources.dll
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Release\IMU.exe
+C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMU\IMU\obj\x86\Release\IMU.pdb
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\IMU.exe
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\IMU.pdb
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Controls.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Video.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Imaging.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Math.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Controls.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\ZedGraph.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Video.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Imaging.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\AForge.Math.xml
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\de\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\es\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\fr\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\hu\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\it\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\ja\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\pt\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\ru\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\sk\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\sv\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\tr\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\zh-cn\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\bin\Release\zh-tw\ZedGraph.resources.dll
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Release\IMU.csprojResolveAssemblyReference.cache
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Release\IMU.Form1.resources
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Release\IMU.frmPlotChart.resources
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Release\IMU.Properties.Resources.resources
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Release\IMU.csproj.GenerateResource.Cache
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Release\IMU.exe
+C:\Users\Justin\Desktop\IMUmod\IMU\obj\x86\Release\IMU.pdb
