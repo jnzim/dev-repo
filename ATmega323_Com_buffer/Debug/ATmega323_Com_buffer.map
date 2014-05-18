@@ -456,18 +456,18 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x246 ATmega323_Com_buffer.o
 
-.debug_line     0x00000000      0x311
+.debug_line     0x00000000      0x310
  *(.debug_line)
- .debug_line    0x00000000      0x311 ATmega323_Com_buffer.o
+ .debug_line    0x00000000      0x310 ATmega323_Com_buffer.o
 
 .debug_frame    0x00000000      0x1b0
  *(.debug_frame)
  .debug_frame   0x00000000      0x1b0 ATmega323_Com_buffer.o
 
-.debug_str      0x00000000      0x523
+.debug_str      0x00000000      0x501
  *(.debug_str)
- .debug_str     0x00000000      0x523 ATmega323_Com_buffer.o
-                                0x56e (size before relaxing)
+ .debug_str     0x00000000      0x501 ATmega323_Com_buffer.o
+                                0x54c (size before relaxing)
 
 .debug_loc      0x00000000      0x3bc
  *(.debug_loc)

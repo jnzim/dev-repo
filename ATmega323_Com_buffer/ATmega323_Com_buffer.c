@@ -12,14 +12,9 @@
 #include <stdbool.h>
 #include "AxisData.h"
 
-#define	LOOP_RATE40MS			55000
-#define	LOOP_RATE20MS			27500
-#define	LOOP_RATE10MS			13750
-#define	LOOP_RATE05MS			6875
+
 #define MASK_TOP_BYTE			0x00FF
 #define BUFSIZE					16								// BUFSIZE should be set to the number of bytes expected plus as 2 byte header
-#define ENDLINE					0xFF
-#define DUMMYVARIABLE			0x00
 #define PACKET_END_CHAR			0xCC
 
 #define sbi(x,y) x |= _BV(y)									//set bit - using bitwise OR operator
@@ -63,14 +58,24 @@ volatile uint8_t received = 0;
 bool SPI_IsBusy = false;
 
 
+/* 
+This is a data buffer sending and receiving data from the PC.  The master (XMEGA) and request command data on the SPI interrupt, otherwise this just sits in a loop 
+sending data back and forth to the PC.
+
+The SPI transaction send command data for the control loop and quad copter state data to be displayed on the UI.
+
+TODO:  add functionality to send 2 byte command to the XMGEGA for the state machine, exc..
+
+
+*/
+
+
 int main()
 {
 	DDRC=0xff;									//Data direction register on PORTC as OUTPUT
 	USART_init();
 	SPIinitSlave();
-	//Timer_init();
-
-	
+	//Timer_init();	
 	while(1) 
 	{
 	TransactWithPC();		
@@ -243,7 +248,6 @@ bool IsPacketEnd(uint8_t thisByte)
   DISCRIPTION:  Parse out the data that's been received from XMEGA
 *********************************************************************************************************** */
 
-
 void parse_packet()
 {
 	int i = 0;
@@ -289,8 +293,9 @@ uint8_t SPI_transaction(uint8_t data)
 // should match the number of bytes the PC expects to receive
 void Send_USART_PC_Data()
 {
-	USART_sendData_int16(0xCCCC);					// send header first
+	// send header first, the PC will use the header to parse out the stream
 
+	USART_sendData_int16(0xCCCC);					
 	USART_sendData_int16(throttleAxis.thrust);
 	USART_sendData_int16(pitchAxis.attitude_feedback);
 	USART_sendData_int16(rollAxis.attitude_feedback);
@@ -385,7 +390,7 @@ void SPIinitSlave()
 	SPCR = (1<<SPIE)|(1<<SPE)|(0<<DORD)|(0<<CPOL)|(0<<CPHA);				// Enable SPI Interrupt and SPI in Slave Mode with SCK = CK/4
 	IOReg   = SPSR;															// Clear SPIF bit in SPSR
 	IOReg   = SPDR;
-	SPDR = 0x00;															// initialize SPI daat register
+	SPDR = 0x00;															// initialize SPI data register
 	sei();																	// Enable global interrupt			
 	
 
@@ -445,6 +450,7 @@ void USART_sendData_int32(int32_t sendthis)
 }
 
 //  set up the timer that will be used to send and receive data from the PC / USART
+//NOT USED:
 void Timer_init()
 {
 
