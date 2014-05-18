@@ -33,3 +33,5 @@ C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMUmod\IMU\obj\x86\Debug\I
 C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMUmod\IMU\obj\x86\Debug\IMU.pdb
 C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMUmod\IMU\obj\x86\Debug\IMU.frmMain.resources
 C:\Users\Justin\Documents\Visual Studio 2010\Projects\IMUmod\IMU\obj\x86\Debug\Contol_dev.csprojResolveAssemblyReference.cache
+C:\Users\Justin\Documents\dev repo\IMUmod\IMU\obj\x86\Debug\IMU.exe
+C:\Users\Justin\Documents\dev repo\IMUmod\IMU\obj\x86\Debug\IMU.pdb
