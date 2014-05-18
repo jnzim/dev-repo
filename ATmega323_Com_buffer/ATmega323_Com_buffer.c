@@ -14,7 +14,7 @@
 
 
 #define MASK_TOP_BYTE			0x00FF
-#define BUFSIZE					16								// BUFSIZE should be set to the number of bytes expected plus as 2 byte header
+#define BUFSIZE					18								// BUFSIZE should be set to the number of bytes expected plus as 2 byte header
 #define PACKET_END_CHAR			0xCC
 
 #define sbi(x,y) x |= _BV(y)									//set bit - using bitwise OR operator
@@ -55,6 +55,7 @@ uint8_t rdata, commandPacketIndex, lastByte;
 uint8_t cmdIndex;
 uint8_t incoming[BUFSIZE];
 volatile uint8_t received = 0;
+uint16_t command;
 bool SPI_IsBusy = false;
 
 
@@ -144,6 +145,9 @@ void RefreshCommandPacket()
 		
 		commandPacket[i++] = upperByte(pitchAxis.Kd_attitude);
 		commandPacket[i++] = lowerByte(pitchAxis.Kd_attitude);
+		
+		commandPacket[i++] = upperByte(command);
+		commandPacket[i++] = lowerByte(command);
 
 		commandPacket[i++] = PACKET_END_CHAR;
 		commandPacket[i++] = PACKET_END_CHAR;
@@ -273,6 +277,11 @@ void parse_packet()
 	
 	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
 	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+	
+	
+	// dummy read for now, need something to transact for the command
+	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
 
 }
 
@@ -337,6 +346,7 @@ uint8_t Read_USART_CommandData()
 		pitchAxis.Kp_attitude = (USART_receive() << 8) | USART_receive();
 		pitchAxis.Ki_attitude = (USART_receive() << 8) | USART_receive();
 		pitchAxis.Kd_attitude = (USART_receive() << 8) | USART_receive();
+		command = (USART_receive() << 8) | USART_receive();
 		
 		return 1;
 			
