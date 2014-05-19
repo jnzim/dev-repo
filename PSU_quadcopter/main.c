@@ -119,8 +119,8 @@ void State()
 		
 		case SYSTEM_STATE_FLY:
 			// run the control loop
-			PORTA.OUTTGL = 0x00;
-			PORTA.OUTTGL = PIN3_bm;
+			PORTA.OUTCLR = 0x00;
+			//PORTA.OUTTGL = PIN3_bm;
 			ControlLoop();
 			break;
 		
@@ -159,12 +159,13 @@ void ControlLoop()
 	int16counter++;
 	UpdateEulerAngles();
 	SetPulseWidths();
-	pid_attitude_rate(&pitchAxis);
-	if (int16counter >= 20)
+	PI_attitude_rate(&pitchAxis);
+	
+	if (int16counter >= 31)
 
 	{
 		WriteToPC_SPI();
-		//sendUM6_Data();
+		PORTA.OUTTGL = PIN2_bm;
 		int16counter = 0;
 	}
 	
@@ -206,9 +207,9 @@ void intPID_gains()
 	rollAxis.Ki_rate =0;
 	rollAxis.Kd_rate =5;
 	
-	pitchAxis.Kp_rate = 5;
-	pitchAxis.Ki_rate =0;
-	pitchAxis.Kd_rate =5;
+	pitchAxis.Kp_rate = 17;
+	pitchAxis.Ki_rate =9;
+	pitchAxis.Kd_rate =0;
 	
 	rollAxis.windupGuard = 200;
 	pitchAxis.windupGuard = 200;
@@ -399,13 +400,10 @@ void intiLoopTimer()
 	TCD0.CTRLB = TC_WGMODE_NORMAL_gc;
 
 	
-	// 23000 counts set f = 300HZ by trial and error
-	//TCD0.PER = 38686;
-	//TCD0.PER = 30000;
-	TCD0.PER = 24000;
-	//TCD0.PER = 40000;
-	//TCD0.PER = 8000;
-	//TCD0.PER = 5000;
+	// 21000 counts set f = 305HZ by trial and error
+	// frequency depends on IMU SPI clock pre scaler?
+	TCD0.PER = 21000;
+
 	//Configure timer to generate an interrupt on overflow. */
 	TCD0.INTCTRLA = TC_OVFINTLVL_LO_gc;
 

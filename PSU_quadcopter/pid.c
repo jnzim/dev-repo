@@ -12,15 +12,13 @@
 #include "systemData.h"
 #include "pid.h"
 
-
-
 #define PID_MAX_GAIN 500
 #define PID_MIN_GAIN -500
 #define MAX_TOTAL_ERROR 32766			
 #define MIN_TOTAL_ERROR -32767
 
-int16_t p_rate_divisor = 100; 
-int16_t i_rate_divisor =100;
+int16_t p_rate_divisor = 10; 
+int16_t i_rate_divisor =50;
 int16_t p_attitude_divisor = 100;
 int16_t i_attitude_divisor = 100;
 
@@ -28,6 +26,11 @@ void PI_rate(PID_data *pid_data);
 void PI_attitude_rate(PID_data *pid_data);
 
 
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:  rate loop, this is used to find the rate gains
+*********************************************************************************************************** */
 void PI_rate(PID_data *pid_data)
 {
 	// calculate the current rate error
@@ -41,14 +44,20 @@ void PI_rate(PID_data *pid_data)
 	// integrate the rate error
 	pid_data->rate_integral = pid_data->rate_error + pid_data->previousRateError0 + pid_data->previousRateError1 + pid_data->previousRateError2;
 	
-	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp_rate) / p_rate_divisor;
-	pid_data->i_term_rate = (pid_data->rate_integral * pid_data->Ki_rate) / i_rate_divisor;
+	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp) / p_rate_divisor;
+	pid_data->i_term_rate = (pid_data->rate_integral * pid_data->Ki) / i_rate_divisor;
 	
 	pid_data->pid_total = pid_data->p_term_rate + pid_data->i_term_rate;
 	
 }
 
 
+
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:  nest PI loops, with the rate loop on the insidea
+*********************************************************************************************************** */
 void PI_attitude_rate(PID_data *pid_data)
 {
 	

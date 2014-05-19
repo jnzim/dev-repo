@@ -42,7 +42,7 @@ namespace IMU
         int cmd;  ///  hold command from text box enter event
                 ///  
         short int_Step_Command_Increment = 0;
-        int intUI_Update_mSec = 25;
+        int intUI_Update_mSec = 50;
         int intAutoCommandCounter = 0;
         //int intUI_SendData = 20;
         List<byte> bBuffer = new List<byte>();
