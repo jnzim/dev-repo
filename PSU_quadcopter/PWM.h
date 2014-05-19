@@ -79,6 +79,17 @@ void initPWM()
 	
 }
 
+
+void DisablePWM()
+{
+		MOTOR_PMW_TIMER0.CTRLB |= 0x00;
+		MOTOR_PMW_TIMER0.CTRLB |= 0x00;
+		MOTOR_PMW_TIMER0.CTRLB |= 0x00;
+		MOTOR_PMW_TIMER0.CTRLB |= 0x00;
+}
+
+
+
 void doPWM(uint16_t speed_1, uint16_t speed_2, uint16_t speed_3, uint16_t speed_4)
 {
         /* The code check if the overflow flag is set,

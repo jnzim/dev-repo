@@ -82,6 +82,7 @@ void State()
 			{
 				systemState = SYSTEM_ZERO;
 			}
+			PORTA.OUTTGL = 0x00;
 			break;
 		
 		case SYSTEM_ZERO:
@@ -89,7 +90,7 @@ void State()
 			// PC transaction, read in command and send out sensor data
 			UpdateEulerAngles();
 		
-			//PORTA.OUTTGL = PIN3_bm;
+			PORTA.OUTTGL = PIN3_bm;
 			//  get the last command sent form the PC, either zero the IMU or get ready to arm the system
 			if (WriteToPC_SPI() == SYSTEM_ZERO)
 			{
@@ -105,6 +106,7 @@ void State()
 		
 		case SYSTEM_ARM:
 			//Arm the system by enabling the PWM
+			PORTA.OUTTGL = 0x00;
 			PORTA.OUTTGL = PIN2_bm;
 			initPWM();
 			systemState = SYSTEM_STATE_FLY;
@@ -123,9 +125,18 @@ void State()
 			break;
 		
 		case SYSTEM_DISARM:
-			// run the control loop
-			//PORTA.OUTTGL = 0x0F;
-		
+			
+			DisablePWM();
+			PORTA.OUTTGL = PIN2_bm;
+			_delay_ms(1000);
+			PORTA.OUTTGL = PIN2_bm;
+			_delay_ms(1000);
+			PORTA.OUTTGL = PIN2_bm;
+			_delay_ms(1000);
+			PORTA.OUTTGL = PIN2_bm;
+			_delay_ms(1000);
+			PORTA.OUTTGL = PIN2_bm;
+			systemState = SYSTEM_STATE_STARTUP;
 			break;
 		
 		default:

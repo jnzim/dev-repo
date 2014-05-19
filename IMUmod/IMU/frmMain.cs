@@ -62,6 +62,7 @@ namespace IMU
        const Int16 UM6_SET_HOME_POSITION	=0x00B3;
        const Int16 ZERO_SENSORS             =0x0001;
        const Int16 ARM_SYSTEM               =0x0002;
+       const Int16 DISARM                   = 0x0005;
 
         
         enum errorType
@@ -697,13 +698,13 @@ namespace IMU
                     this.cmd = ZERO_SENSORS;
                     break;
                 case 1:
-                    this.cmd = UM6_SET_HOME_POSITION;
+                    this.cmd = ARM_SYSTEM;
                     break;
                 case 2:
-                    this.cmd = UM6_FLASH_COMMIT;
+                    this.cmd = DISARM;
                     break;
                 case 3:
-                    this.cmd = ARM_SYSTEM;
+                    this.cmd = SET_ACCEL_REF;
                     break;
                 case 4:
                     this.cmd = SET_ACCEL_REF;

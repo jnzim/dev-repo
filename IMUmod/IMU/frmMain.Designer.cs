@@ -48,6 +48,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBoxYawRate = new System.Windows.Forms.TextBox();
+            this.textBoxRollRate = new System.Windows.Forms.TextBox();
+            this.textBoxPitchRate = new System.Windows.Forms.TextBox();
             this.textBoxUImessage = new System.Windows.Forms.TextBox();
             this.checkBoxPlotForm = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -88,18 +91,15 @@
             this.textBoxLargestNeg = new System.Windows.Forms.TextBox();
             this.textBoxLargestPos = new System.Windows.Forms.TextBox();
             this.listCommands = new System.Windows.Forms.ListBox();
-            this.textBoxPitchRate = new System.Windows.Forms.TextBox();
-            this.textBoxRollRate = new System.Windows.Forms.TextBox();
-            this.textBoxYawRate = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textBox_GPS_SPD = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.textBox_GPS_N = new System.Windows.Forms.TextBox();
             this.textBox_GPS_A = new System.Windows.Forms.TextBox();
             this.textBox_GPS_E = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox_GPS_SPD = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -353,6 +353,36 @@
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Feedback";
+            // 
+            // textBoxYawRate
+            // 
+            this.textBoxYawRate.Enabled = false;
+            this.textBoxYawRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxYawRate.Location = new System.Drawing.Point(135, 102);
+            this.textBoxYawRate.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxYawRate.Name = "textBoxYawRate";
+            this.textBoxYawRate.Size = new System.Drawing.Size(70, 26);
+            this.textBoxYawRate.TabIndex = 12;
+            // 
+            // textBoxRollRate
+            // 
+            this.textBoxRollRate.Enabled = false;
+            this.textBoxRollRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxRollRate.Location = new System.Drawing.Point(135, 72);
+            this.textBoxRollRate.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxRollRate.Name = "textBoxRollRate";
+            this.textBoxRollRate.Size = new System.Drawing.Size(70, 26);
+            this.textBoxRollRate.TabIndex = 11;
+            // 
+            // textBoxPitchRate
+            // 
+            this.textBoxPitchRate.Enabled = false;
+            this.textBoxPitchRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxPitchRate.Location = new System.Drawing.Point(135, 42);
+            this.textBoxPitchRate.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxPitchRate.Name = "textBoxPitchRate";
+            this.textBoxPitchRate.Size = new System.Drawing.Size(70, 26);
+            this.textBoxPitchRate.TabIndex = 10;
             // 
             // textBoxUImessage
             // 
@@ -811,9 +841,10 @@
             this.listCommands.FormattingEnabled = true;
             this.listCommands.Items.AddRange(new object[] {
             "Zero Sensors",
+            "ARM",
+            "DISARM",
             "Set GPS Home",
             "Write to Flash",
-            "Arm System",
             "SET ACCEL REF",
             "SET MAG REF",
             "ZERO GYROS"});
@@ -822,36 +853,6 @@
             this.listCommands.Size = new System.Drawing.Size(112, 147);
             this.listCommands.TabIndex = 36;
             this.listCommands.SelectedIndexChanged += new System.EventHandler(this.listCommands_SelectedIndexChanged);
-            // 
-            // textBoxPitchRate
-            // 
-            this.textBoxPitchRate.Enabled = false;
-            this.textBoxPitchRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPitchRate.Location = new System.Drawing.Point(135, 42);
-            this.textBoxPitchRate.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxPitchRate.Name = "textBoxPitchRate";
-            this.textBoxPitchRate.Size = new System.Drawing.Size(70, 26);
-            this.textBoxPitchRate.TabIndex = 10;
-            // 
-            // textBoxRollRate
-            // 
-            this.textBoxRollRate.Enabled = false;
-            this.textBoxRollRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRollRate.Location = new System.Drawing.Point(135, 72);
-            this.textBoxRollRate.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxRollRate.Name = "textBoxRollRate";
-            this.textBoxRollRate.Size = new System.Drawing.Size(70, 26);
-            this.textBoxRollRate.TabIndex = 11;
-            // 
-            // textBoxYawRate
-            // 
-            this.textBoxYawRate.Enabled = false;
-            this.textBoxYawRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxYawRate.Location = new System.Drawing.Point(135, 102);
-            this.textBoxYawRate.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxYawRate.Name = "textBoxYawRate";
-            this.textBoxYawRate.Size = new System.Drawing.Size(70, 26);
-            this.textBoxYawRate.TabIndex = 12;
             // 
             // groupBox5
             // 
@@ -873,6 +874,28 @@
             this.groupBox5.TabIndex = 37;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "GPS";
+            // 
+            // textBox_GPS_SPD
+            // 
+            this.textBox_GPS_SPD.Enabled = false;
+            this.textBox_GPS_SPD.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_GPS_SPD.Location = new System.Drawing.Point(102, 111);
+            this.textBox_GPS_SPD.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_GPS_SPD.Name = "textBox_GPS_SPD";
+            this.textBox_GPS_SPD.Size = new System.Drawing.Size(76, 26);
+            this.textBox_GPS_SPD.TabIndex = 39;
+            this.textBox_GPS_SPD.UseWaitCursor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(4, 112);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 20);
+            this.label4.TabIndex = 38;
+            this.label4.Text = "GND SPD";
             // 
             // textBox_GPS_N
             // 
@@ -938,28 +961,6 @@
             this.label26.Size = new System.Drawing.Size(58, 20);
             this.label26.TabIndex = 0;
             this.label26.Text = "GPS N";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(4, 112);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(82, 20);
-            this.label4.TabIndex = 38;
-            this.label4.Text = "GND SPD";
-            // 
-            // textBox_GPS_SPD
-            // 
-            this.textBox_GPS_SPD.Enabled = false;
-            this.textBox_GPS_SPD.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_GPS_SPD.Location = new System.Drawing.Point(102, 111);
-            this.textBox_GPS_SPD.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_GPS_SPD.Name = "textBox_GPS_SPD";
-            this.textBox_GPS_SPD.Size = new System.Drawing.Size(76, 26);
-            this.textBox_GPS_SPD.TabIndex = 39;
-            this.textBox_GPS_SPD.UseWaitCursor = true;
             // 
             // frmMain
             // 
