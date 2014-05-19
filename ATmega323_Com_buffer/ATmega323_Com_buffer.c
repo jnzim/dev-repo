@@ -83,7 +83,13 @@ int main()
 	}
 }
 
-
+/***********************************************************************************************************
+  INPUT:
+  OUTPUT:
+  DISCRIPTION:  Read in date from the PC on the USART and then send a packet out.
+  Refresh the next SPI command packet with the latest PC data.
+  
+*********************************************************************************************************** */
 TransactWithPC()
 {
 	

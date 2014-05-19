@@ -159,7 +159,7 @@ void ControlLoop()
 	int16counter++;
 	UpdateEulerAngles();
 	SetPulseWidths();
-	pid_rate(&pitchAxis);
+	pid_attitude_rate(&pitchAxis);
 	if (int16counter >= 20)
 
 	{
@@ -176,10 +176,10 @@ void SetPulseWidths()
 	if(throttleAxis.thrust > 2000 && throttleAxis.thrust <= 4095)
 	{
 		doPWM(
-		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total,
 		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total,
-		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total,
-		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total
+		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total,
+		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total,
+		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total
 
 		
 		//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total- yawAxis.pid_total,

@@ -22,6 +22,7 @@
 
 typedef struct PID_data
 {
+	int16_t rate_integral, attitude_integral;
 	int16_t p_term_rate, i_term_rate, d_term_rate;
 	int16_t p_term_attitude, i_term_attitude, d_term_attitude;
 	int16_t Kp_rate, Ki_rate, Kd_rate;
