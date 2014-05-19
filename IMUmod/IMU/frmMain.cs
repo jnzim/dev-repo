@@ -52,7 +52,6 @@ namespace IMU
         short int16_GPS_N, int16_GPS_E, int16_GPS_A, int16_GPS_SPEED;
 
 
-
        const Int16 NULL_COMMAND			    =0x0000;
        const Int16 UM6_GET_VERSION			=0x00AA;
        const Int16 UM6_FLASH_COMMIT		    =0x00AB;
@@ -61,8 +60,9 @@ namespace IMU
        const Int16 SET_ACCEL_REF			=0x00AF;
        const Int16 UM6_SET_MAG_REF			=0x00B0;
        const Int16 UM6_SET_HOME_POSITION	=0x00B3;
+       const Int16 ZERO_SENSORS             =0x0001;
        const Int16 ARM_SYSTEM               =0x0002;
-       const Int16 ZERO_SENSORS             =0x0005;
+
         
         enum errorType
         {
@@ -250,9 +250,7 @@ namespace IMU
                     //debugbuffer();
                     bBuffer.RemoveAt(0); 
                     bBuffer.RemoveAt(0);
-                 
                     ParseRecivedData();
-
 
                 }
                 else if (bBuffer.Count >= NUM_BYTES_TO_RECIVE)
@@ -272,8 +270,6 @@ namespace IMU
             {
                 //Debug.WriteLine(bBuffer[i].ToString("x"));
            }
-
-
 
         }
        
@@ -386,17 +382,17 @@ namespace IMU
 
                 buffer[0] = (byte)((short)this.numericUpDownKi_Pitch.Value >> 8);
                 buffer[1] = (byte)((short)this.numericUpDownKi_Pitch.Value & 0xff);
-                //Debug.WriteLine(buffer[0].ToString("x"));
-                //Debug.WriteLine(buffer[1].ToString("x"));
+
                 this._serialPort.Write(buffer, 0, 2);
 
                 buffer[0] = (byte)((short)this.numericUpDownKd_Pitch.Value >> 8);
                 buffer[1] = (byte)((short)this.numericUpDownKd_Pitch.Value & 0xff);
                 this._serialPort.Write(buffer, 0, 2);
 
-                //buffer[0] = (byte)(this.cmd >> 8);
-                //buffer[1] = (byte)(this.cmd & 0xff);
-                //this._serialPort.Write(buffer, 0, 2);
+                buffer[0] = (byte)(this.cmd >> 8);
+                buffer[1] = (byte)(this.cmd & 0xff);
+                this._serialPort.Write(buffer, 0, 2);
+            
 
                 //buffer[0] = (byte)((short)this.numericUpDownKi_Roll.Value >> 8);
                 //buffer[1] = (byte)((short)this.numericUpDownKi_Roll.Value & 0xff);
@@ -408,7 +404,7 @@ namespace IMU
                 //this._serialPort.Write(buffer, 0, 2);
 
 
-                //this.cmd = 0x00;        //clear command so we don't over load the IMU
+                this.cmd = 0x00;        //clear command so we don't over load the IMU
               
                 
             }

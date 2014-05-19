@@ -19,24 +19,24 @@
 
 #define TESTPORT_A PORTA
 
+
+int16_t WriteToPC_SPI();
+uint8_t initSystem();
+uint8_t zeroSensor();
 void ControlLoop();
-
-void WriteToPC_SPI();
-
-uint8_t initSystem(void);
 void init32MHzClock();
 void intiLoopTimer();
 void sendUM6_Data();
-void initIUM(void);
-void SetPulseWidths(void);
-void intiUM6(void);
-void UpdateEulerAngles(void);
-uint8_t zeroSensor(void);
-void State(void);
+void initIUM();
+void SetPulseWidths();
+void intiUM6();
+void UpdateEulerAngles();
+void State();
 
-int systemState = 0;
+uint8_t systemState = SYSTEM_STATE_STARTUP;
 uint8_t dummy_read;
 uint16_t int16counter;
+int16_t command;
 
 
 
@@ -46,24 +46,93 @@ INPUT:
 OUTPUT:
 DISCRIPTION: Main is used for set up and then just an infinite loop
 *********************************************************************************************************** */
-int main(void)
+int main()
 {
-	
-
+		PORTA.OUTTGL = 0x0F;
+		systemState = SYSTEM_STATE_STARTUP;
+		init32MHzClock();
+		intiLoopTimer();
 		initSystem();
-
-	
 
 		while(1)
 		{
 			nop();
 		}
-
-
-	
-
 }
 
+
+
+
+
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:   Determine what to do based on systemState.  Used to initializes and arm the quad.
+*********************************************************************************************************** */
+void State()
+{
+	
+	//sendUM6_Data();
+	switch(systemState)
+	{
+		case SYSTEM_STATE_STARTUP:
+			PORTA.OUTTGL = 0x00;
+			PORTA.OUTTGL = PIN2_bm;
+			if (initSystem() ==  1)
+			{
+				systemState = SYSTEM_ZERO;
+			}
+			break;
+		
+		case SYSTEM_ZERO:
+			// read commands from the PC and zero the system as necessary
+			// PC transaction, read in command and send out sensor data
+			UpdateEulerAngles();
+		
+			//PORTA.OUTTGL = PIN3_bm;
+			//  get the last command sent form the PC, either zero the IMU or get ready to arm the system
+			if (WriteToPC_SPI() == SYSTEM_ZERO)
+			{
+				zeroSensor();
+			}
+			
+			if (WriteToPC_SPI() == SYSTEM_ARM)
+			{
+				systemState = SYSTEM_ARM;
+			}
+		
+			break;
+		
+		case SYSTEM_ARM:
+			//Arm the system by enabling the PWM
+			PORTA.OUTTGL = PIN2_bm;
+			initPWM();
+			systemState = SYSTEM_STATE_FLY;
+			PORTA.OUTTGL = PIN2_bm;
+			_delay_ms(1000);
+			PORTA.OUTTGL = PIN2_bm;
+			_delay_ms(1000);
+			PORTA.OUTTGL = PIN2_bm;
+			break;
+		
+		case SYSTEM_STATE_FLY:
+			// run the control loop
+			PORTA.OUTTGL = 0x00;
+			PORTA.OUTTGL = PIN3_bm;
+			ControlLoop();
+			break;
+		
+		case SYSTEM_DISARM:
+			// run the control loop
+			//PORTA.OUTTGL = 0x0F;
+		
+			break;
+		
+		default:
+			break;
+		
+	}			// end case
+}
 
 
 /***********************************************************************************************************
@@ -80,70 +149,14 @@ void ControlLoop()
 	UpdateEulerAngles();
 	SetPulseWidths();
 	pid_rate(&pitchAxis);
-		if (int16counter >= 20)	
+	if (int16counter >= 20)
 
-		{
-			WriteToPC_SPI();
-			//sendUM6_Data();
-			int16counter = 0;
-		}
-		
-}
-
-
-void State()
-{
-	switch(systemState)
 	{
-		case SYSTEM_STATE_STARTUP:
-		
-			if (initSystem() ==1)
-			{
-				systemState = SYSTEM_ZERO;
-				PORTA.OUTTGL = 0x01;
-			}
-			break;
-		
-		case SYSTEM_ZERO:
-			// read commands from the PC and zero the system as necessary
-			// PC transaction, read in command and send out sensor data
-			UpdateEulerAngles();
-		
-			//PORTA.OUTTGL = PIN3_bm;
-			//  get the last command sent form the PC
-			//cmd = WriteToPC_SPI();
-		
-			if (zeroSensor() == 1)
-			{
-				systemState = SYSTEM_ARM;
-			}
-		
-			break;
-		
-		case SYSTEM_ARM:
-			//Arm the system by enabling the PWM
-			//PORTA.OUTTGL = 0x03;
-			initPWM();
-			systemState = SYSTEM_STATE_FLY;
-			_delay_ms(250);
-			break;
-		
-		case SYSTEM_STATE_FLY:
-			// run the control loop
-			PORTA.OUTTGL = 0x0F;
-			ControlLoop();
-			break;
-		
-		case SYSTEM_DISARM:
-			// run the control loop
-			//PORTA.OUTTGL = 0x0F;
-		
-			break;
-		
-		default:
-			break;
-		
-	}			// end case
+		WriteToPC_SPI();
+		//sendUM6_Data();
+		int16counter = 0;
+	}
+	
 }
 
 void SetPulseWidths()
@@ -203,11 +216,10 @@ DISCRIPTION:   Send 16 bit data type over the standard serial port
 void sendUM6_Data()
 {
 
-		sendData_int16_t(0xCCCC);					//0xCCCC is the header
-
-		sendData_int16_t(pitchAxis.Kd);
-		sendData_int16_t(pitchAxis.Kp);
-		sendData_int16_t(pitchAxis.Ki);
+		sendData_int16_t(0xCCCC);					//0xCCCC is the heade
+		sendData_int16_t(command);
+		//sendData_int16_t(pitchAxis.Kp);
+		//sendData_int16_t(pitchAxis.Ki);
 	
 		
 
@@ -220,7 +232,7 @@ void sendUM6_Data()
   DISCRIPTION:  Write data packet to the SPI bus connected to the ATmega, 
   the ATmega should be set up to parse this data.
 *********************************************************************************************************** */
-void WriteToPC_SPI()
+int16_t WriteToPC_SPI()
 {
 	PORTE.OUTCLR = PIN4_bm;
 	
@@ -243,7 +255,10 @@ void WriteToPC_SPI()
 	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_error));							
 		
 	pitchAxis.Kd= (spiPC_write_read(upperByte16(pitchAxis.pid_total))) << 8;					
-	pitchAxis.Kd+= spiPC_write_read(lowerByte16(pitchAxis.pid_total));							
+	pitchAxis.Kd+= spiPC_write_read(lowerByte16(pitchAxis.pid_total));			
+	
+	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;
+	command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
 	
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);													
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);			
@@ -255,7 +270,7 @@ void WriteToPC_SPI()
 	
 	PORTE.OUTSET = PIN4_bm;
 	
-	
+	return command;
 	
 }
 
@@ -270,7 +285,7 @@ void UpdateEulerAngles()
 
 	PORTF.OUTCLR = PIN4_bm;
 
-	uint8_t dummy_read;
+	uint8_t dummy_read = 0x00;
 	//psi = yaw  phi = roll    theta = pitch
 	dummy_read = spiIMU_write_read(READ_COMMAND);
 	dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
@@ -316,19 +331,13 @@ uint8_t initSystem()
 {
 	PORTA.DIRSET = 0xFF;			//  LEDS
 	sei();
-	
-	init32MHzClock();
 	initUART();
 	spi_set_up();
 	intPID_gains();
-	initPWM();
-	initUART();
 	zeroSensor();
 	_delay_ms(2000);
-	 zeroSensor();
-	 _delay_ms(2000);
 	zeroSensor();
-	intiLoopTimer();
+	PORTA.DIRSET = 0x00;			//  LEDS
 	return 1;
 
 }
@@ -422,7 +431,7 @@ uint8_t zeroSensor()
 	//zero accel 0xAF
 	//zero mad 0xB0
 	
-	uint8_t dummy_read;
+	uint8_t dummy_read = 0x00;
 	//psi = yaw  phi = roll    theta = pitch
 	//0x01 0xAC 0x00 0x00 0x00 0x00
 	dummy_read = spiIMU_write_read(WRITE_COMMAND);
