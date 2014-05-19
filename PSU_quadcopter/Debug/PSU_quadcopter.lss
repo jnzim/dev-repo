@@ -17,19 +17,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   6 .debug_aranges 000002d0  00000000  00000000  000014be  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00004773  00000000  00000000  0000178e  2**0
+  7 .debug_info   00004757  00000000  00000000  0000178e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00000cda  00000000  00000000  00005f01  2**0
+  8 .debug_abbrev 00000cc2  00000000  00000000  00005ee5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00001ae4  00000000  00000000  00006bdb  2**0
+  9 .debug_line   00001ae4  00000000  00000000  00006ba7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  000006e0  00000000  00000000  000086c0  2**2
+ 10 .debug_frame  000006dc  00000000  00000000  0000868c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00001954  00000000  00000000  00008da0  2**0
+ 11 .debug_str    00001954  00000000  00000000  00008d68  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    00001692  00000000  00000000  0000a6f4  2**0
+ 12 .debug_loc    00001675  00000000  00000000  0000a6bc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000260  00000000  00000000  0000bd86  2**0
+ 13 .debug_ranges 00000260  00000000  00000000  0000bd31  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1099,11 +1099,11 @@ void UpdateEulerAngles()
  78c:	80 93 0a 21 	sts	0x210A, r24
  790:	90 93 0b 21 	sts	0x210B, r25
 
-	dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(UM6_GPS_ALTITUDE);			// reserved bytes
+	dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
  794:	80 e0       	ldi	r24, 0x00	; 0
  796:	90 e0       	ldi	r25, 0x00	; 0
  798:	9f d1       	rcall	.+830    	; 0xad8 <spiIMU_write_read>
- 79a:	89 e7       	ldi	r24, 0x79	; 121
+ 79a:	80 e0       	ldi	r24, 0x00	; 0
  79c:	90 e0       	ldi	r25, 0x00	; 0
  79e:	9c d1       	rcall	.+824    	; 0xad8 <spiIMU_write_read>
 	
@@ -1111,11 +1111,11 @@ void UpdateEulerAngles()
 
 	PORTF.OUTSET = PIN4_bm;
  7a0:	1d 83       	std	Y+5, r17	; 0x05
-	//yawAxis.attitude_feedback = 0x0003;
 	//
-	//rollAxis.rate_feedback = 0x0100;
-	//pitchAxis.rate_feedback = 0x0100;
-	//yawAxis.rate_feedback = 0x0006;
+	//rollAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
+	//pitchAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
+	//yawAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
+	
 }
  7a2:	df 91       	pop	r29
  7a4:	cf 91       	pop	r28
@@ -1806,8 +1806,8 @@ unsigned char spiIMU_write_read(unsigned char spi_data)
  af0:	08 95       	ret
 
 00000af2 <spi_set_up>:
-DISCRIPTION:   /* Initialize SPI master on port F for the IMU communication. */
-			   /* Initialize SPI master on port F for the PC communication
+DISCRIPTION:    Initialize SPI master on port F for the IMU communication.
+			    Initialize SPI master on port F for the PC communication
 *********************************************************************************************************** */
 	
 void spi_set_up()

@@ -9,6 +9,12 @@
 #include "spi.h"
 #include "spi_driver.h"
 
+
+unsigned char spiPC_write_read(unsigned char);
+unsigned char spiIMU_write_read(unsigned char);
+void spi_set_up();
+
+
 /* Instantiate pointer to ssPort. */
 PORT_t *ssPortF = &PORTF;
 PORT_t *ssPortE = &PORTE;
@@ -64,8 +70,8 @@ unsigned char spiIMU_write_read(unsigned char spi_data)
 /***********************************************************************************************************
 INPUT:
 OUTPUT:
-DISCRIPTION:   /* Initialize SPI master on port F for the IMU communication. */
-			   /* Initialize SPI master on port F for the PC communication
+DISCRIPTION:    Initialize SPI master on port F for the IMU communication.
+			    Initialize SPI master on port F for the PC communication
 *********************************************************************************************************** */
 	
 void spi_set_up()

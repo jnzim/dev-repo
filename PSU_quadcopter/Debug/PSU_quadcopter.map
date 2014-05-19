@@ -114,7 +114,7 @@ Discarded input sections
  .text.put_USART_PC_char
                 0x00000000       0x10 uart.o
  .text.sendData_int16_t
-                0x00000000       0x1c uart.o
+                0x00000000       0x14 uart.o
  .text          0x00000000        0x0 usart_driver.o
  .bss           0x00000000        0x0 usart_driver.o
  .text.USART_InterruptDriver_Initialize
@@ -747,26 +747,26 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x4773
+.debug_info     0x00000000     0x4757
  *(.debug_info)
  .debug_info    0x00000000      0x46e pid.o
- .debug_info    0x0000046e     0x190b main.o
- .debug_info    0x00001d79      0x691 spi.o
- .debug_info    0x0000240a      0x761 spi_driver.o
- .debug_info    0x00002b6b     0x12fd TC_driver.o
- .debug_info    0x00003e68      0x385 uart.o
- .debug_info    0x000041ed      0x586 usart_driver.o
+ .debug_info    0x0000046e     0x190a main.o
+ .debug_info    0x00001d78      0x691 spi.o
+ .debug_info    0x00002409      0x761 spi_driver.o
+ .debug_info    0x00002b6a     0x12fd TC_driver.o
+ .debug_info    0x00003e67      0x36a uart.o
+ .debug_info    0x000041d1      0x586 usart_driver.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0xcda
+.debug_abbrev   0x00000000      0xcc2
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x135 pid.o
  .debug_abbrev  0x00000135      0x392 main.o
  .debug_abbrev  0x000004c7      0x1c8 spi.o
  .debug_abbrev  0x0000068f      0x1a0 spi_driver.o
  .debug_abbrev  0x0000082f      0x176 TC_driver.o
- .debug_abbrev  0x000009a5      0x132 uart.o
- .debug_abbrev  0x00000ad7      0x203 usart_driver.o
+ .debug_abbrev  0x000009a5      0x11a uart.o
+ .debug_abbrev  0x00000abf      0x203 usart_driver.o
 
 .debug_line     0x00000000     0x1ae4
  *(.debug_line)
@@ -779,15 +779,15 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_line    0x0000159a      0x1e9 uart.o
  .debug_line    0x00001783      0x361 usart_driver.o
 
-.debug_frame    0x00000000      0x6e0
+.debug_frame    0x00000000      0x6dc
  *(.debug_frame)
  .debug_frame   0x00000000      0x15c pid.o
  .debug_frame   0x0000015c      0x1cc main.o
  .debug_frame   0x00000328       0x64 spi.o
  .debug_frame   0x0000038c       0xcc spi_driver.o
  .debug_frame   0x00000458      0x174 TC_driver.o
- .debug_frame   0x000005cc       0x50 uart.o
- .debug_frame   0x0000061c       0xc4 usart_driver.o
+ .debug_frame   0x000005cc       0x4c uart.o
+ .debug_frame   0x00000618       0xc4 usart_driver.o
 
 .debug_str      0x00000000     0x1954
  *(.debug_str)
@@ -806,15 +806,15 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_str     0x00001710      0x244 usart_driver.o
                                 0x3b6 (size before relaxing)
 
-.debug_loc      0x00000000     0x1692
+.debug_loc      0x00000000     0x1675
  *(.debug_loc)
  .debug_loc     0x00000000      0x4a6 pid.o
  .debug_loc     0x000004a6      0x41d main.o
  .debug_loc     0x000008c3       0xa1 spi.o
  .debug_loc     0x00000964      0x582 spi_driver.o
  .debug_loc     0x00000ee6      0x378 TC_driver.o
- .debug_loc     0x0000125e       0x65 uart.o
- .debug_loc     0x000012c3      0x3cf usart_driver.o
+ .debug_loc     0x0000125e       0x48 uart.o
+ .debug_loc     0x000012a6      0x3cf usart_driver.o
 
 .debug_macinfo
  *(.debug_macinfo)

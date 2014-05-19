@@ -317,19 +317,20 @@ void UpdateEulerAngles()
 	
 	yawAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
-	dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(UM6_GPS_ALTITUDE);			// reserved bytes
+	dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
 	
 
 
 	PORTF.OUTSET = PIN4_bm;
+	
+	//rollAxis.rate_feedback /= CONVERT_GYRO_REG_TO_DPS;
+	//pitchAxis.rate_feedback /= CONVERT_GYRO_REG_TO_DPS;
+	//yawAxis.rate_feedback /= CONVERT_GYRO_REG_TO_DPS;
 	//
-	//rollAxis.attitude_feedback = 0x0001;
-	//pitchAxis.attitude_feedback = 0x0002;
-	//yawAxis.attitude_feedback = 0x0003;
-	//
-	//rollAxis.rate_feedback = 0x0100;
-	//pitchAxis.rate_feedback = 0x0100;
-	//yawAxis.rate_feedback = 0x0006;
+	//rollAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
+	//pitchAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
+	//yawAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
+	
 }
 
 

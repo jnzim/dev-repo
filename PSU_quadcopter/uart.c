@@ -16,6 +16,11 @@
 #define lowerByte16(x) (MASK_TOP_BYTE & x)				// get the lower 8 bits of a 16 bit word
 #define tbi(x,y) x ^= _BV(y)		
 
+
+void sendData_int16_t(int16_t);
+void put_USART_PC_char(uint8_t);
+
+
 //  set up the serial port for sending data back and forth to the PC
 // via the XBEE radio.
 //  8 bits, no parity, 2 stop bits
