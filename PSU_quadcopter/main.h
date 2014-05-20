@@ -76,6 +76,8 @@ PID_data rollAxis,yawAxis,pitchAxis,throttleAxis;
 #define CONVERT_GYRO_REG_TO_DPS 16		//  1/ 0.0610352  ~ 16.34  ~16
 #define  CONVERT_EULER_TO_DEG   91		// 1/ 0.0109863 = 91.002 ~ 91
 
+uint16_t rateScaler = 5;
+
 
 
 #endif /* MAIN_H_ */

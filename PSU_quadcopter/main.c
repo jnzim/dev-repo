@@ -160,6 +160,7 @@ void ControlLoop()
 	UpdateEulerAngles();
 	SetPulseWidths();
 	PI_attitude_rate(&pitchAxis);
+	//PI_rate(&pitchAxis);
 	
 	if (int16counter >= 31)
 
@@ -207,8 +208,8 @@ void intPID_gains()
 	rollAxis.Ki_rate =0;
 	rollAxis.Kd_rate =5;
 	
-	pitchAxis.Kp_rate = 17;
-	pitchAxis.Ki_rate =9;
+	pitchAxis.Kp_rate = 123;
+	pitchAxis.Ki_rate =30;
 	pitchAxis.Kd_rate =0;
 	
 	rollAxis.windupGuard = 200;
@@ -323,9 +324,9 @@ void UpdateEulerAngles()
 
 	PORTF.OUTSET = PIN4_bm;
 	
-	//rollAxis.rate_feedback /= CONVERT_GYRO_REG_TO_DPS;
-	//pitchAxis.rate_feedback /= CONVERT_GYRO_REG_TO_DPS;
-	//yawAxis.rate_feedback /= CONVERT_GYRO_REG_TO_DPS;
+	//rollAxis.rate_feedback /= rateScaler;
+	//pitchAxis.rate_feedback /= rateScaler;
+	//yawAxis.rate_feedback /= rateScaler;
 	//
 	//rollAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
 	//pitchAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
@@ -403,7 +404,8 @@ void intiLoopTimer()
 	
 	// 21000 counts set f = 305HZ by trial and error
 	// frequency depends on IMU SPI clock pre scaler?
-	TCD0.PER = 21000;
+	TCD0.PER = 18000;
+	//TCD0.PER = 40000;
 
 	//Configure timer to generate an interrupt on overflow. */
 	TCD0.INTCTRLA = TC_OVFINTLVL_LO_gc;

@@ -37,7 +37,10 @@ namespace IMU
         const double UMT_CONVERT_EULER = 1; //0.0109863;         //  number spec'd in the UM6 data sheet to convert sensor output to degrees
         const int NUM_BYTES_TO_RECIVE = 16;
         const int YEI_CONVERT_EULER = 91;
-        //const int YEI_CONVERT_EULER = 1;
+        const int pitchCommandScale = 100;
+        const int rollCommandScale  = 100;
+        const int yawCommandScale = 100;
+
 
         int cmd;  ///  hold command from text box enter event
                 ///  
@@ -459,7 +462,7 @@ namespace IMU
                 //    this.int_Roll_Error , this.int_Roll_Rate_PID);
 
                // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
-                this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.attitude_feedback / YEI_CONVERT_EULER), this.Pitch.attitude_feedback / YEI_CONVERT_EULER, this.Yaw.attitude_feedback / YEI_CONVERT_EULER, this.int16_GPS_E);
+                this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback , this.Yaw.rate_feedback , this.int16_GPS_E);
 
                 //this.PlotChartForm.UpdateGraph(DateTime.Now, this.int_imu_Yaw, this.int_imu_Pitch, this.int_imu_Roll, this.int_Roll_Error, 
                 //    this.int_Roll_Command, this.int_Roll_PID);
@@ -526,17 +529,17 @@ namespace IMU
             this.Thrust.thrust_cmd = (short)(2047 * (1 + -status.ZAxis));
             if (this.checkBoxStepCommandOn.Checked == false)
             {
-                if ((this.Yaw.attitude_command = (short)((16383 * status.RAxis))) >= minusJoystickDeadZone && this.Yaw.attitude_command <= plusJoystickDeadZone)
+                if ((this.Yaw.attitude_command = (short)((16383/yawCommandScale * status.RAxis))) >= minusJoystickDeadZone && this.Yaw.attitude_command <= plusJoystickDeadZone)
                 {
                    this.Yaw.attitude_command = 0;
                    
                 }
-                if ((this.Pitch.attitude_command = (short)((8192 * status.YAxis))) >= minusJoystickDeadZone && this.Pitch.attitude_command <= plusJoystickDeadZone)
+                if ((this.Pitch.attitude_command = (short)((8192/pitchCommandScale * status.YAxis))) >= minusJoystickDeadZone && this.Pitch.attitude_command <= plusJoystickDeadZone)
                 {
                     this.Pitch.attitude_command = 0;
                     //this.Pitch.attitude_command = this.GetAutoCommand();
                 }
-                if ((this.Roll.attitude_command = (short)((16383 * status.XAxis))) >= minusJoystickDeadZone && this.Roll.attitude_command <= plusJoystickDeadZone)
+                if ((this.Roll.attitude_command = (short)((16383/rollCommandScale * status.XAxis))) >= minusJoystickDeadZone && this.Roll.attitude_command <= plusJoystickDeadZone)
                 {
                     this.Roll.attitude_command = 0;
                    // this.Roll.attitude_command = this.GetAutoCommand();

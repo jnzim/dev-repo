@@ -7,8 +7,6 @@
 
 #include "usart_driver.h"
 
-
-
 #define XBEE_USART				USARTD1
 #define	IMU_USART				USARTC1
 #define MASK_TOP_BYTE			0x00FF
