@@ -37,9 +37,9 @@ namespace IMU
         const double UMT_CONVERT_EULER = 1; //0.0109863;         //  number spec'd in the UM6 data sheet to convert sensor output to degrees
         const int NUM_BYTES_TO_RECIVE = 16;
         const int YEI_CONVERT_EULER = 91;
-        const int pitchCommandScale = 100;
-        const int rollCommandScale  = 100;
-        const int yawCommandScale = 100;
+        const int pitchCommandScale = 10;
+        const int rollCommandScale  = 10;
+        const int yawCommandScale = 10;
 
 
         int cmd;  ///  hold command from text box enter event

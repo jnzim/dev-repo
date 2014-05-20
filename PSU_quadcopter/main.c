@@ -82,7 +82,7 @@ void State()
 			{
 				systemState = SYSTEM_ZERO;
 			}
-			PORTA.OUTTGL = 0x00;
+			PORTA.OUTSET = 0x00;
 			break;
 		
 		case SYSTEM_ZERO:
@@ -120,11 +120,11 @@ void State()
 		case SYSTEM_STATE_FLY:
 			// run the control loop
 			PORTA.OUTCLR = 0x00;
-			//PORTA.OUTTGL = PIN3_bm;
+			PORTA.OUTTGL = PIN3_bm;
 			ControlLoop();
 			break;
-		
-		case SYSTEM_DISARM:
+			
+			case SYSTEM_DISARM:
 			
 			DisablePWM();
 			PORTA.OUTTGL = PIN2_bm;
@@ -155,19 +155,21 @@ which runs at 300Hz.  The complementary filter can run at 750Hz so we could spee
 void ControlLoop()
 {
 	
-	
+
 	int16counter++;
 	UpdateEulerAngles();
 	SetPulseWidths();
-	PI_attitude_rate(&pitchAxis);
+	//PI_attitude_rate(&pitchAxis);
+	pid_attitude_rate(&pitchAxis);
 	//PI_rate(&pitchAxis);
-	
+
 	if (int16counter >= 31)
 
 	{
-		WriteToPC_SPI();
-		PORTA.OUTTGL = PIN2_bm;
+
+		WriteToPC_SPI();	// 400uSec	
 		int16counter = 0;
+	
 	}
 	
 }
@@ -208,7 +210,7 @@ void intPID_gains()
 	rollAxis.Ki_rate =0;
 	rollAxis.Kd_rate =5;
 	
-	pitchAxis.Kp_rate = 123;
+	pitchAxis.Kp_rate = 75;
 	pitchAxis.Ki_rate =30;
 	pitchAxis.Kd_rate =0;
 	
@@ -261,14 +263,14 @@ int16_t WriteToPC_SPI()
 	yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback)) << 8;
 	yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback));
 		
-	pitchAxis.Kp = (spiPC_write_read(upperByte16(pitchAxis.rate_feedback ))) << 8;					
-	pitchAxis.Kp += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback ));							
+	pitchAxis.Kp = (spiPC_write_read(upperByte16(pitchAxis.attitude_command ))) << 8;					
+	pitchAxis.Kp += spiPC_write_read(lowerByte16(pitchAxis.attitude_command ));							
 	
-	pitchAxis.Ki = (spiPC_write_read(upperByte16(pitchAxis.rate_error ))) << 8;					
-	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_error));							
+	pitchAxis.Ki = (spiPC_write_read(upperByte16(rollAxis.attitude_command ))) << 8;					
+	pitchAxis.Ki += spiPC_write_read(lowerByte16(rollAxis.attitude_command));							
 		
-	pitchAxis.Kd= (spiPC_write_read(upperByte16(pitchAxis.pid_total))) << 8;					
-	pitchAxis.Kd+= spiPC_write_read(lowerByte16(pitchAxis.pid_total));			
+	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.attitude_command))) << 8;					
+	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.attitude_command));			
 	
 	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;
 	command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
@@ -404,8 +406,8 @@ void intiLoopTimer()
 	
 	// 21000 counts set f = 305HZ by trial and error
 	// frequency depends on IMU SPI clock pre scaler?
-	TCD0.PER = 18000;
-	//TCD0.PER = 40000;
+	// TCD0.PER = 18000;
+	TCD0.PER = 21000;
 
 	//Configure timer to generate an interrupt on overflow. */
 	TCD0.INTCTRLA = TC_OVFINTLVL_LO_gc;

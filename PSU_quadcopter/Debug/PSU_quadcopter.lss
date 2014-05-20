@@ -3,33 +3,33 @@ PSU_quadcopter.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000caa  00000000  00000000  00000094  2**1
+  0 .text         00000c86  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         0000000a  00802000  00000caa  00000d3e  2**0
+  1 .data         00000000  00802000  00000c86  00000d1a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000013c  0080200a  0080200a  00000d48  2**0
+  2 .bss          0000013c  00802000  00802000  00000d1a  2**0
                   ALLOC
-  3 .stab         00000714  00000000  00000000  00000d48  2**2
+  3 .stab         00001698  00000000  00000000  00000d1c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000097  00000000  00000000  0000145c  2**0
+  4 .stabstr      00000592  00000000  00000000  000023b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      0000002f  00000000  00000000  000014f3  2**0
+  5 .comment      0000002f  00000000  00000000  00002946  2**0
                   CONTENTS, READONLY
-  6 .debug_aranges 000002d0  00000000  00000000  00001522  2**0
+  6 .debug_aranges 000002f0  00000000  00000000  00002975  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0000477d  00000000  00000000  000017f2  2**0
+  7 .debug_info   00004894  00000000  00000000  00002c65  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00000cb3  00000000  00000000  00005f6f  2**0
+  8 .debug_abbrev 00000d5b  00000000  00000000  000074f9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00001b21  00000000  00000000  00006c22  2**0
+  9 .debug_line   00001ba7  00000000  00000000  00008254  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00000724  00000000  00000000  00008744  2**2
+ 10 .debug_frame  00000784  00000000  00000000  00009dfc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00001976  00000000  00000000  00008e68  2**0
+ 11 .debug_str    000019c3  00000000  00000000  0000a580  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    00001703  00000000  00000000  0000a7de  2**0
+ 12 .debug_loc    000017d6  00000000  00000000  0000bf43  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000260  00000000  00000000  0000bee1  2**0
+ 13 .debug_ranges 00000270  00000000  00000000  0000d719  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -189,7 +189,7 @@ Disassembly of section .text:
  12e:	00 00       	nop
  130:	85 c0       	rjmp	.+266    	; 0x23c <__bad_interrupt>
  132:	00 00       	nop
- 134:	bf c4       	rjmp	.+2430   	; 0xab4 <__vector_77>
+ 134:	ad c4       	rjmp	.+2394   	; 0xa90 <__vector_77>
  136:	00 00       	nop
  138:	81 c0       	rjmp	.+258    	; 0x23c <__bad_interrupt>
  13a:	00 00       	nop
@@ -304,21 +304,21 @@ Disassembly of section .text:
  20c:	10 e2       	ldi	r17, 0x20	; 32
  20e:	a0 e0       	ldi	r26, 0x00	; 0
  210:	b0 e2       	ldi	r27, 0x20	; 32
- 212:	ea ea       	ldi	r30, 0xAA	; 170
+ 212:	e6 e8       	ldi	r30, 0x86	; 134
  214:	fc e0       	ldi	r31, 0x0C	; 12
  216:	00 e0       	ldi	r16, 0x00	; 0
  218:	0b bf       	out	0x3b, r16	; 59
  21a:	02 c0       	rjmp	.+4      	; 0x220 <__do_copy_data+0x14>
  21c:	07 90       	elpm	r0, Z+
  21e:	0d 92       	st	X+, r0
- 220:	aa 30       	cpi	r26, 0x0A	; 10
+ 220:	a0 30       	cpi	r26, 0x00	; 0
  222:	b1 07       	cpc	r27, r17
  224:	d9 f7       	brne	.-10     	; 0x21c <__do_copy_data+0x10>
  226:	1b be       	out	0x3b, r1	; 59
 
 00000228 <__do_clear_bss>:
  228:	21 e2       	ldi	r18, 0x21	; 33
- 22a:	aa e0       	ldi	r26, 0x0A	; 10
+ 22a:	a0 e0       	ldi	r26, 0x00	; 0
  22c:	b0 e2       	ldi	r27, 0x20	; 32
  22e:	01 c0       	rjmp	.+2      	; 0x232 <.do_clear_bss_start>
 
@@ -326,21 +326,21 @@ Disassembly of section .text:
  230:	1d 92       	st	X+, r1
 
 00000232 <.do_clear_bss_start>:
- 232:	a6 34       	cpi	r26, 0x46	; 70
+ 232:	ac 33       	cpi	r26, 0x3C	; 60
  234:	b2 07       	cpc	r27, r18
  236:	e1 f7       	brne	.-8      	; 0x230 <.do_clear_bss_loop>
- 238:	a8 d3       	rcall	.+1872   	; 0x98a <main>
- 23a:	35 c5       	rjmp	.+2666   	; 0xca6 <_exit>
+ 238:	94 d3       	rcall	.+1832   	; 0x962 <main>
+ 23a:	23 c5       	rjmp	.+2630   	; 0xc82 <_exit>
 
 0000023c <__bad_interrupt>:
  23c:	e1 ce       	rjmp	.-574    	; 0x0 <__vectors>
 
-0000023e <PI_attitude_rate>:
-INPUT:
-OUTPUT:
-DISCRIPTION:  nest PI loops, with the rate loop on the insidea
-*********************************************************************************************************** */
-void PI_attitude_rate(PID_data *pid_data)
+0000023e <pid_attitude_rate>:
+		
+}
+
+//  pid  position control loop
+void pid_attitude_rate(PID_data * pid_data)
 {
  23e:	af 92       	push	r10
  240:	bf 92       	push	r11
@@ -355,1819 +355,1828 @@ void PI_attitude_rate(PID_data *pid_data)
  252:	fc 01       	movw	r30, r24
 	
 	int16_t attitude_loop_out;
-
-	
-	//  keep track of the last 3 error samples for the integral calculation 
+	////  save the last error calculation so we can calculate the derivative
 	pid_data->previousError0 = pid_data->previousError1;
- 254:	c0 ac       	ldd	r12, Z+56	; 0x38
- 256:	d1 ac       	ldd	r13, Z+57	; 0x39
- 258:	c6 aa       	std	Z+54, r12	; 0x36
- 25a:	d7 aa       	std	Z+55, r13	; 0x37
+ 254:	80 ad       	ldd	r24, Z+56	; 0x38
+ 256:	91 ad       	ldd	r25, Z+57	; 0x39
+ 258:	86 ab       	std	Z+54, r24	; 0x36
+ 25a:	97 ab       	std	Z+55, r25	; 0x37
 	pid_data->previousError1 = pid_data->previousError2;
- 25c:	e2 ac       	ldd	r14, Z+58	; 0x3a
- 25e:	f3 ac       	ldd	r15, Z+59	; 0x3b
- 260:	e0 ae       	std	Z+56, r14	; 0x38
- 262:	f1 ae       	std	Z+57, r15	; 0x39
+ 25c:	c2 ac       	ldd	r12, Z+58	; 0x3a
+ 25e:	d3 ac       	ldd	r13, Z+59	; 0x3b
+ 260:	c0 ae       	std	Z+56, r12	; 0x38
+ 262:	d1 ae       	std	Z+57, r13	; 0x39
 	pid_data->previousError2 = pid_data->attitude_error;
- 264:	02 a5       	ldd	r16, Z+42	; 0x2a
- 266:	13 a5       	ldd	r17, Z+43	; 0x2b
- 268:	02 af       	std	Z+58, r16	; 0x3a
- 26a:	13 af       	std	Z+59, r17	; 0x3b
+ 264:	e2 a4       	ldd	r14, Z+42	; 0x2a
+ 266:	f3 a4       	ldd	r15, Z+43	; 0x2b
+ 268:	e2 ae       	std	Z+58, r14	; 0x3a
+ 26a:	f3 ae       	std	Z+59, r15	; 0x3b
+	//pid_data->previousError0 = pid_data->error;
+	////  calculate the new error
+	////10 - 23 = -13
 	
-	// calculate the current attitude error
-	// this is nested loop so we take the output of the rate loop to calculate the error
-	pid_data->attitude_error = pid_data->attitude_command - pid_data->pid_total;
+	pid_data->attitude_error = (pid_data->attitude_command - pid_data->attitude_feedback);
  26c:	c2 a1       	ldd	r28, Z+34	; 0x22
  26e:	d3 a1       	ldd	r29, Z+35	; 0x23
- 270:	84 8d       	ldd	r24, Z+28	; 0x1c
- 272:	95 8d       	ldd	r25, Z+29	; 0x1d
- 274:	c8 1b       	sub	r28, r24
- 276:	d9 0b       	sbc	r29, r25
+ 270:	26 8d       	ldd	r18, Z+30	; 0x1e
+ 272:	37 8d       	ldd	r19, Z+31	; 0x1f
+ 274:	c2 1b       	sub	r28, r18
+ 276:	d3 0b       	sbc	r29, r19
  278:	c2 a7       	std	Z+42, r28	; 0x2a
  27a:	d3 a7       	std	Z+43, r29	; 0x2b
+	//  calculate the slope (dt = 1)
+	//pid_data->attitude_slope = (pid_data->attitude_error - pid_data->previousError2)  + (pid_data->previousError2 - pid_data->previousError1)
+	//+ (pid_data->previousError1 - pid_data->previousError0);
 	
-	//  calculate the attitude loop integral 
-	pid_data->attitude_integral = pid_data->attitude_error/integral_addup_reducer + pid_data->previousError0/integral_addup_reducer + 
- 27c:	20 91 00 20 	lds	r18, 0x2000
- 280:	30 91 01 20 	lds	r19, 0x2001
- 284:	ce 01       	movw	r24, r28
- 286:	b9 01       	movw	r22, r18
- 288:	e7 d4       	rcall	.+2510   	; 0xc58 <__divmodhi4>
- 28a:	5b 01       	movw	r10, r22
- 28c:	c6 01       	movw	r24, r12
- 28e:	b9 01       	movw	r22, r18
- 290:	e3 d4       	rcall	.+2502   	; 0xc58 <__divmodhi4>
- 292:	65 01       	movw	r12, r10
- 294:	c6 0e       	add	r12, r22
- 296:	d7 1e       	adc	r13, r23
-	pid_data->previousError1/integral_addup_reducer + pid_data->previousError2/integral_addup_reducer;
- 298:	c7 01       	movw	r24, r14
- 29a:	b9 01       	movw	r22, r18
- 29c:	dd d4       	rcall	.+2490   	; 0xc58 <__divmodhi4>
-	// calculate the current attitude error
-	// this is nested loop so we take the output of the rate loop to calculate the error
-	pid_data->attitude_error = pid_data->attitude_command - pid_data->pid_total;
-	
-	//  calculate the attitude loop integral 
-	pid_data->attitude_integral = pid_data->attitude_error/integral_addup_reducer + pid_data->previousError0/integral_addup_reducer + 
- 29e:	76 01       	movw	r14, r12
- 2a0:	e6 0e       	add	r14, r22
- 2a2:	f7 1e       	adc	r15, r23
-	pid_data->previousError1/integral_addup_reducer + pid_data->previousError2/integral_addup_reducer;
- 2a4:	c8 01       	movw	r24, r16
- 2a6:	b9 01       	movw	r22, r18
- 2a8:	d7 d4       	rcall	.+2478   	; 0xc58 <__divmodhi4>
- 2aa:	e6 0e       	add	r14, r22
- 2ac:	f7 1e       	adc	r15, r23
-	// calculate the current attitude error
-	// this is nested loop so we take the output of the rate loop to calculate the error
-	pid_data->attitude_error = pid_data->attitude_command - pid_data->pid_total;
-	
-	//  calculate the attitude loop integral 
-	pid_data->attitude_integral = pid_data->attitude_error/integral_addup_reducer + pid_data->previousError0/integral_addup_reducer + 
- 2ae:	e2 82       	std	Z+2, r14	; 0x02
- 2b0:	f3 82       	std	Z+3, r15	; 0x03
-	pid_data->previousError1/integral_addup_reducer + pid_data->previousError2/integral_addup_reducer;
-	
-	// calculate the attitude loop out, this is the rate loop input
-	attitude_loop_out = ((pid_data->attitude_error * pid_data->Kp) / p_attitude_divisor) + ((pid_data->attitude_error* pid_data->Ki_rate) / i_attitude_divisor);
- 2b2:	e6 88       	ldd	r14, Z+22	; 0x16
- 2b4:	f7 88       	ldd	r15, Z+23	; 0x17
- 2b6:	ce 9d       	mul	r28, r14
- 2b8:	c0 01       	movw	r24, r0
- 2ba:	cf 9d       	mul	r28, r15
- 2bc:	90 0d       	add	r25, r0
- 2be:	de 9d       	mul	r29, r14
- 2c0:	90 0d       	add	r25, r0
- 2c2:	11 24       	eor	r1, r1
- 2c4:	60 91 04 20 	lds	r22, 0x2004
- 2c8:	70 91 05 20 	lds	r23, 0x2005
- 2cc:	c5 d4       	rcall	.+2442   	; 0xc58 <__divmodhi4>
- 2ce:	8b 01       	movw	r16, r22
- 2d0:	42 89       	ldd	r20, Z+18	; 0x12
- 2d2:	53 89       	ldd	r21, Z+19	; 0x13
- 2d4:	c4 9f       	mul	r28, r20
- 2d6:	c0 01       	movw	r24, r0
- 2d8:	c5 9f       	mul	r28, r21
- 2da:	90 0d       	add	r25, r0
- 2dc:	d4 9f       	mul	r29, r20
- 2de:	90 0d       	add	r25, r0
- 2e0:	11 24       	eor	r1, r1
- 2e2:	60 91 02 20 	lds	r22, 0x2002
- 2e6:	70 91 03 20 	lds	r23, 0x2003
- 2ea:	b6 d4       	rcall	.+2412   	; 0xc58 <__divmodhi4>
- 2ec:	06 0f       	add	r16, r22
- 2ee:	17 1f       	adc	r17, r23
-	
-	
-	////RATE LOOP
-	
-	//  rate loop error is attitude loop output - the rate feedback
-	pid_data->rate_error = (attitude_loop_out - pid_data->rate_feedback)/5;
- 2f0:	40 a1       	ldd	r20, Z+32	; 0x20
- 2f2:	51 a1       	ldd	r21, Z+33	; 0x21
- 2f4:	c8 01       	movw	r24, r16
- 2f6:	84 1b       	sub	r24, r20
- 2f8:	95 0b       	sbc	r25, r21
- 2fa:	65 e0       	ldi	r22, 0x05	; 5
- 2fc:	70 e0       	ldi	r23, 0x00	; 0
- 2fe:	ac d4       	rcall	.+2392   	; 0xc58 <__divmodhi4>
- 300:	eb 01       	movw	r28, r22
- 302:	64 a7       	std	Z+44, r22	; 0x2c
- 304:	75 a7       	std	Z+45, r23	; 0x2d
-	
-	// keep track of the last 3 error samples, this is needed for attitude integration
-	pid_data->previousRateError0 = pid_data->previousRateError1;
- 306:	06 ad       	ldd	r16, Z+62	; 0x3e
- 308:	17 ad       	ldd	r17, Z+63	; 0x3f
- 30a:	04 af       	std	Z+60, r16	; 0x3c
- 30c:	15 af       	std	Z+61, r17	; 0x3d
-	pid_data->previousRateError1 = pid_data->previousRateError2;
- 30e:	df 01       	movw	r26, r30
- 310:	a0 5c       	subi	r26, 0xC0	; 192
- 312:	bf 4f       	sbci	r27, 0xFF	; 255
- 314:	ad 90       	ld	r10, X+
- 316:	bc 90       	ld	r11, X
- 318:	11 97       	sbiw	r26, 0x01	; 1
- 31a:	a6 ae       	std	Z+62, r10	; 0x3e
- 31c:	b7 ae       	std	Z+63, r11	; 0x3f
-	pid_data->previousRateError2 = pid_data->rate_error;
- 31e:	6d 93       	st	X+, r22
- 320:	7c 93       	st	X, r23
-		
-	// integrate the rate error
-	pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer
- 322:	cb 01       	movw	r24, r22
- 324:	b9 01       	movw	r22, r18
- 326:	98 d4       	rcall	.+2352   	; 0xc58 <__divmodhi4>
- 328:	6b 01       	movw	r12, r22
- 32a:	c8 01       	movw	r24, r16
- 32c:	b9 01       	movw	r22, r18
- 32e:	94 d4       	rcall	.+2344   	; 0xc58 <__divmodhi4>
- 330:	86 01       	movw	r16, r12
- 332:	06 0f       	add	r16, r22
- 334:	17 1f       	adc	r17, r23
-	 + pid_data->previousRateError1/integral_addup_reducer + pid_data->previousRateError2/integral_addup_reducer;
- 336:	c5 01       	movw	r24, r10
- 338:	b9 01       	movw	r22, r18
- 33a:	8e d4       	rcall	.+2332   	; 0xc58 <__divmodhi4>
- 33c:	06 0f       	add	r16, r22
- 33e:	17 1f       	adc	r17, r23
- 340:	0c 0d       	add	r16, r12
- 342:	1d 1d       	adc	r17, r13
-	pid_data->previousRateError0 = pid_data->previousRateError1;
-	pid_data->previousRateError1 = pid_data->previousRateError2;
-	pid_data->previousRateError2 = pid_data->rate_error;
-		
-	// integrate the rate error
-	pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer
- 344:	00 83       	st	Z, r16
- 346:	11 83       	std	Z+1, r17	; 0x01
-	 + pid_data->previousRateError1/integral_addup_reducer + pid_data->previousRateError2/integral_addup_reducer;
-	
-	//  calculate the p and i terms for the inner loop	
-	
-	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp) / p_rate_divisor;
- 348:	ec 9e       	mul	r14, r28
- 34a:	c0 01       	movw	r24, r0
- 34c:	ed 9e       	mul	r14, r29
- 34e:	90 0d       	add	r25, r0
- 350:	fc 9e       	mul	r15, r28
- 352:	90 0d       	add	r25, r0
- 354:	11 24       	eor	r1, r1
- 356:	60 91 08 20 	lds	r22, 0x2008
- 35a:	70 91 09 20 	lds	r23, 0x2009
- 35e:	7c d4       	rcall	.+2296   	; 0xc58 <__divmodhi4>
- 360:	9b 01       	movw	r18, r22
- 362:	64 83       	std	Z+4, r22	; 0x04
- 364:	75 83       	std	Z+5, r23	; 0x05
-	pid_data->i_term_rate = (pid_data->rate_integral * pid_data->Ki) / i_rate_divisor;
- 366:	40 8d       	ldd	r20, Z+24	; 0x18
- 368:	51 8d       	ldd	r21, Z+25	; 0x19
- 36a:	04 9f       	mul	r16, r20
- 36c:	c0 01       	movw	r24, r0
- 36e:	05 9f       	mul	r16, r21
- 370:	90 0d       	add	r25, r0
- 372:	14 9f       	mul	r17, r20
- 374:	90 0d       	add	r25, r0
- 376:	11 24       	eor	r1, r1
- 378:	60 91 06 20 	lds	r22, 0x2006
- 37c:	70 91 07 20 	lds	r23, 0x2007
- 380:	6b d4       	rcall	.+2262   	; 0xc58 <__divmodhi4>
- 382:	66 83       	std	Z+6, r22	; 0x06
- 384:	77 83       	std	Z+7, r23	; 0x07
-	
+	//sum the error for the current and last sample (dt = 1)
+	pid_data->attitude_total_error = (pid_data->previousError0/5 + pid_data->previousError1/5 + pid_data->previousError2/5 + pid_data->attitude_error/5);
+ 27c:	25 e0       	ldi	r18, 0x05	; 5
+ 27e:	30 e0       	ldi	r19, 0x00	; 0
+ 280:	b9 01       	movw	r22, r18
+ 282:	d8 d4       	rcall	.+2480   	; 0xc34 <__divmodhi4>
+ 284:	8b 01       	movw	r16, r22
+ 286:	c6 01       	movw	r24, r12
+ 288:	b9 01       	movw	r22, r18
+ 28a:	d4 d4       	rcall	.+2472   	; 0xc34 <__divmodhi4>
+ 28c:	06 0f       	add	r16, r22
+ 28e:	17 1f       	adc	r17, r23
+ 290:	c7 01       	movw	r24, r14
+ 292:	b9 01       	movw	r22, r18
+ 294:	cf d4       	rcall	.+2462   	; 0xc34 <__divmodhi4>
+ 296:	06 0f       	add	r16, r22
+ 298:	17 1f       	adc	r17, r23
+ 29a:	ce 01       	movw	r24, r28
+ 29c:	b9 01       	movw	r22, r18
+ 29e:	ca d4       	rcall	.+2452   	; 0xc34 <__divmodhi4>
+ 2a0:	06 0f       	add	r16, r22
+ 2a2:	17 1f       	adc	r17, r23
+ 2a4:	02 ab       	std	Z+50, r16	; 0x32
+ 2a6:	13 ab       	std	Z+51, r17	; 0x33
+	//pid_data->total_error = Limit_value_signed(pid_data->total_error);
 
+	//p_term = Limit_value_signed(((pid_data->error  *  pid_data->Kp)/100), pid_data->error);
+	pid_data->p_term_attitude = (pid_data->attitude_error  *  pid_data->Kp)/100;
+ 2a8:	26 89       	ldd	r18, Z+22	; 0x16
+ 2aa:	37 89       	ldd	r19, Z+23	; 0x17
+ 2ac:	c2 9f       	mul	r28, r18
+ 2ae:	c0 01       	movw	r24, r0
+ 2b0:	c3 9f       	mul	r28, r19
+ 2b2:	90 0d       	add	r25, r0
+ 2b4:	d2 9f       	mul	r29, r18
+ 2b6:	90 0d       	add	r25, r0
+ 2b8:	11 24       	eor	r1, r1
+ 2ba:	c4 e6       	ldi	r28, 0x64	; 100
+ 2bc:	d0 e0       	ldi	r29, 0x00	; 0
+ 2be:	be 01       	movw	r22, r28
+ 2c0:	b9 d4       	rcall	.+2418   	; 0xc34 <__divmodhi4>
+ 2c2:	9b 01       	movw	r18, r22
+ 2c4:	62 87       	std	Z+10, r22	; 0x0a
+ 2c6:	73 87       	std	Z+11, r23	; 0x0b
 	
-	pid_data->pid_total = pid_data->p_term_rate + pid_data->i_term_rate;
- 386:	26 0f       	add	r18, r22
- 388:	37 1f       	adc	r19, r23
- 38a:	24 8f       	std	Z+28, r18	; 0x1c
- 38c:	35 8f       	std	Z+29, r19	; 0x1d
+	//calculate integral term
+	pid_data->i_term_attitude =(pid_data->attitude_total_error  * pid_data->Ki)/100;
+ 2c8:	40 8d       	ldd	r20, Z+24	; 0x18
+ 2ca:	51 8d       	ldd	r21, Z+25	; 0x19
+ 2cc:	04 9f       	mul	r16, r20
+ 2ce:	c0 01       	movw	r24, r0
+ 2d0:	05 9f       	mul	r16, r21
+ 2d2:	90 0d       	add	r25, r0
+ 2d4:	14 9f       	mul	r17, r20
+ 2d6:	90 0d       	add	r25, r0
+ 2d8:	11 24       	eor	r1, r1
+ 2da:	be 01       	movw	r22, r28
+ 2dc:	ab d4       	rcall	.+2390   	; 0xc34 <__divmodhi4>
+ 2de:	64 87       	std	Z+12, r22	; 0x0c
+ 2e0:	75 87       	std	Z+13, r23	; 0x0d
+	
+	if (pid_data->i_term_attitude >= pid_data->windupGuard)
+ 2e2:	c0 a9       	ldd	r28, Z+48	; 0x30
+ 2e4:	d1 a9       	ldd	r29, Z+49	; 0x31
+ 2e6:	6c 17       	cp	r22, r28
+ 2e8:	7d 07       	cpc	r23, r29
+ 2ea:	14 f0       	brlt	.+4      	; 0x2f0 <pid_attitude_rate+0xb2>
+	{
+		pid_data->i_term_attitude = pid_data->windupGuard;
+ 2ec:	c4 87       	std	Z+12, r28	; 0x0c
+ 2ee:	d5 87       	std	Z+13, r29	; 0x0d
+	}
+	//calculate derivative  term
+	//pid_data->d_term_attitude = (pid_data->rate_feedback * pid_data->Kd)/1000;
+	
+	// calculate the pid output
+	attitude_loop_out = pid_data->p_term_attitude + pid_data->i_term_attitude;
+ 2f0:	04 85       	ldd	r16, Z+12	; 0x0c
+ 2f2:	15 85       	ldd	r17, Z+13	; 0x0d
+ 2f4:	02 0f       	add	r16, r18
+ 2f6:	13 1f       	adc	r17, r19
+	
+	
+	
+	
+	//  rate calculations start here
+	pid_data->previousRateError0 = pid_data->previousRateError1;
+ 2f8:	86 ad       	ldd	r24, Z+62	; 0x3e
+ 2fa:	97 ad       	ldd	r25, Z+63	; 0x3f
+ 2fc:	84 af       	std	Z+60, r24	; 0x3c
+ 2fe:	95 af       	std	Z+61, r25	; 0x3d
+	pid_data->previousRateError1 = pid_data->previousRateError2;
+ 300:	df 01       	movw	r26, r30
+ 302:	a0 5c       	subi	r26, 0xC0	; 192
+ 304:	bf 4f       	sbci	r27, 0xFF	; 255
+ 306:	ad 90       	ld	r10, X+
+ 308:	bc 90       	ld	r11, X
+ 30a:	11 97       	sbiw	r26, 0x01	; 1
+ 30c:	a6 ae       	std	Z+62, r10	; 0x3e
+ 30e:	b7 ae       	std	Z+63, r11	; 0x3f
+	pid_data->previousRateError2 = pid_data->rate_error;
+ 310:	c4 a4       	ldd	r12, Z+44	; 0x2c
+ 312:	d5 a4       	ldd	r13, Z+45	; 0x2d
+ 314:	cd 92       	st	X+, r12
+ 316:	dc 92       	st	X, r13
+	
+	pid_data->rate_error = (attitude_loop_out - pid_data->rate_feedback);
+ 318:	40 a1       	ldd	r20, Z+32	; 0x20
+ 31a:	51 a1       	ldd	r21, Z+33	; 0x21
+ 31c:	04 1b       	sub	r16, r20
+ 31e:	15 0b       	sbc	r17, r21
+ 320:	04 a7       	std	Z+44, r16	; 0x2c
+ 322:	15 a7       	std	Z+45, r17	; 0x2d
+	
+	//  calculate the integral of the rate,  this is just position so we should really use the IMU data, duh
+	pid_data->rate_total_error = pid_data->previousRateError0/10 + pid_data->previousRateError1/10 + pid_data->previousRateError2/10 +
+ 324:	2a e0       	ldi	r18, 0x0A	; 10
+ 326:	30 e0       	ldi	r19, 0x00	; 0
+ 328:	b9 01       	movw	r22, r18
+ 32a:	84 d4       	rcall	.+2312   	; 0xc34 <__divmodhi4>
+ 32c:	7b 01       	movw	r14, r22
+ 32e:	c5 01       	movw	r24, r10
+ 330:	b9 01       	movw	r22, r18
+ 332:	80 d4       	rcall	.+2304   	; 0xc34 <__divmodhi4>
+ 334:	e6 0e       	add	r14, r22
+ 336:	f7 1e       	adc	r15, r23
+ 338:	c6 01       	movw	r24, r12
+ 33a:	b9 01       	movw	r22, r18
+ 33c:	7b d4       	rcall	.+2294   	; 0xc34 <__divmodhi4>
+ 33e:	e6 0e       	add	r14, r22
+ 340:	f7 1e       	adc	r15, r23
+	pid_data->rate_error/10;
+ 342:	c8 01       	movw	r24, r16
+ 344:	b9 01       	movw	r22, r18
+ 346:	76 d4       	rcall	.+2284   	; 0xc34 <__divmodhi4>
+	pid_data->previousRateError2 = pid_data->rate_error;
+	
+	pid_data->rate_error = (attitude_loop_out - pid_data->rate_feedback);
+	
+	//  calculate the integral of the rate,  this is just position so we should really use the IMU data, duh
+	pid_data->rate_total_error = pid_data->previousRateError0/10 + pid_data->previousRateError1/10 + pid_data->previousRateError2/10 +
+ 348:	e6 0e       	add	r14, r22
+ 34a:	f7 1e       	adc	r15, r23
+ 34c:	e4 aa       	std	Z+52, r14	; 0x34
+ 34e:	f5 aa       	std	Z+53, r15	; 0x35
+	pid_data->rate_error/10;
+	
+	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp_rate)/100;
+ 350:	20 89       	ldd	r18, Z+16	; 0x10
+ 352:	31 89       	ldd	r19, Z+17	; 0x11
+ 354:	02 9f       	mul	r16, r18
+ 356:	c0 01       	movw	r24, r0
+ 358:	03 9f       	mul	r16, r19
+ 35a:	90 0d       	add	r25, r0
+ 35c:	12 9f       	mul	r17, r18
+ 35e:	90 0d       	add	r25, r0
+ 360:	11 24       	eor	r1, r1
+ 362:	04 e6       	ldi	r16, 0x64	; 100
+ 364:	10 e0       	ldi	r17, 0x00	; 0
+ 366:	b8 01       	movw	r22, r16
+ 368:	65 d4       	rcall	.+2250   	; 0xc34 <__divmodhi4>
+ 36a:	9b 01       	movw	r18, r22
+ 36c:	64 83       	std	Z+4, r22	; 0x04
+ 36e:	75 83       	std	Z+5, r23	; 0x05
+	
+	pid_data->i_term_rate = (pid_data->rate_total_error  * pid_data->Ki_rate)/100;
+ 370:	42 89       	ldd	r20, Z+18	; 0x12
+ 372:	53 89       	ldd	r21, Z+19	; 0x13
+ 374:	e4 9e       	mul	r14, r20
+ 376:	c0 01       	movw	r24, r0
+ 378:	e5 9e       	mul	r14, r21
+ 37a:	90 0d       	add	r25, r0
+ 37c:	f4 9e       	mul	r15, r20
+ 37e:	90 0d       	add	r25, r0
+ 380:	11 24       	eor	r1, r1
+ 382:	b8 01       	movw	r22, r16
+ 384:	57 d4       	rcall	.+2222   	; 0xc34 <__divmodhi4>
+	
+	if (pid_data->i_term_rate >= pid_data->windupGuard)
+ 386:	6c 17       	cp	r22, r28
+ 388:	7d 07       	cpc	r23, r29
+ 38a:	1c f4       	brge	.+6      	; 0x392 <pid_attitude_rate+0x154>
+	pid_data->rate_total_error = pid_data->previousRateError0/10 + pid_data->previousRateError1/10 + pid_data->previousRateError2/10 +
+	pid_data->rate_error/10;
+	
+	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp_rate)/100;
+	
+	pid_data->i_term_rate = (pid_data->rate_total_error  * pid_data->Ki_rate)/100;
+ 38c:	66 83       	std	Z+6, r22	; 0x06
+ 38e:	77 83       	std	Z+7, r23	; 0x07
+ 390:	02 c0       	rjmp	.+4      	; 0x396 <pid_attitude_rate+0x158>
+	
+	if (pid_data->i_term_rate >= pid_data->windupGuard)
+	{
+		pid_data->i_term_rate = pid_data->windupGuard;
+ 392:	c6 83       	std	Z+6, r28	; 0x06
+ 394:	d7 83       	std	Z+7, r29	; 0x07
+	}
+	
+	//pid_data->d_term_rate = (pid_data->rate_feedback * pid_data->Kd)/100;
+	
+	pid_data->pid_total = (int16_t)(pid_data->p_term_rate + pid_data->i_term_rate);
+ 396:	86 81       	ldd	r24, Z+6	; 0x06
+ 398:	97 81       	ldd	r25, Z+7	; 0x07
+ 39a:	28 0f       	add	r18, r24
+ 39c:	39 1f       	adc	r19, r25
+ 39e:	24 8f       	std	Z+28, r18	; 0x1c
+ 3a0:	35 8f       	std	Z+29, r19	; 0x1d
+	//}
+	//pid_data->pid_total = pid_data->p_term_rate;
+	
+	
 	
 }
- 38e:	df 91       	pop	r29
- 390:	cf 91       	pop	r28
- 392:	1f 91       	pop	r17
- 394:	0f 91       	pop	r16
- 396:	ff 90       	pop	r15
- 398:	ef 90       	pop	r14
- 39a:	df 90       	pop	r13
- 39c:	cf 90       	pop	r12
- 39e:	bf 90       	pop	r11
- 3a0:	af 90       	pop	r10
- 3a2:	08 95       	ret
+ 3a2:	df 91       	pop	r29
+ 3a4:	cf 91       	pop	r28
+ 3a6:	1f 91       	pop	r17
+ 3a8:	0f 91       	pop	r16
+ 3aa:	ff 90       	pop	r15
+ 3ac:	ef 90       	pop	r14
+ 3ae:	df 90       	pop	r13
+ 3b0:	cf 90       	pop	r12
+ 3b2:	bf 90       	pop	r11
+ 3b4:	af 90       	pop	r10
+ 3b6:	08 95       	ret
 
-000003a4 <initPWM>:
+000003b8 <initPWM>:
 *********************************************************************************************************** */
 void sendUM6_Data()
 {
 
 		sendData_int16_t(0xCCCC);					//0xCCCC is the heade
 		sendData_int16_t(command);
- 3a4:	e0 e0       	ldi	r30, 0x00	; 0
- 3a6:	f8 e0       	ldi	r31, 0x08	; 8
- 3a8:	83 e0       	ldi	r24, 0x03	; 3
- 3aa:	80 83       	st	Z, r24
- 3ac:	81 83       	std	Z+1, r24	; 0x01
- 3ae:	82 83       	std	Z+2, r24	; 0x02
- 3b0:	83 83       	std	Z+3, r24	; 0x03
- 3b2:	81 81       	ldd	r24, Z+1	; 0x01
- 3b4:	80 61       	ori	r24, 0x10	; 16
- 3b6:	81 83       	std	Z+1, r24	; 0x01
- 3b8:	81 81       	ldd	r24, Z+1	; 0x01
- 3ba:	80 62       	ori	r24, 0x20	; 32
- 3bc:	81 83       	std	Z+1, r24	; 0x01
- 3be:	81 81       	ldd	r24, Z+1	; 0x01
- 3c0:	80 64       	ori	r24, 0x40	; 64
- 3c2:	81 83       	std	Z+1, r24	; 0x01
- 3c4:	81 81       	ldd	r24, Z+1	; 0x01
- 3c6:	80 68       	ori	r24, 0x80	; 128
- 3c8:	81 83       	std	Z+1, r24	; 0x01
- 3ca:	8f e0       	ldi	r24, 0x0F	; 15
- 3cc:	a0 e4       	ldi	r26, 0x40	; 64
- 3ce:	b6 e0       	ldi	r27, 0x06	; 6
- 3d0:	11 96       	adiw	r26, 0x01	; 1
- 3d2:	8c 93       	st	X, r24
- 3d4:	10 ae       	std	Z+56, r1	; 0x38
- 3d6:	11 ae       	std	Z+57, r1	; 0x39
- 3d8:	12 ae       	std	Z+58, r1	; 0x3a
- 3da:	13 ae       	std	Z+59, r1	; 0x3b
- 3dc:	14 ae       	std	Z+60, r1	; 0x3c
- 3de:	15 ae       	std	Z+61, r1	; 0x3d
- 3e0:	10 92 3e 08 	sts	0x083E, r1
- 3e4:	10 92 3f 08 	sts	0x083F, r1
- 3e8:	89 e2       	ldi	r24, 0x29	; 41
- 3ea:	98 e6       	ldi	r25, 0x68	; 104
- 3ec:	86 a3       	std	Z+38, r24	; 0x26
- 3ee:	97 a3       	std	Z+39, r25	; 0x27
- 3f0:	63 e0       	ldi	r22, 0x03	; 3
- 3f2:	80 e0       	ldi	r24, 0x00	; 0
- 3f4:	98 e0       	ldi	r25, 0x08	; 8
- 3f6:	11 c4       	rjmp	.+2082   	; 0xc1a <TC0_ConfigClockSource>
+ 3b8:	e0 e0       	ldi	r30, 0x00	; 0
+ 3ba:	f8 e0       	ldi	r31, 0x08	; 8
+ 3bc:	83 e0       	ldi	r24, 0x03	; 3
+ 3be:	80 83       	st	Z, r24
+ 3c0:	81 83       	std	Z+1, r24	; 0x01
+ 3c2:	82 83       	std	Z+2, r24	; 0x02
+ 3c4:	83 83       	std	Z+3, r24	; 0x03
+ 3c6:	81 81       	ldd	r24, Z+1	; 0x01
+ 3c8:	80 61       	ori	r24, 0x10	; 16
+ 3ca:	81 83       	std	Z+1, r24	; 0x01
+ 3cc:	81 81       	ldd	r24, Z+1	; 0x01
+ 3ce:	80 62       	ori	r24, 0x20	; 32
+ 3d0:	81 83       	std	Z+1, r24	; 0x01
+ 3d2:	81 81       	ldd	r24, Z+1	; 0x01
+ 3d4:	80 64       	ori	r24, 0x40	; 64
+ 3d6:	81 83       	std	Z+1, r24	; 0x01
+ 3d8:	81 81       	ldd	r24, Z+1	; 0x01
+ 3da:	80 68       	ori	r24, 0x80	; 128
+ 3dc:	81 83       	std	Z+1, r24	; 0x01
+ 3de:	8f e0       	ldi	r24, 0x0F	; 15
+ 3e0:	a0 e4       	ldi	r26, 0x40	; 64
+ 3e2:	b6 e0       	ldi	r27, 0x06	; 6
+ 3e4:	11 96       	adiw	r26, 0x01	; 1
+ 3e6:	8c 93       	st	X, r24
+ 3e8:	10 ae       	std	Z+56, r1	; 0x38
+ 3ea:	11 ae       	std	Z+57, r1	; 0x39
+ 3ec:	12 ae       	std	Z+58, r1	; 0x3a
+ 3ee:	13 ae       	std	Z+59, r1	; 0x3b
+ 3f0:	14 ae       	std	Z+60, r1	; 0x3c
+ 3f2:	15 ae       	std	Z+61, r1	; 0x3d
+ 3f4:	10 92 3e 08 	sts	0x083E, r1
+ 3f8:	10 92 3f 08 	sts	0x083F, r1
+ 3fc:	89 e2       	ldi	r24, 0x29	; 41
+ 3fe:	98 e6       	ldi	r25, 0x68	; 104
+ 400:	86 a3       	std	Z+38, r24	; 0x26
+ 402:	97 a3       	std	Z+39, r25	; 0x27
+ 404:	63 e0       	ldi	r22, 0x03	; 3
+ 406:	80 e0       	ldi	r24, 0x00	; 0
+ 408:	98 e0       	ldi	r25, 0x08	; 8
+ 40a:	f5 c3       	rjmp	.+2026   	; 0xbf6 <TC0_ConfigClockSource>
 
-000003f8 <DisablePWM>:
- 3f8:	e0 e0       	ldi	r30, 0x00	; 0
- 3fa:	f8 e0       	ldi	r31, 0x08	; 8
- 3fc:	81 81       	ldd	r24, Z+1	; 0x01
- 3fe:	81 83       	std	Z+1, r24	; 0x01
- 400:	81 81       	ldd	r24, Z+1	; 0x01
- 402:	81 83       	std	Z+1, r24	; 0x01
- 404:	81 81       	ldd	r24, Z+1	; 0x01
- 406:	81 83       	std	Z+1, r24	; 0x01
- 408:	81 81       	ldd	r24, Z+1	; 0x01
- 40a:	81 83       	std	Z+1, r24	; 0x01
- 40c:	08 95       	ret
+0000040c <DisablePWM>:
+ 40c:	e0 e0       	ldi	r30, 0x00	; 0
+ 40e:	f8 e0       	ldi	r31, 0x08	; 8
+ 410:	81 81       	ldd	r24, Z+1	; 0x01
+ 412:	81 83       	std	Z+1, r24	; 0x01
+ 414:	81 81       	ldd	r24, Z+1	; 0x01
+ 416:	81 83       	std	Z+1, r24	; 0x01
+ 418:	81 81       	ldd	r24, Z+1	; 0x01
+ 41a:	81 83       	std	Z+1, r24	; 0x01
+ 41c:	81 81       	ldd	r24, Z+1	; 0x01
+ 41e:	81 83       	std	Z+1, r24	; 0x01
+ 420:	08 95       	ret
 
-0000040e <doPWM>:
- 40e:	e0 e0       	ldi	r30, 0x00	; 0
- 410:	f8 e0       	ldi	r31, 0x08	; 8
- 412:	e4 85       	ldd	r30, Z+12	; 0x0c
- 414:	e0 ff       	sbrs	r30, 0
- 416:	0e c0       	rjmp	.+28     	; 0x434 <doPWM+0x26>
- 418:	e0 e0       	ldi	r30, 0x00	; 0
- 41a:	f8 e0       	ldi	r31, 0x08	; 8
- 41c:	a1 e0       	ldi	r26, 0x01	; 1
- 41e:	a4 87       	std	Z+12, r26	; 0x0c
- 420:	80 af       	std	Z+56, r24	; 0x38
- 422:	91 af       	std	Z+57, r25	; 0x39
- 424:	62 af       	std	Z+58, r22	; 0x3a
- 426:	73 af       	std	Z+59, r23	; 0x3b
- 428:	44 af       	std	Z+60, r20	; 0x3c
- 42a:	55 af       	std	Z+61, r21	; 0x3d
- 42c:	20 93 3e 08 	sts	0x083E, r18
- 430:	30 93 3f 08 	sts	0x083F, r19
- 434:	08 95       	ret
+00000422 <doPWM>:
+ 422:	e0 e0       	ldi	r30, 0x00	; 0
+ 424:	f8 e0       	ldi	r31, 0x08	; 8
+ 426:	e4 85       	ldd	r30, Z+12	; 0x0c
+ 428:	e0 ff       	sbrs	r30, 0
+ 42a:	0e c0       	rjmp	.+28     	; 0x448 <doPWM+0x26>
+ 42c:	e0 e0       	ldi	r30, 0x00	; 0
+ 42e:	f8 e0       	ldi	r31, 0x08	; 8
+ 430:	a1 e0       	ldi	r26, 0x01	; 1
+ 432:	a4 87       	std	Z+12, r26	; 0x0c
+ 434:	80 af       	std	Z+56, r24	; 0x38
+ 436:	91 af       	std	Z+57, r25	; 0x39
+ 438:	62 af       	std	Z+58, r22	; 0x3a
+ 43a:	73 af       	std	Z+59, r23	; 0x3b
+ 43c:	44 af       	std	Z+60, r20	; 0x3c
+ 43e:	55 af       	std	Z+61, r21	; 0x3d
+ 440:	20 93 3e 08 	sts	0x083E, r18
+ 444:	30 93 3f 08 	sts	0x083F, r19
+ 448:	08 95       	ret
 
-00000436 <SetPulseWidths>:
- 436:	80 91 ea 20 	lds	r24, 0x20EA
- 43a:	90 91 eb 20 	lds	r25, 0x20EB
- 43e:	9c 01       	movw	r18, r24
- 440:	21 5d       	subi	r18, 0xD1	; 209
- 442:	37 40       	sbci	r19, 0x07	; 7
- 444:	2f 32       	cpi	r18, 0x2F	; 47
- 446:	38 40       	sbci	r19, 0x08	; 8
- 448:	c8 f4       	brcc	.+50     	; 0x47c <SetPulseWidths+0x46>
- 44a:	88 0f       	add	r24, r24
- 44c:	99 1f       	adc	r25, r25
- 44e:	88 0f       	add	r24, r24
- 450:	99 1f       	adc	r25, r25
- 452:	60 91 74 20 	lds	r22, 0x2074
- 456:	70 91 75 20 	lds	r23, 0x2075
- 45a:	e0 91 27 20 	lds	r30, 0x2027
- 45e:	f0 91 28 20 	lds	r31, 0x2028
- 462:	9c 01       	movw	r18, r24
- 464:	26 0f       	add	r18, r22
- 466:	37 1f       	adc	r19, r23
- 468:	ac 01       	movw	r20, r24
- 46a:	4e 0f       	add	r20, r30
- 46c:	5f 1f       	adc	r21, r31
- 46e:	dc 01       	movw	r26, r24
- 470:	a6 1b       	sub	r26, r22
- 472:	b7 0b       	sbc	r27, r23
- 474:	bd 01       	movw	r22, r26
- 476:	8e 1b       	sub	r24, r30
- 478:	9f 0b       	sbc	r25, r31
- 47a:	c9 cf       	rjmp	.-110    	; 0x40e <doPWM>
- 47c:	20 e0       	ldi	r18, 0x00	; 0
- 47e:	30 e0       	ldi	r19, 0x00	; 0
- 480:	40 e0       	ldi	r20, 0x00	; 0
- 482:	50 e0       	ldi	r21, 0x00	; 0
- 484:	60 e0       	ldi	r22, 0x00	; 0
- 486:	70 e0       	ldi	r23, 0x00	; 0
- 488:	80 e0       	ldi	r24, 0x00	; 0
- 48a:	90 e0       	ldi	r25, 0x00	; 0
- 48c:	c0 cf       	rjmp	.-128    	; 0x40e <doPWM>
+0000044a <SetPulseWidths>:
+ 44a:	80 91 e0 20 	lds	r24, 0x20E0
+ 44e:	90 91 e1 20 	lds	r25, 0x20E1
+ 452:	9c 01       	movw	r18, r24
+ 454:	21 5d       	subi	r18, 0xD1	; 209
+ 456:	37 40       	sbci	r19, 0x07	; 7
+ 458:	2f 32       	cpi	r18, 0x2F	; 47
+ 45a:	38 40       	sbci	r19, 0x08	; 8
+ 45c:	c8 f4       	brcc	.+50     	; 0x490 <SetPulseWidths+0x46>
+ 45e:	88 0f       	add	r24, r24
+ 460:	99 1f       	adc	r25, r25
+ 462:	88 0f       	add	r24, r24
+ 464:	99 1f       	adc	r25, r25
+ 466:	60 91 6a 20 	lds	r22, 0x206A
+ 46a:	70 91 6b 20 	lds	r23, 0x206B
+ 46e:	e0 91 1d 20 	lds	r30, 0x201D
+ 472:	f0 91 1e 20 	lds	r31, 0x201E
+ 476:	9c 01       	movw	r18, r24
+ 478:	26 0f       	add	r18, r22
+ 47a:	37 1f       	adc	r19, r23
+ 47c:	ac 01       	movw	r20, r24
+ 47e:	4e 0f       	add	r20, r30
+ 480:	5f 1f       	adc	r21, r31
+ 482:	dc 01       	movw	r26, r24
+ 484:	a6 1b       	sub	r26, r22
+ 486:	b7 0b       	sbc	r27, r23
+ 488:	bd 01       	movw	r22, r26
+ 48a:	8e 1b       	sub	r24, r30
+ 48c:	9f 0b       	sbc	r25, r31
+ 48e:	c9 cf       	rjmp	.-110    	; 0x422 <doPWM>
+ 490:	20 e0       	ldi	r18, 0x00	; 0
+ 492:	30 e0       	ldi	r19, 0x00	; 0
+ 494:	40 e0       	ldi	r20, 0x00	; 0
+ 496:	50 e0       	ldi	r21, 0x00	; 0
+ 498:	60 e0       	ldi	r22, 0x00	; 0
+ 49a:	70 e0       	ldi	r23, 0x00	; 0
+ 49c:	80 e0       	ldi	r24, 0x00	; 0
+ 49e:	90 e0       	ldi	r25, 0x00	; 0
+ 4a0:	c0 cf       	rjmp	.-128    	; 0x422 <doPWM>
 
-0000048e <intPID_gains>:
- 48e:	85 e0       	ldi	r24, 0x05	; 5
- 490:	90 e0       	ldi	r25, 0x00	; 0
- 492:	80 93 1b 20 	sts	0x201B, r24
- 496:	90 93 1c 20 	sts	0x201C, r25
- 49a:	10 92 1d 20 	sts	0x201D, r1
- 49e:	10 92 1e 20 	sts	0x201E, r1
- 4a2:	80 93 1f 20 	sts	0x201F, r24
- 4a6:	90 93 20 20 	sts	0x2020, r25
- 4aa:	8b e7       	ldi	r24, 0x7B	; 123
- 4ac:	90 e0       	ldi	r25, 0x00	; 0
- 4ae:	80 93 68 20 	sts	0x2068, r24
- 4b2:	90 93 69 20 	sts	0x2069, r25
- 4b6:	8e e1       	ldi	r24, 0x1E	; 30
- 4b8:	90 e0       	ldi	r25, 0x00	; 0
- 4ba:	80 93 6a 20 	sts	0x206A, r24
- 4be:	90 93 6b 20 	sts	0x206B, r25
- 4c2:	10 92 6c 20 	sts	0x206C, r1
- 4c6:	10 92 6d 20 	sts	0x206D, r1
- 4ca:	88 ec       	ldi	r24, 0xC8	; 200
+000004a2 <intPID_gains>:
+ 4a2:	85 e0       	ldi	r24, 0x05	; 5
+ 4a4:	90 e0       	ldi	r25, 0x00	; 0
+ 4a6:	80 93 11 20 	sts	0x2011, r24
+ 4aa:	90 93 12 20 	sts	0x2012, r25
+ 4ae:	10 92 13 20 	sts	0x2013, r1
+ 4b2:	10 92 14 20 	sts	0x2014, r1
+ 4b6:	80 93 15 20 	sts	0x2015, r24
+ 4ba:	90 93 16 20 	sts	0x2016, r25
+ 4be:	8b e4       	ldi	r24, 0x4B	; 75
+ 4c0:	90 e0       	ldi	r25, 0x00	; 0
+ 4c2:	80 93 5e 20 	sts	0x205E, r24
+ 4c6:	90 93 5f 20 	sts	0x205F, r25
+ 4ca:	8e e1       	ldi	r24, 0x1E	; 30
  4cc:	90 e0       	ldi	r25, 0x00	; 0
- 4ce:	80 93 3b 20 	sts	0x203B, r24
- 4d2:	90 93 3c 20 	sts	0x203C, r25
- 4d6:	80 93 88 20 	sts	0x2088, r24
- 4da:	90 93 89 20 	sts	0x2089, r25
- 4de:	80 93 1c 21 	sts	0x211C, r24
- 4e2:	90 93 1d 21 	sts	0x211D, r25
- 4e6:	08 95       	ret
+ 4ce:	80 93 60 20 	sts	0x2060, r24
+ 4d2:	90 93 61 20 	sts	0x2061, r25
+ 4d6:	10 92 62 20 	sts	0x2062, r1
+ 4da:	10 92 63 20 	sts	0x2063, r1
+ 4de:	88 ec       	ldi	r24, 0xC8	; 200
+ 4e0:	90 e0       	ldi	r25, 0x00	; 0
+ 4e2:	80 93 31 20 	sts	0x2031, r24
+ 4e6:	90 93 32 20 	sts	0x2032, r25
+ 4ea:	80 93 7e 20 	sts	0x207E, r24
+ 4ee:	90 93 7f 20 	sts	0x207F, r25
+ 4f2:	80 93 12 21 	sts	0x2112, r24
+ 4f6:	90 93 13 21 	sts	0x2113, r25
+ 4fa:	08 95       	ret
 
-000004e8 <WriteToPC_SPI>:
+000004fc <WriteToPC_SPI>:
   OUTPUT:
   DISCRIPTION:  Write data packet to the SPI bus connected to the ATmega, 
   the ATmega should be set up to parse this data.
 *********************************************************************************************************** */
 int16_t WriteToPC_SPI()
 {
- 4e8:	af 92       	push	r10
- 4ea:	bf 92       	push	r11
- 4ec:	cf 92       	push	r12
- 4ee:	df 92       	push	r13
- 4f0:	ff 92       	push	r15
- 4f2:	0f 93       	push	r16
- 4f4:	1f 93       	push	r17
- 4f6:	cf 93       	push	r28
- 4f8:	df 93       	push	r29
+ 4fc:	7f 92       	push	r7
+ 4fe:	8f 92       	push	r8
+ 500:	9f 92       	push	r9
+ 502:	af 92       	push	r10
+ 504:	bf 92       	push	r11
+ 506:	cf 92       	push	r12
+ 508:	df 92       	push	r13
+ 50a:	ef 92       	push	r14
+ 50c:	ff 92       	push	r15
+ 50e:	0f 93       	push	r16
+ 510:	1f 93       	push	r17
+ 512:	cf 93       	push	r28
+ 514:	df 93       	push	r29
 	PORTE.OUTCLR = PIN4_bm;
- 4fa:	00 e8       	ldi	r16, 0x80	; 128
- 4fc:	16 e0       	ldi	r17, 0x06	; 6
- 4fe:	68 94       	set
- 500:	ff 24       	eor	r15, r15
- 502:	f4 f8       	bld	r15, 4
- 504:	f8 01       	movw	r30, r16
- 506:	f6 82       	std	Z+6, r15	; 0x06
+ 516:	0f 2e       	mov	r0, r31
+ 518:	f0 e8       	ldi	r31, 0x80	; 128
+ 51a:	af 2e       	mov	r10, r31
+ 51c:	f6 e0       	ldi	r31, 0x06	; 6
+ 51e:	bf 2e       	mov	r11, r31
+ 520:	f0 2d       	mov	r31, r0
+ 522:	68 94       	set
+ 524:	77 24       	eor	r7, r7
+ 526:	74 f8       	bld	r7, 4
+ 528:	f5 01       	movw	r30, r10
+ 52a:	76 82       	std	Z+6, r7	; 0x06
 	
 	throttleAxis.thrust = spiPC_write_read(upperByte16(throttleAxis.thrust )) << 8;						
- 508:	0f 2e       	mov	r0, r31
- 50a:	fa ee       	ldi	r31, 0xEA	; 234
- 50c:	cf 2e       	mov	r12, r31
- 50e:	f0 e2       	ldi	r31, 0x20	; 32
- 510:	df 2e       	mov	r13, r31
- 512:	f0 2d       	mov	r31, r0
- 514:	f6 01       	movw	r30, r12
- 516:	81 81       	ldd	r24, Z+1	; 0x01
- 518:	90 e0       	ldi	r25, 0x00	; 0
- 51a:	02 d3       	rcall	.+1540   	; 0xb20 <spiPC_write_read>
- 51c:	d8 2f       	mov	r29, r24
- 51e:	f0 e0       	ldi	r31, 0x00	; 0
- 520:	cf 2f       	mov	r28, r31
- 522:	f6 01       	movw	r30, r12
- 524:	c0 83       	st	Z, r28
- 526:	d1 83       	std	Z+1, r29	; 0x01
+ 52c:	00 ee       	ldi	r16, 0xE0	; 224
+ 52e:	10 e2       	ldi	r17, 0x20	; 32
+ 530:	f8 01       	movw	r30, r16
+ 532:	81 81       	ldd	r24, Z+1	; 0x01
+ 534:	90 e0       	ldi	r25, 0x00	; 0
+ 536:	e2 d2       	rcall	.+1476   	; 0xafc <spiPC_write_read>
+ 538:	d8 2f       	mov	r29, r24
+ 53a:	f0 e0       	ldi	r31, 0x00	; 0
+ 53c:	cf 2f       	mov	r28, r31
+ 53e:	f8 01       	movw	r30, r16
+ 540:	c0 83       	st	Z, r28
+ 542:	d1 83       	std	Z+1, r29	; 0x01
 	throttleAxis.thrust += spiPC_write_read(lowerByte16(throttleAxis.thrust ));							
- 528:	80 e0       	ldi	r24, 0x00	; 0
- 52a:	90 e0       	ldi	r25, 0x00	; 0
- 52c:	f9 d2       	rcall	.+1522   	; 0xb20 <spiPC_write_read>
- 52e:	8c 0f       	add	r24, r28
- 530:	9d 1f       	adc	r25, r29
- 532:	f6 01       	movw	r30, r12
- 534:	80 83       	st	Z, r24
- 536:	91 83       	std	Z+1, r25	; 0x01
+ 544:	80 e0       	ldi	r24, 0x00	; 0
+ 546:	90 e0       	ldi	r25, 0x00	; 0
+ 548:	d9 d2       	rcall	.+1458   	; 0xafc <spiPC_write_read>
+ 54a:	8c 0f       	add	r24, r28
+ 54c:	9d 1f       	adc	r25, r29
+ 54e:	f8 01       	movw	r30, r16
+ 550:	80 83       	st	Z, r24
+ 552:	91 83       	std	Z+1, r25	; 0x01
 	
 	rollAxis.attitude_command = spiPC_write_read(upperByte16(pitchAxis.attitude_feedback)) << 8;
- 538:	0f 2e       	mov	r0, r31
- 53a:	f6 e7       	ldi	r31, 0x76	; 118
- 53c:	af 2e       	mov	r10, r31
- 53e:	f0 e2       	ldi	r31, 0x20	; 32
- 540:	bf 2e       	mov	r11, r31
- 542:	f0 2d       	mov	r31, r0
- 544:	f5 01       	movw	r30, r10
- 546:	81 81       	ldd	r24, Z+1	; 0x01
- 548:	90 e0       	ldi	r25, 0x00	; 0
- 54a:	ea d2       	rcall	.+1492   	; 0xb20 <spiPC_write_read>
- 54c:	d8 2f       	mov	r29, r24
- 54e:	f0 e0       	ldi	r31, 0x00	; 0
- 550:	cf 2f       	mov	r28, r31
- 552:	0f 2e       	mov	r0, r31
- 554:	fd e2       	ldi	r31, 0x2D	; 45
- 556:	cf 2e       	mov	r12, r31
- 558:	f0 e2       	ldi	r31, 0x20	; 32
- 55a:	df 2e       	mov	r13, r31
- 55c:	f0 2d       	mov	r31, r0
- 55e:	f6 01       	movw	r30, r12
- 560:	c0 83       	st	Z, r28
- 562:	d1 83       	std	Z+1, r29	; 0x01
+ 554:	0f 2e       	mov	r0, r31
+ 556:	fc e6       	ldi	r31, 0x6C	; 108
+ 558:	ef 2e       	mov	r14, r31
+ 55a:	f0 e2       	ldi	r31, 0x20	; 32
+ 55c:	ff 2e       	mov	r15, r31
+ 55e:	f0 2d       	mov	r31, r0
+ 560:	f7 01       	movw	r30, r14
+ 562:	81 81       	ldd	r24, Z+1	; 0x01
+ 564:	90 e0       	ldi	r25, 0x00	; 0
+ 566:	ca d2       	rcall	.+1428   	; 0xafc <spiPC_write_read>
+ 568:	d8 2f       	mov	r29, r24
+ 56a:	f0 e0       	ldi	r31, 0x00	; 0
+ 56c:	cf 2f       	mov	r28, r31
+ 56e:	03 e2       	ldi	r16, 0x23	; 35
+ 570:	10 e2       	ldi	r17, 0x20	; 32
+ 572:	f8 01       	movw	r30, r16
+ 574:	c0 83       	st	Z, r28
+ 576:	d1 83       	std	Z+1, r29	; 0x01
 	rollAxis.attitude_command  += spiPC_write_read(lowerByte16(pitchAxis.attitude_feedback));
- 564:	f5 01       	movw	r30, r10
- 566:	80 81       	ld	r24, Z
- 568:	91 81       	ldd	r25, Z+1	; 0x01
- 56a:	99 27       	eor	r25, r25
- 56c:	d9 d2       	rcall	.+1458   	; 0xb20 <spiPC_write_read>
- 56e:	8c 0f       	add	r24, r28
- 570:	9d 1f       	adc	r25, r29
- 572:	f6 01       	movw	r30, r12
- 574:	80 83       	st	Z, r24
- 576:	91 83       	std	Z+1, r25	; 0x01
+ 578:	f7 01       	movw	r30, r14
+ 57a:	80 81       	ld	r24, Z
+ 57c:	91 81       	ldd	r25, Z+1	; 0x01
+ 57e:	99 27       	eor	r25, r25
+ 580:	bd d2       	rcall	.+1402   	; 0xafc <spiPC_write_read>
+ 582:	8c 0f       	add	r24, r28
+ 584:	9d 1f       	adc	r25, r29
+ 586:	f8 01       	movw	r30, r16
+ 588:	80 83       	st	Z, r24
+ 58a:	91 83       	std	Z+1, r25	; 0x01
 	
 	pitchAxis.attitude_command = spiPC_write_read(upperByte16(rollAxis.attitude_feedback)) << 8;
- 578:	0f 2e       	mov	r0, r31
- 57a:	f9 e2       	ldi	r31, 0x29	; 41
- 57c:	af 2e       	mov	r10, r31
- 57e:	f0 e2       	ldi	r31, 0x20	; 32
- 580:	bf 2e       	mov	r11, r31
- 582:	f0 2d       	mov	r31, r0
- 584:	f5 01       	movw	r30, r10
- 586:	81 81       	ldd	r24, Z+1	; 0x01
- 588:	90 e0       	ldi	r25, 0x00	; 0
- 58a:	ca d2       	rcall	.+1428   	; 0xb20 <spiPC_write_read>
- 58c:	d8 2f       	mov	r29, r24
- 58e:	f0 e0       	ldi	r31, 0x00	; 0
- 590:	cf 2f       	mov	r28, r31
- 592:	0f 2e       	mov	r0, r31
- 594:	fa e7       	ldi	r31, 0x7A	; 122
- 596:	cf 2e       	mov	r12, r31
- 598:	f0 e2       	ldi	r31, 0x20	; 32
- 59a:	df 2e       	mov	r13, r31
- 59c:	f0 2d       	mov	r31, r0
- 59e:	f6 01       	movw	r30, r12
- 5a0:	c0 83       	st	Z, r28
- 5a2:	d1 83       	std	Z+1, r29	; 0x01
+ 58c:	0f 2e       	mov	r0, r31
+ 58e:	ff e1       	ldi	r31, 0x1F	; 31
+ 590:	cf 2e       	mov	r12, r31
+ 592:	f0 e2       	ldi	r31, 0x20	; 32
+ 594:	df 2e       	mov	r13, r31
+ 596:	f0 2d       	mov	r31, r0
+ 598:	f6 01       	movw	r30, r12
+ 59a:	81 81       	ldd	r24, Z+1	; 0x01
+ 59c:	90 e0       	ldi	r25, 0x00	; 0
+ 59e:	ae d2       	rcall	.+1372   	; 0xafc <spiPC_write_read>
+ 5a0:	d8 2f       	mov	r29, r24
+ 5a2:	f0 e0       	ldi	r31, 0x00	; 0
+ 5a4:	cf 2f       	mov	r28, r31
+ 5a6:	0f 2e       	mov	r0, r31
+ 5a8:	f0 e7       	ldi	r31, 0x70	; 112
+ 5aa:	ef 2e       	mov	r14, r31
+ 5ac:	f0 e2       	ldi	r31, 0x20	; 32
+ 5ae:	ff 2e       	mov	r15, r31
+ 5b0:	f0 2d       	mov	r31, r0
+ 5b2:	f7 01       	movw	r30, r14
+ 5b4:	c0 83       	st	Z, r28
+ 5b6:	d1 83       	std	Z+1, r29	; 0x01
 	pitchAxis.attitude_command += spiPC_write_read(lowerByte16(rollAxis.attitude_feedback));
- 5a4:	f5 01       	movw	r30, r10
- 5a6:	80 81       	ld	r24, Z
- 5a8:	91 81       	ldd	r25, Z+1	; 0x01
- 5aa:	99 27       	eor	r25, r25
- 5ac:	b9 d2       	rcall	.+1394   	; 0xb20 <spiPC_write_read>
- 5ae:	8c 0f       	add	r24, r28
- 5b0:	9d 1f       	adc	r25, r29
- 5b2:	f6 01       	movw	r30, r12
- 5b4:	80 83       	st	Z, r24
- 5b6:	91 83       	std	Z+1, r25	; 0x01
+ 5b8:	f6 01       	movw	r30, r12
+ 5ba:	80 81       	ld	r24, Z
+ 5bc:	91 81       	ldd	r25, Z+1	; 0x01
+ 5be:	99 27       	eor	r25, r25
+ 5c0:	9d d2       	rcall	.+1338   	; 0xafc <spiPC_write_read>
+ 5c2:	8c 0f       	add	r24, r28
+ 5c4:	9d 1f       	adc	r25, r29
+ 5c6:	f7 01       	movw	r30, r14
+ 5c8:	80 83       	st	Z, r24
+ 5ca:	91 83       	std	Z+1, r25	; 0x01
 
 	yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback)) << 8;
- 5b8:	0f 2e       	mov	r0, r31
- 5ba:	fa e0       	ldi	r31, 0x0A	; 10
- 5bc:	af 2e       	mov	r10, r31
- 5be:	f1 e2       	ldi	r31, 0x21	; 33
- 5c0:	bf 2e       	mov	r11, r31
- 5c2:	f0 2d       	mov	r31, r0
- 5c4:	f5 01       	movw	r30, r10
- 5c6:	81 81       	ldd	r24, Z+1	; 0x01
- 5c8:	90 e0       	ldi	r25, 0x00	; 0
- 5ca:	aa d2       	rcall	.+1364   	; 0xb20 <spiPC_write_read>
- 5cc:	d8 2f       	mov	r29, r24
+ 5cc:	0f 2e       	mov	r0, r31
  5ce:	f0 e0       	ldi	r31, 0x00	; 0
- 5d0:	cf 2f       	mov	r28, r31
- 5d2:	0f 2e       	mov	r0, r31
- 5d4:	fe e0       	ldi	r31, 0x0E	; 14
- 5d6:	cf 2e       	mov	r12, r31
- 5d8:	f1 e2       	ldi	r31, 0x21	; 33
- 5da:	df 2e       	mov	r13, r31
- 5dc:	f0 2d       	mov	r31, r0
- 5de:	f6 01       	movw	r30, r12
- 5e0:	c0 83       	st	Z, r28
- 5e2:	d1 83       	std	Z+1, r29	; 0x01
+ 5d0:	8f 2e       	mov	r8, r31
+ 5d2:	f1 e2       	ldi	r31, 0x21	; 33
+ 5d4:	9f 2e       	mov	r9, r31
+ 5d6:	f0 2d       	mov	r31, r0
+ 5d8:	f4 01       	movw	r30, r8
+ 5da:	81 81       	ldd	r24, Z+1	; 0x01
+ 5dc:	90 e0       	ldi	r25, 0x00	; 0
+ 5de:	8e d2       	rcall	.+1308   	; 0xafc <spiPC_write_read>
+ 5e0:	d8 2e       	mov	r13, r24
+ 5e2:	c1 2c       	mov	r12, r1
+ 5e4:	c4 e0       	ldi	r28, 0x04	; 4
+ 5e6:	d1 e2       	ldi	r29, 0x21	; 33
+ 5e8:	c8 82       	st	Y, r12
+ 5ea:	d9 82       	std	Y+1, r13	; 0x01
 	yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback));
- 5e4:	f5 01       	movw	r30, r10
- 5e6:	80 81       	ld	r24, Z
- 5e8:	91 81       	ldd	r25, Z+1	; 0x01
- 5ea:	99 27       	eor	r25, r25
- 5ec:	99 d2       	rcall	.+1330   	; 0xb20 <spiPC_write_read>
- 5ee:	8c 0f       	add	r24, r28
- 5f0:	9d 1f       	adc	r25, r29
- 5f2:	f6 01       	movw	r30, r12
- 5f4:	80 83       	st	Z, r24
- 5f6:	91 83       	std	Z+1, r25	; 0x01
+ 5ec:	f4 01       	movw	r30, r8
+ 5ee:	80 81       	ld	r24, Z
+ 5f0:	91 81       	ldd	r25, Z+1	; 0x01
+ 5f2:	99 27       	eor	r25, r25
+ 5f4:	83 d2       	rcall	.+1286   	; 0xafc <spiPC_write_read>
+ 5f6:	8c 0d       	add	r24, r12
+ 5f8:	9d 1d       	adc	r25, r13
+ 5fa:	88 83       	st	Y, r24
+ 5fc:	99 83       	std	Y+1, r25	; 0x01
 		
-	pitchAxis.Kp = (spiPC_write_read(upperByte16(pitchAxis.rate_feedback ))) << 8;					
- 5f8:	0f 2e       	mov	r0, r31
- 5fa:	f8 e7       	ldi	r31, 0x78	; 120
- 5fc:	af 2e       	mov	r10, r31
- 5fe:	f0 e2       	ldi	r31, 0x20	; 32
- 600:	bf 2e       	mov	r11, r31
- 602:	f0 2d       	mov	r31, r0
- 604:	f5 01       	movw	r30, r10
- 606:	81 81       	ldd	r24, Z+1	; 0x01
- 608:	90 e0       	ldi	r25, 0x00	; 0
- 60a:	8a d2       	rcall	.+1300   	; 0xb20 <spiPC_write_read>
- 60c:	d8 2f       	mov	r29, r24
- 60e:	f0 e0       	ldi	r31, 0x00	; 0
- 610:	cf 2f       	mov	r28, r31
- 612:	0f 2e       	mov	r0, r31
- 614:	fe e6       	ldi	r31, 0x6E	; 110
- 616:	cf 2e       	mov	r12, r31
- 618:	f0 e2       	ldi	r31, 0x20	; 32
- 61a:	df 2e       	mov	r13, r31
- 61c:	f0 2d       	mov	r31, r0
- 61e:	f6 01       	movw	r30, r12
- 620:	c0 83       	st	Z, r28
- 622:	d1 83       	std	Z+1, r29	; 0x01
-	pitchAxis.Kp += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback ));							
- 624:	f5 01       	movw	r30, r10
- 626:	80 81       	ld	r24, Z
- 628:	91 81       	ldd	r25, Z+1	; 0x01
- 62a:	99 27       	eor	r25, r25
- 62c:	79 d2       	rcall	.+1266   	; 0xb20 <spiPC_write_read>
- 62e:	8c 0f       	add	r24, r28
- 630:	9d 1f       	adc	r25, r29
- 632:	f6 01       	movw	r30, r12
- 634:	80 83       	st	Z, r24
- 636:	91 83       	std	Z+1, r25	; 0x01
+	pitchAxis.Kp = (spiPC_write_read(upperByte16(pitchAxis.attitude_command ))) << 8;					
+ 5fe:	f7 01       	movw	r30, r14
+ 600:	81 81       	ldd	r24, Z+1	; 0x01
+ 602:	90 e0       	ldi	r25, 0x00	; 0
+ 604:	7b d2       	rcall	.+1270   	; 0xafc <spiPC_write_read>
+ 606:	d8 2e       	mov	r13, r24
+ 608:	c1 2c       	mov	r12, r1
+ 60a:	0f 2e       	mov	r0, r31
+ 60c:	f4 e6       	ldi	r31, 0x64	; 100
+ 60e:	8f 2e       	mov	r8, r31
+ 610:	f0 e2       	ldi	r31, 0x20	; 32
+ 612:	9f 2e       	mov	r9, r31
+ 614:	f0 2d       	mov	r31, r0
+ 616:	f4 01       	movw	r30, r8
+ 618:	c0 82       	st	Z, r12
+ 61a:	d1 82       	std	Z+1, r13	; 0x01
+	pitchAxis.Kp += spiPC_write_read(lowerByte16(pitchAxis.attitude_command ));							
+ 61c:	f7 01       	movw	r30, r14
+ 61e:	80 81       	ld	r24, Z
+ 620:	91 81       	ldd	r25, Z+1	; 0x01
+ 622:	99 27       	eor	r25, r25
+ 624:	6b d2       	rcall	.+1238   	; 0xafc <spiPC_write_read>
+ 626:	8c 0d       	add	r24, r12
+ 628:	9d 1d       	adc	r25, r13
+ 62a:	f4 01       	movw	r30, r8
+ 62c:	80 83       	st	Z, r24
+ 62e:	91 83       	std	Z+1, r25	; 0x01
 	
-	pitchAxis.Ki = (spiPC_write_read(upperByte16(pitchAxis.rate_error ))) << 8;					
- 638:	0f 2e       	mov	r0, r31
- 63a:	f4 e8       	ldi	r31, 0x84	; 132
- 63c:	af 2e       	mov	r10, r31
- 63e:	f0 e2       	ldi	r31, 0x20	; 32
- 640:	bf 2e       	mov	r11, r31
- 642:	f0 2d       	mov	r31, r0
- 644:	f5 01       	movw	r30, r10
- 646:	81 81       	ldd	r24, Z+1	; 0x01
- 648:	90 e0       	ldi	r25, 0x00	; 0
- 64a:	6a d2       	rcall	.+1236   	; 0xb20 <spiPC_write_read>
- 64c:	d8 2f       	mov	r29, r24
- 64e:	f0 e0       	ldi	r31, 0x00	; 0
- 650:	cf 2f       	mov	r28, r31
- 652:	0f 2e       	mov	r0, r31
- 654:	f0 e7       	ldi	r31, 0x70	; 112
- 656:	cf 2e       	mov	r12, r31
- 658:	f0 e2       	ldi	r31, 0x20	; 32
- 65a:	df 2e       	mov	r13, r31
- 65c:	f0 2d       	mov	r31, r0
- 65e:	f6 01       	movw	r30, r12
- 660:	c0 83       	st	Z, r28
- 662:	d1 83       	std	Z+1, r29	; 0x01
-	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_error));							
- 664:	f5 01       	movw	r30, r10
- 666:	80 81       	ld	r24, Z
- 668:	91 81       	ldd	r25, Z+1	; 0x01
- 66a:	99 27       	eor	r25, r25
- 66c:	59 d2       	rcall	.+1202   	; 0xb20 <spiPC_write_read>
- 66e:	8c 0f       	add	r24, r28
- 670:	9d 1f       	adc	r25, r29
- 672:	f6 01       	movw	r30, r12
- 674:	80 83       	st	Z, r24
- 676:	91 83       	std	Z+1, r25	; 0x01
+	pitchAxis.Ki = (spiPC_write_read(upperByte16(rollAxis.attitude_command ))) << 8;					
+ 630:	f8 01       	movw	r30, r16
+ 632:	81 81       	ldd	r24, Z+1	; 0x01
+ 634:	90 e0       	ldi	r25, 0x00	; 0
+ 636:	62 d2       	rcall	.+1220   	; 0xafc <spiPC_write_read>
+ 638:	f8 2e       	mov	r15, r24
+ 63a:	e1 2c       	mov	r14, r1
+ 63c:	0f 2e       	mov	r0, r31
+ 63e:	f6 e6       	ldi	r31, 0x66	; 102
+ 640:	cf 2e       	mov	r12, r31
+ 642:	f0 e2       	ldi	r31, 0x20	; 32
+ 644:	df 2e       	mov	r13, r31
+ 646:	f0 2d       	mov	r31, r0
+ 648:	f6 01       	movw	r30, r12
+ 64a:	e0 82       	st	Z, r14
+ 64c:	f1 82       	std	Z+1, r15	; 0x01
+	pitchAxis.Ki += spiPC_write_read(lowerByte16(rollAxis.attitude_command));							
+ 64e:	f8 01       	movw	r30, r16
+ 650:	80 81       	ld	r24, Z
+ 652:	91 81       	ldd	r25, Z+1	; 0x01
+ 654:	99 27       	eor	r25, r25
+ 656:	52 d2       	rcall	.+1188   	; 0xafc <spiPC_write_read>
+ 658:	8e 0d       	add	r24, r14
+ 65a:	9f 1d       	adc	r25, r15
+ 65c:	f6 01       	movw	r30, r12
+ 65e:	80 83       	st	Z, r24
+ 660:	91 83       	std	Z+1, r25	; 0x01
 		
-	pitchAxis.Kd= (spiPC_write_read(upperByte16(pitchAxis.pid_total))) << 8;					
- 678:	0f 2e       	mov	r0, r31
- 67a:	f4 e7       	ldi	r31, 0x74	; 116
- 67c:	af 2e       	mov	r10, r31
- 67e:	f0 e2       	ldi	r31, 0x20	; 32
- 680:	bf 2e       	mov	r11, r31
- 682:	f0 2d       	mov	r31, r0
- 684:	f5 01       	movw	r30, r10
- 686:	81 81       	ldd	r24, Z+1	; 0x01
- 688:	90 e0       	ldi	r25, 0x00	; 0
- 68a:	4a d2       	rcall	.+1172   	; 0xb20 <spiPC_write_read>
- 68c:	d8 2f       	mov	r29, r24
- 68e:	f0 e0       	ldi	r31, 0x00	; 0
- 690:	cf 2f       	mov	r28, r31
- 692:	0f 2e       	mov	r0, r31
- 694:	f2 e7       	ldi	r31, 0x72	; 114
- 696:	cf 2e       	mov	r12, r31
- 698:	f0 e2       	ldi	r31, 0x20	; 32
- 69a:	df 2e       	mov	r13, r31
- 69c:	f0 2d       	mov	r31, r0
- 69e:	f6 01       	movw	r30, r12
- 6a0:	c0 83       	st	Z, r28
- 6a2:	d1 83       	std	Z+1, r29	; 0x01
-	pitchAxis.Kd+= spiPC_write_read(lowerByte16(pitchAxis.pid_total));			
- 6a4:	f5 01       	movw	r30, r10
- 6a6:	80 81       	ld	r24, Z
- 6a8:	91 81       	ldd	r25, Z+1	; 0x01
- 6aa:	99 27       	eor	r25, r25
- 6ac:	39 d2       	rcall	.+1138   	; 0xb20 <spiPC_write_read>
- 6ae:	8c 0f       	add	r24, r28
- 6b0:	9d 1f       	adc	r25, r29
- 6b2:	f6 01       	movw	r30, r12
- 6b4:	80 83       	st	Z, r24
- 6b6:	91 83       	std	Z+1, r25	; 0x01
+	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.attitude_command))) << 8;					
+ 662:	89 81       	ldd	r24, Y+1	; 0x01
+ 664:	90 e0       	ldi	r25, 0x00	; 0
+ 666:	4a d2       	rcall	.+1172   	; 0xafc <spiPC_write_read>
+ 668:	18 2f       	mov	r17, r24
+ 66a:	00 e0       	ldi	r16, 0x00	; 0
+ 66c:	0f 2e       	mov	r0, r31
+ 66e:	f8 e6       	ldi	r31, 0x68	; 104
+ 670:	ef 2e       	mov	r14, r31
+ 672:	f0 e2       	ldi	r31, 0x20	; 32
+ 674:	ff 2e       	mov	r15, r31
+ 676:	f0 2d       	mov	r31, r0
+ 678:	f7 01       	movw	r30, r14
+ 67a:	00 83       	st	Z, r16
+ 67c:	11 83       	std	Z+1, r17	; 0x01
+	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.attitude_command));			
+ 67e:	88 81       	ld	r24, Y
+ 680:	99 81       	ldd	r25, Y+1	; 0x01
+ 682:	99 27       	eor	r25, r25
+ 684:	3b d2       	rcall	.+1142   	; 0xafc <spiPC_write_read>
+ 686:	80 0f       	add	r24, r16
+ 688:	91 1f       	adc	r25, r17
+ 68a:	f7 01       	movw	r30, r14
+ 68c:	80 83       	st	Z, r24
+ 68e:	91 83       	std	Z+1, r25	; 0x01
 	
 	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;
- 6b8:	cc e0       	ldi	r28, 0x0C	; 12
- 6ba:	d1 e2       	ldi	r29, 0x21	; 33
- 6bc:	89 81       	ldd	r24, Y+1	; 0x01
- 6be:	90 e0       	ldi	r25, 0x00	; 0
- 6c0:	2f d2       	rcall	.+1118   	; 0xb20 <spiPC_write_read>
- 6c2:	10 92 55 20 	sts	0x2055, r1
- 6c6:	80 93 56 20 	sts	0x2056, r24
+ 690:	c2 e0       	ldi	r28, 0x02	; 2
+ 692:	d1 e2       	ldi	r29, 0x21	; 33
+ 694:	89 81       	ldd	r24, Y+1	; 0x01
+ 696:	90 e0       	ldi	r25, 0x00	; 0
+ 698:	31 d2       	rcall	.+1122   	; 0xafc <spiPC_write_read>
+ 69a:	10 92 4b 20 	sts	0x204B, r1
+ 69e:	80 93 4c 20 	sts	0x204C, r24
 	command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
- 6ca:	88 81       	ld	r24, Y
- 6cc:	99 81       	ldd	r25, Y+1	; 0x01
- 6ce:	99 27       	eor	r25, r25
- 6d0:	27 d2       	rcall	.+1102   	; 0xb20 <spiPC_write_read>
- 6d2:	20 91 55 20 	lds	r18, 0x2055
- 6d6:	30 91 56 20 	lds	r19, 0x2056
- 6da:	82 0f       	add	r24, r18
- 6dc:	93 1f       	adc	r25, r19
- 6de:	80 93 55 20 	sts	0x2055, r24
- 6e2:	90 93 56 20 	sts	0x2056, r25
+ 6a2:	88 81       	ld	r24, Y
+ 6a4:	99 81       	ldd	r25, Y+1	; 0x01
+ 6a6:	99 27       	eor	r25, r25
+ 6a8:	29 d2       	rcall	.+1106   	; 0xafc <spiPC_write_read>
+ 6aa:	20 91 4b 20 	lds	r18, 0x204B
+ 6ae:	30 91 4c 20 	lds	r19, 0x204C
+ 6b2:	82 0f       	add	r24, r18
+ 6b4:	93 1f       	adc	r25, r19
+ 6b6:	80 93 4b 20 	sts	0x204B, r24
+ 6ba:	90 93 4c 20 	sts	0x204C, r25
 	
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);													
- 6e6:	8c ec       	ldi	r24, 0xCC	; 204
- 6e8:	90 e0       	ldi	r25, 0x00	; 0
- 6ea:	1a d2       	rcall	.+1076   	; 0xb20 <spiPC_write_read>
- 6ec:	80 93 57 20 	sts	0x2057, r24
+ 6be:	8c ec       	ldi	r24, 0xCC	; 204
+ 6c0:	90 e0       	ldi	r25, 0x00	; 0
+ 6c2:	1c d2       	rcall	.+1080   	; 0xafc <spiPC_write_read>
+ 6c4:	80 93 4d 20 	sts	0x204D, r24
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);			
- 6f0:	8c ec       	ldi	r24, 0xCC	; 204
- 6f2:	90 e0       	ldi	r25, 0x00	; 0
- 6f4:	15 d2       	rcall	.+1066   	; 0xb20 <spiPC_write_read>
- 6f6:	80 93 57 20 	sts	0x2057, r24
+ 6c8:	8c ec       	ldi	r24, 0xCC	; 204
+ 6ca:	90 e0       	ldi	r25, 0x00	; 0
+ 6cc:	17 d2       	rcall	.+1070   	; 0xafc <spiPC_write_read>
+ 6ce:	80 93 4d 20 	sts	0x204D, r24
 	//rollAxis.Kp = pitchAxis.Kp;
 	//rollAxis.Ki = rollAxis.Ki;
 	//rollAxis.Kd_rate = rollAxis.Kd_rate;										
 	
 	
 	PORTE.OUTSET = PIN4_bm;
- 6fa:	f8 01       	movw	r30, r16
- 6fc:	f5 82       	std	Z+5, r15	; 0x05
+ 6d2:	f5 01       	movw	r30, r10
+ 6d4:	75 82       	std	Z+5, r7	; 0x05
 	
 	return command;
 	
 }
- 6fe:	80 91 55 20 	lds	r24, 0x2055
- 702:	90 91 56 20 	lds	r25, 0x2056
- 706:	df 91       	pop	r29
- 708:	cf 91       	pop	r28
- 70a:	1f 91       	pop	r17
- 70c:	0f 91       	pop	r16
- 70e:	ff 90       	pop	r15
- 710:	df 90       	pop	r13
- 712:	cf 90       	pop	r12
- 714:	bf 90       	pop	r11
- 716:	af 90       	pop	r10
- 718:	08 95       	ret
+ 6d6:	80 91 4b 20 	lds	r24, 0x204B
+ 6da:	90 91 4c 20 	lds	r25, 0x204C
+ 6de:	df 91       	pop	r29
+ 6e0:	cf 91       	pop	r28
+ 6e2:	1f 91       	pop	r17
+ 6e4:	0f 91       	pop	r16
+ 6e6:	ff 90       	pop	r15
+ 6e8:	ef 90       	pop	r14
+ 6ea:	df 90       	pop	r13
+ 6ec:	cf 90       	pop	r12
+ 6ee:	bf 90       	pop	r11
+ 6f0:	af 90       	pop	r10
+ 6f2:	9f 90       	pop	r9
+ 6f4:	8f 90       	pop	r8
+ 6f6:	7f 90       	pop	r7
+ 6f8:	08 95       	ret
 
-0000071a <UpdateEulerAngles>:
+000006fa <UpdateEulerAngles>:
 OUTPUT:
 DISCRIPTION:   Read in data from the IMU.  Most of the IMU data are 16 bits sorted in 32 bit registers, see
 data sheet for read commands
 *********************************************************************************************************** */
 void UpdateEulerAngles()
 {
- 71a:	0f 93       	push	r16
- 71c:	1f 93       	push	r17
- 71e:	cf 93       	push	r28
- 720:	df 93       	push	r29
+ 6fa:	0f 93       	push	r16
+ 6fc:	1f 93       	push	r17
+ 6fe:	cf 93       	push	r28
+ 700:	df 93       	push	r29
 
 	PORTF.OUTCLR = PIN4_bm;
- 722:	c0 ea       	ldi	r28, 0xA0	; 160
- 724:	d6 e0       	ldi	r29, 0x06	; 6
- 726:	10 e1       	ldi	r17, 0x10	; 16
- 728:	1e 83       	std	Y+6, r17	; 0x06
+ 702:	c0 ea       	ldi	r28, 0xA0	; 160
+ 704:	d6 e0       	ldi	r29, 0x06	; 6
+ 706:	10 e1       	ldi	r17, 0x10	; 16
+ 708:	1e 83       	std	Y+6, r17	; 0x06
 
 	uint8_t dummy_read = 0x00;
 	//psi = yaw  phi = roll    theta = pitch
 	dummy_read = spiIMU_write_read(READ_COMMAND);
- 72a:	80 e0       	ldi	r24, 0x00	; 0
- 72c:	90 e0       	ldi	r25, 0x00	; 0
- 72e:	05 d2       	rcall	.+1034   	; 0xb3a <spiIMU_write_read>
+ 70a:	80 e0       	ldi	r24, 0x00	; 0
+ 70c:	90 e0       	ldi	r25, 0x00	; 0
+ 70e:	03 d2       	rcall	.+1030   	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
- 730:	82 e6       	ldi	r24, 0x62	; 98
- 732:	90 e0       	ldi	r25, 0x00	; 0
- 734:	02 d2       	rcall	.+1028   	; 0xb3a <spiIMU_write_read>
+ 710:	82 e6       	ldi	r24, 0x62	; 98
+ 712:	90 e0       	ldi	r25, 0x00	; 0
+ 714:	00 d2       	rcall	.+1024   	; 0xb16 <spiIMU_write_read>
 	
 	//MSB first
 	rollAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
- 736:	80 e0       	ldi	r24, 0x00	; 0
- 738:	90 e0       	ldi	r25, 0x00	; 0
- 73a:	ff d1       	rcall	.+1022   	; 0xb3a <spiIMU_write_read>
- 73c:	08 2f       	mov	r16, r24
- 73e:	80 e0       	ldi	r24, 0x00	; 0
- 740:	90 e0       	ldi	r25, 0x00	; 0
- 742:	fb d1       	rcall	.+1014   	; 0xb3a <spiIMU_write_read>
- 744:	30 2f       	mov	r19, r16
- 746:	20 e0       	ldi	r18, 0x00	; 0
- 748:	82 2b       	or	r24, r18
- 74a:	93 2b       	or	r25, r19
- 74c:	80 93 29 20 	sts	0x2029, r24
- 750:	90 93 2a 20 	sts	0x202A, r25
+ 716:	80 e0       	ldi	r24, 0x00	; 0
+ 718:	90 e0       	ldi	r25, 0x00	; 0
+ 71a:	fd d1       	rcall	.+1018   	; 0xb16 <spiIMU_write_read>
+ 71c:	08 2f       	mov	r16, r24
+ 71e:	80 e0       	ldi	r24, 0x00	; 0
+ 720:	90 e0       	ldi	r25, 0x00	; 0
+ 722:	f9 d1       	rcall	.+1010   	; 0xb16 <spiIMU_write_read>
+ 724:	30 2f       	mov	r19, r16
+ 726:	20 e0       	ldi	r18, 0x00	; 0
+ 728:	82 2b       	or	r24, r18
+ 72a:	93 2b       	or	r25, r19
+ 72c:	80 93 1f 20 	sts	0x201F, r24
+ 730:	90 93 20 20 	sts	0x2020, r25
 
 	pitchAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_EULER_PSI);
- 754:	80 e0       	ldi	r24, 0x00	; 0
- 756:	90 e0       	ldi	r25, 0x00	; 0
- 758:	f0 d1       	rcall	.+992    	; 0xb3a <spiIMU_write_read>
- 75a:	08 2f       	mov	r16, r24
- 75c:	83 e6       	ldi	r24, 0x63	; 99
- 75e:	90 e0       	ldi	r25, 0x00	; 0
- 760:	ec d1       	rcall	.+984    	; 0xb3a <spiIMU_write_read>
- 762:	30 2f       	mov	r19, r16
- 764:	20 e0       	ldi	r18, 0x00	; 0
- 766:	82 2b       	or	r24, r18
- 768:	93 2b       	or	r25, r19
- 76a:	80 93 76 20 	sts	0x2076, r24
- 76e:	90 93 77 20 	sts	0x2077, r25
+ 734:	80 e0       	ldi	r24, 0x00	; 0
+ 736:	90 e0       	ldi	r25, 0x00	; 0
+ 738:	ee d1       	rcall	.+988    	; 0xb16 <spiIMU_write_read>
+ 73a:	08 2f       	mov	r16, r24
+ 73c:	83 e6       	ldi	r24, 0x63	; 99
+ 73e:	90 e0       	ldi	r25, 0x00	; 0
+ 740:	ea d1       	rcall	.+980    	; 0xb16 <spiIMU_write_read>
+ 742:	30 2f       	mov	r19, r16
+ 744:	20 e0       	ldi	r18, 0x00	; 0
+ 746:	82 2b       	or	r24, r18
+ 748:	93 2b       	or	r25, r19
+ 74a:	80 93 6c 20 	sts	0x206C, r24
+ 74e:	90 93 6d 20 	sts	0x206D, r25
 	
 	yawAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
- 772:	80 e0       	ldi	r24, 0x00	; 0
- 774:	90 e0       	ldi	r25, 0x00	; 0
- 776:	e1 d1       	rcall	.+962    	; 0xb3a <spiIMU_write_read>
- 778:	08 2f       	mov	r16, r24
- 77a:	80 e0       	ldi	r24, 0x00	; 0
- 77c:	90 e0       	ldi	r25, 0x00	; 0
- 77e:	dd d1       	rcall	.+954    	; 0xb3a <spiIMU_write_read>
- 780:	30 2f       	mov	r19, r16
- 782:	20 e0       	ldi	r18, 0x00	; 0
- 784:	82 2b       	or	r24, r18
- 786:	93 2b       	or	r25, r19
- 788:	80 93 0a 21 	sts	0x210A, r24
- 78c:	90 93 0b 21 	sts	0x210B, r25
+ 752:	80 e0       	ldi	r24, 0x00	; 0
+ 754:	90 e0       	ldi	r25, 0x00	; 0
+ 756:	df d1       	rcall	.+958    	; 0xb16 <spiIMU_write_read>
+ 758:	08 2f       	mov	r16, r24
+ 75a:	80 e0       	ldi	r24, 0x00	; 0
+ 75c:	90 e0       	ldi	r25, 0x00	; 0
+ 75e:	db d1       	rcall	.+950    	; 0xb16 <spiIMU_write_read>
+ 760:	30 2f       	mov	r19, r16
+ 762:	20 e0       	ldi	r18, 0x00	; 0
+ 764:	82 2b       	or	r24, r18
+ 766:	93 2b       	or	r25, r19
+ 768:	80 93 00 21 	sts	0x2100, r24
+ 76c:	90 93 01 21 	sts	0x2101, r25
 
 	dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);			// reserved bytes
- 790:	80 e0       	ldi	r24, 0x00	; 0
- 792:	90 e0       	ldi	r25, 0x00	; 0
- 794:	d2 d1       	rcall	.+932    	; 0xb3a <spiIMU_write_read>
- 796:	8c e5       	ldi	r24, 0x5C	; 92
- 798:	90 e0       	ldi	r25, 0x00	; 0
- 79a:	cf d1       	rcall	.+926    	; 0xb3a <spiIMU_write_read>
+ 770:	80 e0       	ldi	r24, 0x00	; 0
+ 772:	90 e0       	ldi	r25, 0x00	; 0
+ 774:	d0 d1       	rcall	.+928    	; 0xb16 <spiIMU_write_read>
+ 776:	8c e5       	ldi	r24, 0x5C	; 92
+ 778:	90 e0       	ldi	r25, 0x00	; 0
+ 77a:	cd d1       	rcall	.+922    	; 0xb16 <spiIMU_write_read>
 	
 	pitchAxis.rate_feedback  = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
- 79c:	80 e0       	ldi	r24, 0x00	; 0
- 79e:	90 e0       	ldi	r25, 0x00	; 0
- 7a0:	cc d1       	rcall	.+920    	; 0xb3a <spiIMU_write_read>
- 7a2:	08 2f       	mov	r16, r24
- 7a4:	80 e0       	ldi	r24, 0x00	; 0
- 7a6:	90 e0       	ldi	r25, 0x00	; 0
- 7a8:	c8 d1       	rcall	.+912    	; 0xb3a <spiIMU_write_read>
- 7aa:	30 2f       	mov	r19, r16
- 7ac:	20 e0       	ldi	r18, 0x00	; 0
- 7ae:	82 2b       	or	r24, r18
- 7b0:	93 2b       	or	r25, r19
- 7b2:	80 93 78 20 	sts	0x2078, r24
- 7b6:	90 93 79 20 	sts	0x2079, r25
+ 77c:	80 e0       	ldi	r24, 0x00	; 0
+ 77e:	90 e0       	ldi	r25, 0x00	; 0
+ 780:	ca d1       	rcall	.+916    	; 0xb16 <spiIMU_write_read>
+ 782:	08 2f       	mov	r16, r24
+ 784:	80 e0       	ldi	r24, 0x00	; 0
+ 786:	90 e0       	ldi	r25, 0x00	; 0
+ 788:	c6 d1       	rcall	.+908    	; 0xb16 <spiIMU_write_read>
+ 78a:	30 2f       	mov	r19, r16
+ 78c:	20 e0       	ldi	r18, 0x00	; 0
+ 78e:	82 2b       	or	r24, r18
+ 790:	93 2b       	or	r25, r19
+ 792:	80 93 6e 20 	sts	0x206E, r24
+ 796:	90 93 6f 20 	sts	0x206F, r25
 
 	rollAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_GYRO_PROC_Z);
- 7ba:	80 e0       	ldi	r24, 0x00	; 0
- 7bc:	90 e0       	ldi	r25, 0x00	; 0
- 7be:	bd d1       	rcall	.+890    	; 0xb3a <spiIMU_write_read>
- 7c0:	08 2f       	mov	r16, r24
- 7c2:	8d e5       	ldi	r24, 0x5D	; 93
- 7c4:	90 e0       	ldi	r25, 0x00	; 0
- 7c6:	b9 d1       	rcall	.+882    	; 0xb3a <spiIMU_write_read>
- 7c8:	30 2f       	mov	r19, r16
- 7ca:	20 e0       	ldi	r18, 0x00	; 0
- 7cc:	82 2b       	or	r24, r18
- 7ce:	93 2b       	or	r25, r19
- 7d0:	80 93 2b 20 	sts	0x202B, r24
- 7d4:	90 93 2c 20 	sts	0x202C, r25
+ 79a:	80 e0       	ldi	r24, 0x00	; 0
+ 79c:	90 e0       	ldi	r25, 0x00	; 0
+ 79e:	bb d1       	rcall	.+886    	; 0xb16 <spiIMU_write_read>
+ 7a0:	08 2f       	mov	r16, r24
+ 7a2:	8d e5       	ldi	r24, 0x5D	; 93
+ 7a4:	90 e0       	ldi	r25, 0x00	; 0
+ 7a6:	b7 d1       	rcall	.+878    	; 0xb16 <spiIMU_write_read>
+ 7a8:	30 2f       	mov	r19, r16
+ 7aa:	20 e0       	ldi	r18, 0x00	; 0
+ 7ac:	82 2b       	or	r24, r18
+ 7ae:	93 2b       	or	r25, r19
+ 7b0:	80 93 21 20 	sts	0x2021, r24
+ 7b4:	90 93 22 20 	sts	0x2022, r25
 	
 	yawAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
- 7d8:	80 e0       	ldi	r24, 0x00	; 0
- 7da:	90 e0       	ldi	r25, 0x00	; 0
- 7dc:	ae d1       	rcall	.+860    	; 0xb3a <spiIMU_write_read>
- 7de:	08 2f       	mov	r16, r24
- 7e0:	80 e0       	ldi	r24, 0x00	; 0
- 7e2:	90 e0       	ldi	r25, 0x00	; 0
- 7e4:	aa d1       	rcall	.+852    	; 0xb3a <spiIMU_write_read>
- 7e6:	30 2f       	mov	r19, r16
- 7e8:	20 e0       	ldi	r18, 0x00	; 0
- 7ea:	82 2b       	or	r24, r18
- 7ec:	93 2b       	or	r25, r19
- 7ee:	80 93 0c 21 	sts	0x210C, r24
- 7f2:	90 93 0d 21 	sts	0x210D, r25
+ 7b8:	80 e0       	ldi	r24, 0x00	; 0
+ 7ba:	90 e0       	ldi	r25, 0x00	; 0
+ 7bc:	ac d1       	rcall	.+856    	; 0xb16 <spiIMU_write_read>
+ 7be:	08 2f       	mov	r16, r24
+ 7c0:	80 e0       	ldi	r24, 0x00	; 0
+ 7c2:	90 e0       	ldi	r25, 0x00	; 0
+ 7c4:	a8 d1       	rcall	.+848    	; 0xb16 <spiIMU_write_read>
+ 7c6:	30 2f       	mov	r19, r16
+ 7c8:	20 e0       	ldi	r18, 0x00	; 0
+ 7ca:	82 2b       	or	r24, r18
+ 7cc:	93 2b       	or	r25, r19
+ 7ce:	80 93 02 21 	sts	0x2102, r24
+ 7d2:	90 93 03 21 	sts	0x2103, r25
 
 	dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
- 7f6:	80 e0       	ldi	r24, 0x00	; 0
- 7f8:	90 e0       	ldi	r25, 0x00	; 0
- 7fa:	9f d1       	rcall	.+830    	; 0xb3a <spiIMU_write_read>
- 7fc:	80 e0       	ldi	r24, 0x00	; 0
- 7fe:	90 e0       	ldi	r25, 0x00	; 0
- 800:	9c d1       	rcall	.+824    	; 0xb3a <spiIMU_write_read>
+ 7d6:	80 e0       	ldi	r24, 0x00	; 0
+ 7d8:	90 e0       	ldi	r25, 0x00	; 0
+ 7da:	9d d1       	rcall	.+826    	; 0xb16 <spiIMU_write_read>
+ 7dc:	80 e0       	ldi	r24, 0x00	; 0
+ 7de:	90 e0       	ldi	r25, 0x00	; 0
+ 7e0:	9a d1       	rcall	.+820    	; 0xb16 <spiIMU_write_read>
 	
 
 
 	PORTF.OUTSET = PIN4_bm;
- 802:	1d 83       	std	Y+5, r17	; 0x05
+ 7e2:	1d 83       	std	Y+5, r17	; 0x05
 	//
 	//rollAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
 	//pitchAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
 	//yawAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
 	
 }
- 804:	df 91       	pop	r29
- 806:	cf 91       	pop	r28
- 808:	1f 91       	pop	r17
- 80a:	0f 91       	pop	r16
- 80c:	08 95       	ret
+ 7e4:	df 91       	pop	r29
+ 7e6:	cf 91       	pop	r28
+ 7e8:	1f 91       	pop	r17
+ 7ea:	0f 91       	pop	r16
+ 7ec:	08 95       	ret
 
-0000080e <ControlLoop>:
+000007ee <ControlLoop>:
 *********************************************************************************************************** */
 void ControlLoop()
 {
 	
-	
+
 	int16counter++;
- 80e:	80 91 36 21 	lds	r24, 0x2136
- 812:	90 91 37 21 	lds	r25, 0x2137
- 816:	01 96       	adiw	r24, 0x01	; 1
- 818:	80 93 36 21 	sts	0x2136, r24
- 81c:	90 93 37 21 	sts	0x2137, r25
+ 7ee:	80 91 2c 21 	lds	r24, 0x212C
+ 7f2:	90 91 2d 21 	lds	r25, 0x212D
+ 7f6:	01 96       	adiw	r24, 0x01	; 1
+ 7f8:	80 93 2c 21 	sts	0x212C, r24
+ 7fc:	90 93 2d 21 	sts	0x212D, r25
 	UpdateEulerAngles();
- 820:	7c df       	rcall	.-264    	; 0x71a <UpdateEulerAngles>
+ 800:	7c df       	rcall	.-264    	; 0x6fa <UpdateEulerAngles>
 	SetPulseWidths();
- 822:	09 de       	rcall	.-1006   	; 0x436 <SetPulseWidths>
-	PI_attitude_rate(&pitchAxis);
- 824:	88 e5       	ldi	r24, 0x58	; 88
- 826:	90 e2       	ldi	r25, 0x20	; 32
- 828:	0a dd       	rcall	.-1516   	; 0x23e <PI_attitude_rate>
+ 802:	23 de       	rcall	.-954    	; 0x44a <SetPulseWidths>
+	//PI_attitude_rate(&pitchAxis);
+	pid_attitude_rate(&pitchAxis);
+ 804:	8e e4       	ldi	r24, 0x4E	; 78
+ 806:	90 e2       	ldi	r25, 0x20	; 32
+ 808:	1a dd       	rcall	.-1484   	; 0x23e <pid_attitude_rate>
 	//PI_rate(&pitchAxis);
-	
+
 	if (int16counter >= 31)
- 82a:	80 91 36 21 	lds	r24, 0x2136
- 82e:	90 91 37 21 	lds	r25, 0x2137
- 832:	4f 97       	sbiw	r24, 0x1f	; 31
- 834:	48 f0       	brcs	.+18     	; 0x848 <ControlLoop+0x3a>
+ 80a:	80 91 2c 21 	lds	r24, 0x212C
+ 80e:	90 91 2d 21 	lds	r25, 0x212D
+ 812:	4f 97       	sbiw	r24, 0x1f	; 31
+ 814:	28 f0       	brcs	.+10     	; 0x820 <ControlLoop+0x32>
 
 	{
-		WriteToPC_SPI();
- 836:	58 de       	rcall	.-848    	; 0x4e8 <WriteToPC_SPI>
-		PORTA.OUTTGL = PIN2_bm;
- 838:	84 e0       	ldi	r24, 0x04	; 4
- 83a:	e0 e0       	ldi	r30, 0x00	; 0
- 83c:	f6 e0       	ldi	r31, 0x06	; 6
- 83e:	87 83       	std	Z+7, r24	; 0x07
-		int16counter = 0;
- 840:	10 92 36 21 	sts	0x2136, r1
- 844:	10 92 37 21 	sts	0x2137, r1
- 848:	08 95       	ret
 
-0000084a <init32MHzClock>:
+		WriteToPC_SPI();	// 400uSec	
+ 816:	72 de       	rcall	.-796    	; 0x4fc <WriteToPC_SPI>
+		int16counter = 0;
+ 818:	10 92 2c 21 	sts	0x212C, r1
+ 81c:	10 92 2d 21 	sts	0x212D, r1
+ 820:	08 95       	ret
+
+00000822 <init32MHzClock>:
 *********************************************************************************************************** */
 void init32MHzClock(void)
 {
 
 	//	Enable the 32 MHz internal RC oscillator.
 	OSC.CTRL|=OSC_RC32MEN_bm;
- 84a:	e0 e5       	ldi	r30, 0x50	; 80
- 84c:	f0 e0       	ldi	r31, 0x00	; 0
- 84e:	80 81       	ld	r24, Z
- 850:	82 60       	ori	r24, 0x02	; 2
- 852:	80 83       	st	Z, r24
+ 822:	e0 e5       	ldi	r30, 0x50	; 80
+ 824:	f0 e0       	ldi	r31, 0x00	; 0
+ 826:	80 81       	ld	r24, Z
+ 828:	82 60       	ori	r24, 0x02	; 2
+ 82a:	80 83       	st	Z, r24
 	//	The R32MRFY flag is set when the 32 MHz internal RC oscillator is stable
 	//	and ready to be used as the System Clock source.
 	while(!(OSC.STATUS &OSC_RC32MRDY_bm ));
- 854:	81 81       	ldd	r24, Z+1	; 0x01
- 856:	81 ff       	sbrs	r24, 1
- 858:	fd cf       	rjmp	.-6      	; 0x854 <init32MHzClock+0xa>
+ 82c:	81 81       	ldd	r24, Z+1	; 0x01
+ 82e:	81 ff       	sbrs	r24, 1
+ 830:	fd cf       	rjmp	.-6      	; 0x82c <init32MHzClock+0xa>
 	CCP=CCP_IOREG_gc;
- 85a:	88 ed       	ldi	r24, 0xD8	; 216
- 85c:	84 bf       	out	0x34, r24	; 52
+ 832:	88 ed       	ldi	r24, 0xD8	; 216
+ 834:	84 bf       	out	0x34, r24	; 52
 	//	Select the 32MHz RC oscillator for the system clock
 	CLK.CTRL = CLK_SCLKSEL_RC32M_gc;
- 85e:	81 e0       	ldi	r24, 0x01	; 1
- 860:	80 93 40 00 	sts	0x0040, r24
- 864:	08 95       	ret
+ 836:	81 e0       	ldi	r24, 0x01	; 1
+ 838:	80 93 40 00 	sts	0x0040, r24
+ 83c:	08 95       	ret
 
-00000866 <intiLoopTimer>:
+0000083e <intiLoopTimer>:
 void intiLoopTimer()
 {
 	
 
 	// Set the timer prescale.
 	TCD0.CTRLA = TC_CLKSEL_DIV4_gc;
- 866:	e0 e0       	ldi	r30, 0x00	; 0
- 868:	f9 e0       	ldi	r31, 0x09	; 9
- 86a:	83 e0       	ldi	r24, 0x03	; 3
- 86c:	80 83       	st	Z, r24
+ 83e:	e0 e0       	ldi	r30, 0x00	; 0
+ 840:	f9 e0       	ldi	r31, 0x09	; 9
+ 842:	83 e0       	ldi	r24, 0x03	; 3
+ 844:	80 83       	st	Z, r24
 
 	/* Configure the timer for normal counting. */
 	TCD0.CTRLB = TC_WGMODE_NORMAL_gc;
- 86e:	11 82       	std	Z+1, r1	; 0x01
+ 846:	11 82       	std	Z+1, r1	; 0x01
 
 	
 	// 21000 counts set f = 305HZ by trial and error
 	// frequency depends on IMU SPI clock pre scaler?
-	TCD0.PER = 18000;
- 870:	80 e5       	ldi	r24, 0x50	; 80
- 872:	96 e4       	ldi	r25, 0x46	; 70
- 874:	86 a3       	std	Z+38, r24	; 0x26
- 876:	97 a3       	std	Z+39, r25	; 0x27
-	//TCD0.PER = 40000;
+	// TCD0.PER = 18000;
+	TCD0.PER = 21000;
+ 848:	88 e0       	ldi	r24, 0x08	; 8
+ 84a:	92 e5       	ldi	r25, 0x52	; 82
+ 84c:	86 a3       	std	Z+38, r24	; 0x26
+ 84e:	97 a3       	std	Z+39, r25	; 0x27
 
 	//Configure timer to generate an interrupt on overflow. */
 	TCD0.INTCTRLA = TC_OVFINTLVL_LO_gc;
- 878:	81 e0       	ldi	r24, 0x01	; 1
- 87a:	86 83       	std	Z+6, r24	; 0x06
+ 850:	81 e0       	ldi	r24, 0x01	; 1
+ 852:	86 83       	std	Z+6, r24	; 0x06
 
 	/* Enable this interrupt level. */
 	PMIC.CTRL |= PMIC_LOLVLEN_bm;
- 87c:	e0 ea       	ldi	r30, 0xA0	; 160
- 87e:	f0 e0       	ldi	r31, 0x00	; 0
- 880:	82 81       	ldd	r24, Z+2	; 0x02
- 882:	81 60       	ori	r24, 0x01	; 1
- 884:	82 83       	std	Z+2, r24	; 0x02
- 886:	08 95       	ret
+ 854:	e0 ea       	ldi	r30, 0xA0	; 160
+ 856:	f0 e0       	ldi	r31, 0x00	; 0
+ 858:	82 81       	ldd	r24, Z+2	; 0x02
+ 85a:	81 60       	ori	r24, 0x01	; 1
+ 85c:	82 83       	std	Z+2, r24	; 0x02
+ 85e:	08 95       	ret
 
-00000888 <zeroSensor>:
+00000860 <zeroSensor>:
 
 
 
 
 uint8_t zeroSensor()
 {
- 888:	1f 93       	push	r17
- 88a:	cf 93       	push	r28
- 88c:	df 93       	push	r29
+ 860:	1f 93       	push	r17
+ 862:	cf 93       	push	r28
+ 864:	df 93       	push	r29
 	
 	PORTF.OUTCLR = PIN4_bm;
- 88e:	c0 ea       	ldi	r28, 0xA0	; 160
- 890:	d6 e0       	ldi	r29, 0x06	; 6
- 892:	10 e1       	ldi	r17, 0x10	; 16
- 894:	1e 83       	std	Y+6, r17	; 0x06
+ 866:	c0 ea       	ldi	r28, 0xA0	; 160
+ 868:	d6 e0       	ldi	r29, 0x06	; 6
+ 86a:	10 e1       	ldi	r17, 0x10	; 16
+ 86c:	1e 83       	std	Y+6, r17	; 0x06
 	//zero mad 0xB0
 	
 	uint8_t dummy_read = 0x00;
 	//psi = yaw  phi = roll    theta = pitch
 	//0x01 0xAC 0x00 0x00 0x00 0x00
 	dummy_read = spiIMU_write_read(WRITE_COMMAND);
- 896:	81 e0       	ldi	r24, 0x01	; 1
- 898:	90 e0       	ldi	r25, 0x00	; 0
- 89a:	4f d1       	rcall	.+670    	; 0xb3a <spiIMU_write_read>
+ 86e:	81 e0       	ldi	r24, 0x01	; 1
+ 870:	90 e0       	ldi	r25, 0x00	; 0
+ 872:	51 d1       	rcall	.+674    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(ZERO_GYROS);
- 89c:	8c ea       	ldi	r24, 0xAC	; 172
- 89e:	90 e0       	ldi	r25, 0x00	; 0
- 8a0:	4c d1       	rcall	.+664    	; 0xb3a <spiIMU_write_read>
+ 874:	8c ea       	ldi	r24, 0xAC	; 172
+ 876:	90 e0       	ldi	r25, 0x00	; 0
+ 878:	4e d1       	rcall	.+668    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8a2:	80 e0       	ldi	r24, 0x00	; 0
- 8a4:	90 e0       	ldi	r25, 0x00	; 0
- 8a6:	49 d1       	rcall	.+658    	; 0xb3a <spiIMU_write_read>
+ 87a:	80 e0       	ldi	r24, 0x00	; 0
+ 87c:	90 e0       	ldi	r25, 0x00	; 0
+ 87e:	4b d1       	rcall	.+662    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8a8:	80 e0       	ldi	r24, 0x00	; 0
- 8aa:	90 e0       	ldi	r25, 0x00	; 0
- 8ac:	46 d1       	rcall	.+652    	; 0xb3a <spiIMU_write_read>
+ 880:	80 e0       	ldi	r24, 0x00	; 0
+ 882:	90 e0       	ldi	r25, 0x00	; 0
+ 884:	48 d1       	rcall	.+656    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8ae:	80 e0       	ldi	r24, 0x00	; 0
- 8b0:	90 e0       	ldi	r25, 0x00	; 0
- 8b2:	43 d1       	rcall	.+646    	; 0xb3a <spiIMU_write_read>
+ 886:	80 e0       	ldi	r24, 0x00	; 0
+ 888:	90 e0       	ldi	r25, 0x00	; 0
+ 88a:	45 d1       	rcall	.+650    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8b4:	80 e0       	ldi	r24, 0x00	; 0
- 8b6:	90 e0       	ldi	r25, 0x00	; 0
- 8b8:	40 d1       	rcall	.+640    	; 0xb3a <spiIMU_write_read>
+ 88c:	80 e0       	ldi	r24, 0x00	; 0
+ 88e:	90 e0       	ldi	r25, 0x00	; 0
+ 890:	42 d1       	rcall	.+644    	; 0xb16 <spiIMU_write_read>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 8ba:	8f e8       	ldi	r24, 0x8F	; 143
- 8bc:	91 e0       	ldi	r25, 0x01	; 1
- 8be:	01 97       	sbiw	r24, 0x01	; 1
- 8c0:	f1 f7       	brne	.-4      	; 0x8be <zeroSensor+0x36>
- 8c2:	00 c0       	rjmp	.+0      	; 0x8c4 <zeroSensor+0x3c>
- 8c4:	00 00       	nop
+ 892:	8f e8       	ldi	r24, 0x8F	; 143
+ 894:	91 e0       	ldi	r25, 0x01	; 1
+ 896:	01 97       	sbiw	r24, 0x01	; 1
+ 898:	f1 f7       	brne	.-4      	; 0x896 <zeroSensor+0x36>
+ 89a:	00 c0       	rjmp	.+0      	; 0x89c <zeroSensor+0x3c>
+ 89c:	00 00       	nop
 	
 	_delay_us(50);
 	dummy_read = spiIMU_write_read(WRITE_COMMAND);
- 8c6:	81 e0       	ldi	r24, 0x01	; 1
- 8c8:	90 e0       	ldi	r25, 0x00	; 0
- 8ca:	37 d1       	rcall	.+622    	; 0xb3a <spiIMU_write_read>
+ 89e:	81 e0       	ldi	r24, 0x01	; 1
+ 8a0:	90 e0       	ldi	r25, 0x00	; 0
+ 8a2:	39 d1       	rcall	.+626    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(SET_ACCEL_REF);
- 8cc:	8f ea       	ldi	r24, 0xAF	; 175
- 8ce:	90 e0       	ldi	r25, 0x00	; 0
- 8d0:	34 d1       	rcall	.+616    	; 0xb3a <spiIMU_write_read>
+ 8a4:	8f ea       	ldi	r24, 0xAF	; 175
+ 8a6:	90 e0       	ldi	r25, 0x00	; 0
+ 8a8:	36 d1       	rcall	.+620    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8d2:	80 e0       	ldi	r24, 0x00	; 0
- 8d4:	90 e0       	ldi	r25, 0x00	; 0
- 8d6:	31 d1       	rcall	.+610    	; 0xb3a <spiIMU_write_read>
+ 8aa:	80 e0       	ldi	r24, 0x00	; 0
+ 8ac:	90 e0       	ldi	r25, 0x00	; 0
+ 8ae:	33 d1       	rcall	.+614    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8d8:	80 e0       	ldi	r24, 0x00	; 0
- 8da:	90 e0       	ldi	r25, 0x00	; 0
- 8dc:	2e d1       	rcall	.+604    	; 0xb3a <spiIMU_write_read>
+ 8b0:	80 e0       	ldi	r24, 0x00	; 0
+ 8b2:	90 e0       	ldi	r25, 0x00	; 0
+ 8b4:	30 d1       	rcall	.+608    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8de:	80 e0       	ldi	r24, 0x00	; 0
- 8e0:	90 e0       	ldi	r25, 0x00	; 0
- 8e2:	2b d1       	rcall	.+598    	; 0xb3a <spiIMU_write_read>
+ 8b6:	80 e0       	ldi	r24, 0x00	; 0
+ 8b8:	90 e0       	ldi	r25, 0x00	; 0
+ 8ba:	2d d1       	rcall	.+602    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 8e4:	80 e0       	ldi	r24, 0x00	; 0
- 8e6:	90 e0       	ldi	r25, 0x00	; 0
- 8e8:	28 d1       	rcall	.+592    	; 0xb3a <spiIMU_write_read>
- 8ea:	8f e8       	ldi	r24, 0x8F	; 143
- 8ec:	91 e0       	ldi	r25, 0x01	; 1
- 8ee:	01 97       	sbiw	r24, 0x01	; 1
- 8f0:	f1 f7       	brne	.-4      	; 0x8ee <zeroSensor+0x66>
- 8f2:	00 c0       	rjmp	.+0      	; 0x8f4 <zeroSensor+0x6c>
- 8f4:	00 00       	nop
+ 8bc:	80 e0       	ldi	r24, 0x00	; 0
+ 8be:	90 e0       	ldi	r25, 0x00	; 0
+ 8c0:	2a d1       	rcall	.+596    	; 0xb16 <spiIMU_write_read>
+ 8c2:	8f e8       	ldi	r24, 0x8F	; 143
+ 8c4:	91 e0       	ldi	r25, 0x01	; 1
+ 8c6:	01 97       	sbiw	r24, 0x01	; 1
+ 8c8:	f1 f7       	brne	.-4      	; 0x8c6 <zeroSensor+0x66>
+ 8ca:	00 c0       	rjmp	.+0      	; 0x8cc <zeroSensor+0x6c>
+ 8cc:	00 00       	nop
 	
 
 	_delay_us(50);
 	dummy_read = spiIMU_write_read(WRITE_COMMAND);
- 8f6:	81 e0       	ldi	r24, 0x01	; 1
- 8f8:	90 e0       	ldi	r25, 0x00	; 0
- 8fa:	1f d1       	rcall	.+574    	; 0xb3a <spiIMU_write_read>
+ 8ce:	81 e0       	ldi	r24, 0x01	; 1
+ 8d0:	90 e0       	ldi	r25, 0x00	; 0
+ 8d2:	21 d1       	rcall	.+578    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(SET_MAG_REF);
- 8fc:	80 eb       	ldi	r24, 0xB0	; 176
- 8fe:	90 e0       	ldi	r25, 0x00	; 0
- 900:	1c d1       	rcall	.+568    	; 0xb3a <spiIMU_write_read>
+ 8d4:	80 eb       	ldi	r24, 0xB0	; 176
+ 8d6:	90 e0       	ldi	r25, 0x00	; 0
+ 8d8:	1e d1       	rcall	.+572    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 902:	80 e0       	ldi	r24, 0x00	; 0
- 904:	90 e0       	ldi	r25, 0x00	; 0
- 906:	19 d1       	rcall	.+562    	; 0xb3a <spiIMU_write_read>
+ 8da:	80 e0       	ldi	r24, 0x00	; 0
+ 8dc:	90 e0       	ldi	r25, 0x00	; 0
+ 8de:	1b d1       	rcall	.+566    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 908:	80 e0       	ldi	r24, 0x00	; 0
- 90a:	90 e0       	ldi	r25, 0x00	; 0
- 90c:	16 d1       	rcall	.+556    	; 0xb3a <spiIMU_write_read>
+ 8e0:	80 e0       	ldi	r24, 0x00	; 0
+ 8e2:	90 e0       	ldi	r25, 0x00	; 0
+ 8e4:	18 d1       	rcall	.+560    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 90e:	80 e0       	ldi	r24, 0x00	; 0
- 910:	90 e0       	ldi	r25, 0x00	; 0
- 912:	13 d1       	rcall	.+550    	; 0xb3a <spiIMU_write_read>
+ 8e6:	80 e0       	ldi	r24, 0x00	; 0
+ 8e8:	90 e0       	ldi	r25, 0x00	; 0
+ 8ea:	15 d1       	rcall	.+554    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 914:	80 e0       	ldi	r24, 0x00	; 0
- 916:	90 e0       	ldi	r25, 0x00	; 0
- 918:	10 d1       	rcall	.+544    	; 0xb3a <spiIMU_write_read>
- 91a:	8f e8       	ldi	r24, 0x8F	; 143
- 91c:	91 e0       	ldi	r25, 0x01	; 1
- 91e:	01 97       	sbiw	r24, 0x01	; 1
- 920:	f1 f7       	brne	.-4      	; 0x91e <zeroSensor+0x96>
- 922:	00 c0       	rjmp	.+0      	; 0x924 <zeroSensor+0x9c>
- 924:	00 00       	nop
+ 8ec:	80 e0       	ldi	r24, 0x00	; 0
+ 8ee:	90 e0       	ldi	r25, 0x00	; 0
+ 8f0:	12 d1       	rcall	.+548    	; 0xb16 <spiIMU_write_read>
+ 8f2:	8f e8       	ldi	r24, 0x8F	; 143
+ 8f4:	91 e0       	ldi	r25, 0x01	; 1
+ 8f6:	01 97       	sbiw	r24, 0x01	; 1
+ 8f8:	f1 f7       	brne	.-4      	; 0x8f6 <zeroSensor+0x96>
+ 8fa:	00 c0       	rjmp	.+0      	; 0x8fc <zeroSensor+0x9c>
+ 8fc:	00 00       	nop
 	
 	_delay_us(50);
 	dummy_read = spiIMU_write_read(WRITE_COMMAND);
- 926:	81 e0       	ldi	r24, 0x01	; 1
- 928:	90 e0       	ldi	r25, 0x00	; 0
- 92a:	07 d1       	rcall	.+526    	; 0xb3a <spiIMU_write_read>
+ 8fe:	81 e0       	ldi	r24, 0x01	; 1
+ 900:	90 e0       	ldi	r25, 0x00	; 0
+ 902:	09 d1       	rcall	.+530    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(UM6_RESET_EKF);
- 92c:	8d ea       	ldi	r24, 0xAD	; 173
- 92e:	90 e0       	ldi	r25, 0x00	; 0
- 930:	04 d1       	rcall	.+520    	; 0xb3a <spiIMU_write_read>
+ 904:	8d ea       	ldi	r24, 0xAD	; 173
+ 906:	90 e0       	ldi	r25, 0x00	; 0
+ 908:	06 d1       	rcall	.+524    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 932:	80 e0       	ldi	r24, 0x00	; 0
- 934:	90 e0       	ldi	r25, 0x00	; 0
- 936:	01 d1       	rcall	.+514    	; 0xb3a <spiIMU_write_read>
+ 90a:	80 e0       	ldi	r24, 0x00	; 0
+ 90c:	90 e0       	ldi	r25, 0x00	; 0
+ 90e:	03 d1       	rcall	.+518    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 938:	80 e0       	ldi	r24, 0x00	; 0
- 93a:	90 e0       	ldi	r25, 0x00	; 0
- 93c:	fe d0       	rcall	.+508    	; 0xb3a <spiIMU_write_read>
+ 910:	80 e0       	ldi	r24, 0x00	; 0
+ 912:	90 e0       	ldi	r25, 0x00	; 0
+ 914:	00 d1       	rcall	.+512    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 93e:	80 e0       	ldi	r24, 0x00	; 0
- 940:	90 e0       	ldi	r25, 0x00	; 0
- 942:	fb d0       	rcall	.+502    	; 0xb3a <spiIMU_write_read>
+ 916:	80 e0       	ldi	r24, 0x00	; 0
+ 918:	90 e0       	ldi	r25, 0x00	; 0
+ 91a:	fd d0       	rcall	.+506    	; 0xb16 <spiIMU_write_read>
 	dummy_read = spiIMU_write_read(DUMMY_READ);
- 944:	80 e0       	ldi	r24, 0x00	; 0
- 946:	90 e0       	ldi	r25, 0x00	; 0
- 948:	f8 d0       	rcall	.+496    	; 0xb3a <spiIMU_write_read>
+ 91c:	80 e0       	ldi	r24, 0x00	; 0
+ 91e:	90 e0       	ldi	r25, 0x00	; 0
+ 920:	fa d0       	rcall	.+500    	; 0xb16 <spiIMU_write_read>
 	
 
 	PORTF.OUTSET = PIN4_bm;
- 94a:	1d 83       	std	Y+5, r17	; 0x05
+ 922:	1d 83       	std	Y+5, r17	; 0x05
 	
 	return 1;
 	
 }
- 94c:	81 e0       	ldi	r24, 0x01	; 1
- 94e:	df 91       	pop	r29
- 950:	cf 91       	pop	r28
- 952:	1f 91       	pop	r17
- 954:	08 95       	ret
+ 924:	81 e0       	ldi	r24, 0x01	; 1
+ 926:	df 91       	pop	r29
+ 928:	cf 91       	pop	r28
+ 92a:	1f 91       	pop	r17
+ 92c:	08 95       	ret
 
-00000956 <initSystem>:
+0000092e <initSystem>:
   INPUT:
   OUTPUT:
   DISCRIPTION:  Do all the pre control loop set up tasks
 *********************************************************************************************************** */
 uint8_t initSystem()
 {
- 956:	cf 93       	push	r28
- 958:	df 93       	push	r29
+ 92e:	cf 93       	push	r28
+ 930:	df 93       	push	r29
 	PORTA.DIRSET = 0xFF;			//  LEDS
- 95a:	c0 e0       	ldi	r28, 0x00	; 0
- 95c:	d6 e0       	ldi	r29, 0x06	; 6
- 95e:	8f ef       	ldi	r24, 0xFF	; 255
- 960:	89 83       	std	Y+1, r24	; 0x01
+ 932:	c0 e0       	ldi	r28, 0x00	; 0
+ 934:	d6 e0       	ldi	r29, 0x06	; 6
+ 936:	8f ef       	ldi	r24, 0xFF	; 255
+ 938:	89 83       	std	Y+1, r24	; 0x01
 	sei();
- 962:	78 94       	sei
+ 93a:	78 94       	sei
 	initUART();
- 964:	60 d1       	rcall	.+704    	; 0xc26 <initUART>
+ 93c:	62 d1       	rcall	.+708    	; 0xc02 <initUART>
 	spi_set_up();
- 966:	f6 d0       	rcall	.+492    	; 0xb54 <spi_set_up>
+ 93e:	f8 d0       	rcall	.+496    	; 0xb30 <spi_set_up>
 	intPID_gains();
- 968:	92 dd       	rcall	.-1244   	; 0x48e <intPID_gains>
+ 940:	b0 dd       	rcall	.-1184   	; 0x4a2 <intPID_gains>
 	zeroSensor();
- 96a:	8e df       	rcall	.-228    	; 0x888 <zeroSensor>
+ 942:	8e df       	rcall	.-228    	; 0x860 <zeroSensor>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 96c:	2f ef       	ldi	r18, 0xFF	; 255
- 96e:	8f e4       	ldi	r24, 0x4F	; 79
- 970:	93 ec       	ldi	r25, 0xC3	; 195
- 972:	21 50       	subi	r18, 0x01	; 1
- 974:	80 40       	sbci	r24, 0x00	; 0
- 976:	90 40       	sbci	r25, 0x00	; 0
- 978:	e1 f7       	brne	.-8      	; 0x972 <initSystem+0x1c>
- 97a:	00 c0       	rjmp	.+0      	; 0x97c <initSystem+0x26>
- 97c:	00 00       	nop
+ 944:	2f ef       	ldi	r18, 0xFF	; 255
+ 946:	8f e4       	ldi	r24, 0x4F	; 79
+ 948:	93 ec       	ldi	r25, 0xC3	; 195
+ 94a:	21 50       	subi	r18, 0x01	; 1
+ 94c:	80 40       	sbci	r24, 0x00	; 0
+ 94e:	90 40       	sbci	r25, 0x00	; 0
+ 950:	e1 f7       	brne	.-8      	; 0x94a <initSystem+0x1c>
+ 952:	00 c0       	rjmp	.+0      	; 0x954 <initSystem+0x26>
+ 954:	00 00       	nop
 	_delay_ms(2000);
 	zeroSensor();
- 97e:	84 df       	rcall	.-248    	; 0x888 <zeroSensor>
+ 956:	84 df       	rcall	.-248    	; 0x860 <zeroSensor>
 	PORTA.DIRSET = 0x00;			//  LEDS
- 980:	19 82       	std	Y+1, r1	; 0x01
+ 958:	19 82       	std	Y+1, r1	; 0x01
 	return 1;
 
 }
- 982:	81 e0       	ldi	r24, 0x01	; 1
- 984:	df 91       	pop	r29
- 986:	cf 91       	pop	r28
- 988:	08 95       	ret
+ 95a:	81 e0       	ldi	r24, 0x01	; 1
+ 95c:	df 91       	pop	r29
+ 95e:	cf 91       	pop	r28
+ 960:	08 95       	ret
 
-0000098a <main>:
+00000962 <main>:
 OUTPUT:
 DISCRIPTION: Main is used for set up and then just an infinite loop
 *********************************************************************************************************** */
 int main()
 {
 		PORTA.OUTTGL = 0x0F;
- 98a:	8f e0       	ldi	r24, 0x0F	; 15
- 98c:	e0 e0       	ldi	r30, 0x00	; 0
- 98e:	f6 e0       	ldi	r31, 0x06	; 6
- 990:	87 83       	std	Z+7, r24	; 0x07
+ 962:	8f e0       	ldi	r24, 0x0F	; 15
+ 964:	e0 e0       	ldi	r30, 0x00	; 0
+ 966:	f6 e0       	ldi	r31, 0x06	; 6
+ 968:	87 83       	std	Z+7, r24	; 0x07
 		systemState = SYSTEM_STATE_STARTUP;
- 992:	10 92 0a 20 	sts	0x200A, r1
+ 96a:	10 92 00 20 	sts	0x2000, r1
 		init32MHzClock();
- 996:	59 df       	rcall	.-334    	; 0x84a <init32MHzClock>
+ 96e:	59 df       	rcall	.-334    	; 0x822 <init32MHzClock>
 		intiLoopTimer();
- 998:	66 df       	rcall	.-308    	; 0x866 <intiLoopTimer>
+ 970:	66 df       	rcall	.-308    	; 0x83e <intiLoopTimer>
 		initSystem();
- 99a:	dd df       	rcall	.-70     	; 0x956 <initSystem>
+ 972:	dd df       	rcall	.-70     	; 0x92e <initSystem>
 
 		while(1)
 		{
 			nop();
- 99c:	00 00       	nop
- 99e:	fe cf       	rjmp	.-4      	; 0x99c <main+0x12>
+ 974:	00 00       	nop
+ 976:	fe cf       	rjmp	.-4      	; 0x974 <main+0x12>
 
-000009a0 <State>:
+00000978 <State>:
 INPUT:
 OUTPUT:
 DISCRIPTION:   Determine what to do based on systemState.  Used to initializes and arm the quad.
 *********************************************************************************************************** */
 void State()
 {
- 9a0:	1f 93       	push	r17
- 9a2:	cf 93       	push	r28
- 9a4:	df 93       	push	r29
+ 978:	1f 93       	push	r17
+ 97a:	cf 93       	push	r28
+ 97c:	df 93       	push	r29
 	
 	//sendUM6_Data();
 	switch(systemState)
- 9a6:	80 91 0a 20 	lds	r24, 0x200A
- 9aa:	82 30       	cpi	r24, 0x02	; 2
- 9ac:	69 f1       	breq	.+90     	; 0xa08 <State+0x68>
- 9ae:	30 f4       	brcc	.+12     	; 0x9bc <State+0x1c>
- 9b0:	88 23       	and	r24, r24
- 9b2:	59 f0       	breq	.+22     	; 0x9ca <State+0x2a>
- 9b4:	81 30       	cpi	r24, 0x01	; 1
- 9b6:	09 f0       	breq	.+2      	; 0x9ba <State+0x1a>
- 9b8:	79 c0       	rjmp	.+242    	; 0xaac <State+0x10c>
- 9ba:	15 c0       	rjmp	.+42     	; 0x9e6 <State+0x46>
- 9bc:	84 30       	cpi	r24, 0x04	; 4
- 9be:	09 f4       	brne	.+2      	; 0x9c2 <State+0x22>
- 9c0:	41 c0       	rjmp	.+130    	; 0xa44 <State+0xa4>
- 9c2:	85 30       	cpi	r24, 0x05	; 5
- 9c4:	09 f0       	breq	.+2      	; 0x9c8 <State+0x28>
- 9c6:	72 c0       	rjmp	.+228    	; 0xaac <State+0x10c>
- 9c8:	42 c0       	rjmp	.+132    	; 0xa4e <State+0xae>
+ 97e:	80 91 00 20 	lds	r24, 0x2000
+ 982:	82 30       	cpi	r24, 0x02	; 2
+ 984:	69 f1       	breq	.+90     	; 0x9e0 <State+0x68>
+ 986:	30 f4       	brcc	.+12     	; 0x994 <State+0x1c>
+ 988:	88 23       	and	r24, r24
+ 98a:	59 f0       	breq	.+22     	; 0x9a2 <State+0x2a>
+ 98c:	81 30       	cpi	r24, 0x01	; 1
+ 98e:	09 f0       	breq	.+2      	; 0x992 <State+0x1a>
+ 990:	7b c0       	rjmp	.+246    	; 0xa88 <State+0x110>
+ 992:	15 c0       	rjmp	.+42     	; 0x9be <State+0x46>
+ 994:	84 30       	cpi	r24, 0x04	; 4
+ 996:	09 f4       	brne	.+2      	; 0x99a <State+0x22>
+ 998:	41 c0       	rjmp	.+130    	; 0xa1c <State+0xa4>
+ 99a:	85 30       	cpi	r24, 0x05	; 5
+ 99c:	09 f0       	breq	.+2      	; 0x9a0 <State+0x28>
+ 99e:	74 c0       	rjmp	.+232    	; 0xa88 <State+0x110>
+ 9a0:	44 c0       	rjmp	.+136    	; 0xa2a <State+0xb2>
 	{
 		case SYSTEM_STATE_STARTUP:
 			PORTA.OUTTGL = 0x00;
- 9ca:	e0 e0       	ldi	r30, 0x00	; 0
- 9cc:	f6 e0       	ldi	r31, 0x06	; 6
- 9ce:	17 82       	std	Z+7, r1	; 0x07
+ 9a2:	e0 e0       	ldi	r30, 0x00	; 0
+ 9a4:	f6 e0       	ldi	r31, 0x06	; 6
+ 9a6:	17 82       	std	Z+7, r1	; 0x07
 			PORTA.OUTTGL = PIN2_bm;
- 9d0:	84 e0       	ldi	r24, 0x04	; 4
- 9d2:	87 83       	std	Z+7, r24	; 0x07
+ 9a8:	84 e0       	ldi	r24, 0x04	; 4
+ 9aa:	87 83       	std	Z+7, r24	; 0x07
 			if (initSystem() ==  1)
- 9d4:	c0 df       	rcall	.-128    	; 0x956 <initSystem>
- 9d6:	81 30       	cpi	r24, 0x01	; 1
- 9d8:	11 f4       	brne	.+4      	; 0x9de <State+0x3e>
+ 9ac:	c0 df       	rcall	.-128    	; 0x92e <initSystem>
+ 9ae:	81 30       	cpi	r24, 0x01	; 1
+ 9b0:	11 f4       	brne	.+4      	; 0x9b6 <State+0x3e>
 			{
 				systemState = SYSTEM_ZERO;
- 9da:	80 93 0a 20 	sts	0x200A, r24
+ 9b2:	80 93 00 20 	sts	0x2000, r24
 			}
-			PORTA.OUTTGL = 0x00;
- 9de:	e0 e0       	ldi	r30, 0x00	; 0
- 9e0:	f6 e0       	ldi	r31, 0x06	; 6
- 9e2:	17 82       	std	Z+7, r1	; 0x07
+			PORTA.OUTSET = 0x00;
+ 9b6:	e0 e0       	ldi	r30, 0x00	; 0
+ 9b8:	f6 e0       	ldi	r31, 0x06	; 6
+ 9ba:	15 82       	std	Z+5, r1	; 0x05
 			break;
- 9e4:	63 c0       	rjmp	.+198    	; 0xaac <State+0x10c>
+ 9bc:	65 c0       	rjmp	.+202    	; 0xa88 <State+0x110>
 		
 		case SYSTEM_ZERO:
 			// read commands from the PC and zero the system as necessary
 			// PC transaction, read in command and send out sensor data
 			UpdateEulerAngles();
- 9e6:	99 de       	rcall	.-718    	; 0x71a <UpdateEulerAngles>
+ 9be:	9d de       	rcall	.-710    	; 0x6fa <UpdateEulerAngles>
 		
 			PORTA.OUTTGL = PIN3_bm;
- 9e8:	88 e0       	ldi	r24, 0x08	; 8
- 9ea:	e0 e0       	ldi	r30, 0x00	; 0
- 9ec:	f6 e0       	ldi	r31, 0x06	; 6
- 9ee:	87 83       	std	Z+7, r24	; 0x07
+ 9c0:	88 e0       	ldi	r24, 0x08	; 8
+ 9c2:	e0 e0       	ldi	r30, 0x00	; 0
+ 9c4:	f6 e0       	ldi	r31, 0x06	; 6
+ 9c6:	87 83       	std	Z+7, r24	; 0x07
 			//  get the last command sent form the PC, either zero the IMU or get ready to arm the system
 			if (WriteToPC_SPI() == SYSTEM_ZERO)
- 9f0:	7b dd       	rcall	.-1290   	; 0x4e8 <WriteToPC_SPI>
- 9f2:	01 97       	sbiw	r24, 0x01	; 1
- 9f4:	09 f4       	brne	.+2      	; 0x9f8 <State+0x58>
+ 9c8:	99 dd       	rcall	.-1230   	; 0x4fc <WriteToPC_SPI>
+ 9ca:	01 97       	sbiw	r24, 0x01	; 1
+ 9cc:	09 f4       	brne	.+2      	; 0x9d0 <State+0x58>
 			{
 				zeroSensor();
- 9f6:	48 df       	rcall	.-368    	; 0x888 <zeroSensor>
+ 9ce:	48 df       	rcall	.-368    	; 0x860 <zeroSensor>
 			}
 			
 			if (WriteToPC_SPI() == SYSTEM_ARM)
- 9f8:	77 dd       	rcall	.-1298   	; 0x4e8 <WriteToPC_SPI>
- 9fa:	02 97       	sbiw	r24, 0x02	; 2
- 9fc:	09 f0       	breq	.+2      	; 0xa00 <State+0x60>
- 9fe:	56 c0       	rjmp	.+172    	; 0xaac <State+0x10c>
+ 9d0:	95 dd       	rcall	.-1238   	; 0x4fc <WriteToPC_SPI>
+ 9d2:	02 97       	sbiw	r24, 0x02	; 2
+ 9d4:	09 f0       	breq	.+2      	; 0x9d8 <State+0x60>
+ 9d6:	58 c0       	rjmp	.+176    	; 0xa88 <State+0x110>
 			{
 				systemState = SYSTEM_ARM;
- a00:	82 e0       	ldi	r24, 0x02	; 2
- a02:	80 93 0a 20 	sts	0x200A, r24
- a06:	52 c0       	rjmp	.+164    	; 0xaac <State+0x10c>
+ 9d8:	82 e0       	ldi	r24, 0x02	; 2
+ 9da:	80 93 00 20 	sts	0x2000, r24
+ 9de:	54 c0       	rjmp	.+168    	; 0xa88 <State+0x110>
 		
 			break;
 		
 		case SYSTEM_ARM:
 			//Arm the system by enabling the PWM
 			PORTA.OUTTGL = 0x00;
- a08:	c0 e0       	ldi	r28, 0x00	; 0
- a0a:	d6 e0       	ldi	r29, 0x06	; 6
- a0c:	1f 82       	std	Y+7, r1	; 0x07
+ 9e0:	c0 e0       	ldi	r28, 0x00	; 0
+ 9e2:	d6 e0       	ldi	r29, 0x06	; 6
+ 9e4:	1f 82       	std	Y+7, r1	; 0x07
 			PORTA.OUTTGL = PIN2_bm;
- a0e:	14 e0       	ldi	r17, 0x04	; 4
- a10:	1f 83       	std	Y+7, r17	; 0x07
+ 9e6:	14 e0       	ldi	r17, 0x04	; 4
+ 9e8:	1f 83       	std	Y+7, r17	; 0x07
 			initPWM();
- a12:	c8 dc       	rcall	.-1648   	; 0x3a4 <initPWM>
+ 9ea:	e6 dc       	rcall	.-1588   	; 0x3b8 <initPWM>
 			systemState = SYSTEM_STATE_FLY;
- a14:	10 93 0a 20 	sts	0x200A, r17
+ 9ec:	10 93 00 20 	sts	0x2000, r17
+			PORTA.OUTTGL = PIN2_bm;
+ 9f0:	1f 83       	std	Y+7, r17	; 0x07
+ 9f2:	2f ef       	ldi	r18, 0xFF	; 255
+ 9f4:	37 ea       	ldi	r19, 0xA7	; 167
+ 9f6:	81 e6       	ldi	r24, 0x61	; 97
+ 9f8:	21 50       	subi	r18, 0x01	; 1
+ 9fa:	30 40       	sbci	r19, 0x00	; 0
+ 9fc:	80 40       	sbci	r24, 0x00	; 0
+ 9fe:	e1 f7       	brne	.-8      	; 0x9f8 <State+0x80>
+ a00:	00 c0       	rjmp	.+0      	; 0xa02 <State+0x8a>
+ a02:	00 00       	nop
+			_delay_ms(1000);
+			PORTA.OUTTGL = PIN2_bm;
+ a04:	1f 83       	std	Y+7, r17	; 0x07
+ a06:	9f ef       	ldi	r25, 0xFF	; 255
+ a08:	27 ea       	ldi	r18, 0xA7	; 167
+ a0a:	31 e6       	ldi	r19, 0x61	; 97
+ a0c:	91 50       	subi	r25, 0x01	; 1
+ a0e:	20 40       	sbci	r18, 0x00	; 0
+ a10:	30 40       	sbci	r19, 0x00	; 0
+ a12:	e1 f7       	brne	.-8      	; 0xa0c <State+0x94>
+ a14:	00 c0       	rjmp	.+0      	; 0xa16 <State+0x9e>
+ a16:	00 00       	nop
+			_delay_ms(1000);
 			PORTA.OUTTGL = PIN2_bm;
  a18:	1f 83       	std	Y+7, r17	; 0x07
- a1a:	2f ef       	ldi	r18, 0xFF	; 255
- a1c:	37 ea       	ldi	r19, 0xA7	; 167
- a1e:	81 e6       	ldi	r24, 0x61	; 97
- a20:	21 50       	subi	r18, 0x01	; 1
- a22:	30 40       	sbci	r19, 0x00	; 0
- a24:	80 40       	sbci	r24, 0x00	; 0
- a26:	e1 f7       	brne	.-8      	; 0xa20 <State+0x80>
- a28:	00 c0       	rjmp	.+0      	; 0xa2a <State+0x8a>
- a2a:	00 00       	nop
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
- a2c:	1f 83       	std	Y+7, r17	; 0x07
- a2e:	9f ef       	ldi	r25, 0xFF	; 255
- a30:	27 ea       	ldi	r18, 0xA7	; 167
- a32:	31 e6       	ldi	r19, 0x61	; 97
- a34:	91 50       	subi	r25, 0x01	; 1
- a36:	20 40       	sbci	r18, 0x00	; 0
- a38:	30 40       	sbci	r19, 0x00	; 0
- a3a:	e1 f7       	brne	.-8      	; 0xa34 <State+0x94>
- a3c:	00 c0       	rjmp	.+0      	; 0xa3e <State+0x9e>
- a3e:	00 00       	nop
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
- a40:	1f 83       	std	Y+7, r17	; 0x07
 			break;
- a42:	34 c0       	rjmp	.+104    	; 0xaac <State+0x10c>
+ a1a:	36 c0       	rjmp	.+108    	; 0xa88 <State+0x110>
 		
 		case SYSTEM_STATE_FLY:
 			// run the control loop
 			PORTA.OUTCLR = 0x00;
- a44:	e0 e0       	ldi	r30, 0x00	; 0
- a46:	f6 e0       	ldi	r31, 0x06	; 6
- a48:	16 82       	std	Z+6, r1	; 0x06
-			//PORTA.OUTTGL = PIN3_bm;
+ a1c:	e0 e0       	ldi	r30, 0x00	; 0
+ a1e:	f6 e0       	ldi	r31, 0x06	; 6
+ a20:	16 82       	std	Z+6, r1	; 0x06
+			PORTA.OUTTGL = PIN3_bm;
+ a22:	88 e0       	ldi	r24, 0x08	; 8
+ a24:	87 83       	std	Z+7, r24	; 0x07
 			ControlLoop();
- a4a:	e1 de       	rcall	.-574    	; 0x80e <ControlLoop>
+ a26:	e3 de       	rcall	.-570    	; 0x7ee <ControlLoop>
 			break;
- a4c:	2f c0       	rjmp	.+94     	; 0xaac <State+0x10c>
-		
-		case SYSTEM_DISARM:
+ a28:	2f c0       	rjmp	.+94     	; 0xa88 <State+0x110>
+			
+			case SYSTEM_DISARM:
 			
 			DisablePWM();
- a4e:	d4 dc       	rcall	.-1624   	; 0x3f8 <DisablePWM>
+ a2a:	f0 dc       	rcall	.-1568   	; 0x40c <DisablePWM>
 			PORTA.OUTTGL = PIN2_bm;
- a50:	e0 e0       	ldi	r30, 0x00	; 0
- a52:	f6 e0       	ldi	r31, 0x06	; 6
- a54:	84 e0       	ldi	r24, 0x04	; 4
- a56:	87 83       	std	Z+7, r24	; 0x07
- a58:	9f ef       	ldi	r25, 0xFF	; 255
- a5a:	27 ea       	ldi	r18, 0xA7	; 167
- a5c:	31 e6       	ldi	r19, 0x61	; 97
- a5e:	91 50       	subi	r25, 0x01	; 1
- a60:	20 40       	sbci	r18, 0x00	; 0
- a62:	30 40       	sbci	r19, 0x00	; 0
- a64:	e1 f7       	brne	.-8      	; 0xa5e <State+0xbe>
- a66:	00 c0       	rjmp	.+0      	; 0xa68 <State+0xc8>
- a68:	00 00       	nop
+ a2c:	e0 e0       	ldi	r30, 0x00	; 0
+ a2e:	f6 e0       	ldi	r31, 0x06	; 6
+ a30:	84 e0       	ldi	r24, 0x04	; 4
+ a32:	87 83       	std	Z+7, r24	; 0x07
+ a34:	9f ef       	ldi	r25, 0xFF	; 255
+ a36:	27 ea       	ldi	r18, 0xA7	; 167
+ a38:	31 e6       	ldi	r19, 0x61	; 97
+ a3a:	91 50       	subi	r25, 0x01	; 1
+ a3c:	20 40       	sbci	r18, 0x00	; 0
+ a3e:	30 40       	sbci	r19, 0x00	; 0
+ a40:	e1 f7       	brne	.-8      	; 0xa3a <State+0xc2>
+ a42:	00 c0       	rjmp	.+0      	; 0xa44 <State+0xcc>
+ a44:	00 00       	nop
 			_delay_ms(1000);
 			PORTA.OUTTGL = PIN2_bm;
- a6a:	87 83       	std	Z+7, r24	; 0x07
- a6c:	9f ef       	ldi	r25, 0xFF	; 255
- a6e:	27 ea       	ldi	r18, 0xA7	; 167
- a70:	31 e6       	ldi	r19, 0x61	; 97
- a72:	91 50       	subi	r25, 0x01	; 1
- a74:	20 40       	sbci	r18, 0x00	; 0
- a76:	30 40       	sbci	r19, 0x00	; 0
- a78:	e1 f7       	brne	.-8      	; 0xa72 <State+0xd2>
- a7a:	00 c0       	rjmp	.+0      	; 0xa7c <State+0xdc>
- a7c:	00 00       	nop
+ a46:	87 83       	std	Z+7, r24	; 0x07
+ a48:	9f ef       	ldi	r25, 0xFF	; 255
+ a4a:	27 ea       	ldi	r18, 0xA7	; 167
+ a4c:	31 e6       	ldi	r19, 0x61	; 97
+ a4e:	91 50       	subi	r25, 0x01	; 1
+ a50:	20 40       	sbci	r18, 0x00	; 0
+ a52:	30 40       	sbci	r19, 0x00	; 0
+ a54:	e1 f7       	brne	.-8      	; 0xa4e <State+0xd6>
+ a56:	00 c0       	rjmp	.+0      	; 0xa58 <State+0xe0>
+ a58:	00 00       	nop
 			_delay_ms(1000);
 			PORTA.OUTTGL = PIN2_bm;
- a7e:	87 83       	std	Z+7, r24	; 0x07
- a80:	9f ef       	ldi	r25, 0xFF	; 255
- a82:	27 ea       	ldi	r18, 0xA7	; 167
- a84:	31 e6       	ldi	r19, 0x61	; 97
- a86:	91 50       	subi	r25, 0x01	; 1
- a88:	20 40       	sbci	r18, 0x00	; 0
- a8a:	30 40       	sbci	r19, 0x00	; 0
- a8c:	e1 f7       	brne	.-8      	; 0xa86 <State+0xe6>
- a8e:	00 c0       	rjmp	.+0      	; 0xa90 <State+0xf0>
- a90:	00 00       	nop
+ a5a:	87 83       	std	Z+7, r24	; 0x07
+ a5c:	9f ef       	ldi	r25, 0xFF	; 255
+ a5e:	27 ea       	ldi	r18, 0xA7	; 167
+ a60:	31 e6       	ldi	r19, 0x61	; 97
+ a62:	91 50       	subi	r25, 0x01	; 1
+ a64:	20 40       	sbci	r18, 0x00	; 0
+ a66:	30 40       	sbci	r19, 0x00	; 0
+ a68:	e1 f7       	brne	.-8      	; 0xa62 <State+0xea>
+ a6a:	00 c0       	rjmp	.+0      	; 0xa6c <State+0xf4>
+ a6c:	00 00       	nop
 			_delay_ms(1000);
 			PORTA.OUTTGL = PIN2_bm;
- a92:	87 83       	std	Z+7, r24	; 0x07
- a94:	9f ef       	ldi	r25, 0xFF	; 255
- a96:	27 ea       	ldi	r18, 0xA7	; 167
- a98:	31 e6       	ldi	r19, 0x61	; 97
- a9a:	91 50       	subi	r25, 0x01	; 1
- a9c:	20 40       	sbci	r18, 0x00	; 0
- a9e:	30 40       	sbci	r19, 0x00	; 0
- aa0:	e1 f7       	brne	.-8      	; 0xa9a <State+0xfa>
- aa2:	00 c0       	rjmp	.+0      	; 0xaa4 <State+0x104>
- aa4:	00 00       	nop
+ a6e:	87 83       	std	Z+7, r24	; 0x07
+ a70:	9f ef       	ldi	r25, 0xFF	; 255
+ a72:	27 ea       	ldi	r18, 0xA7	; 167
+ a74:	31 e6       	ldi	r19, 0x61	; 97
+ a76:	91 50       	subi	r25, 0x01	; 1
+ a78:	20 40       	sbci	r18, 0x00	; 0
+ a7a:	30 40       	sbci	r19, 0x00	; 0
+ a7c:	e1 f7       	brne	.-8      	; 0xa76 <State+0xfe>
+ a7e:	00 c0       	rjmp	.+0      	; 0xa80 <State+0x108>
+ a80:	00 00       	nop
 			_delay_ms(1000);
 			PORTA.OUTTGL = PIN2_bm;
- aa6:	87 83       	std	Z+7, r24	; 0x07
+ a82:	87 83       	std	Z+7, r24	; 0x07
 			systemState = SYSTEM_STATE_STARTUP;
- aa8:	10 92 0a 20 	sts	0x200A, r1
+ a84:	10 92 00 20 	sts	0x2000, r1
 		
 		default:
 			break;
 		
 	}			// end case
 }
- aac:	df 91       	pop	r29
- aae:	cf 91       	pop	r28
- ab0:	1f 91       	pop	r17
- ab2:	08 95       	ret
+ a88:	df 91       	pop	r29
+ a8a:	cf 91       	pop	r28
+ a8c:	1f 91       	pop	r17
+ a8e:	08 95       	ret
 
-00000ab4 <__vector_77>:
+00000a90 <__vector_77>:
   INPUT:
   OUTPUT:
   DISCRIPTION:   Interrupt vector
 *********************************************************************************************************** */
 ISR(TCD0_OVF_vect)
 {
- ab4:	1f 92       	push	r1
- ab6:	0f 92       	push	r0
- ab8:	0f b6       	in	r0, 0x3f	; 63
- aba:	0f 92       	push	r0
- abc:	11 24       	eor	r1, r1
- abe:	08 b6       	in	r0, 0x38	; 56
- ac0:	0f 92       	push	r0
- ac2:	18 be       	out	0x38, r1	; 56
- ac4:	09 b6       	in	r0, 0x39	; 57
- ac6:	0f 92       	push	r0
- ac8:	19 be       	out	0x39, r1	; 57
- aca:	0b b6       	in	r0, 0x3b	; 59
- acc:	0f 92       	push	r0
- ace:	1b be       	out	0x3b, r1	; 59
- ad0:	2f 93       	push	r18
- ad2:	3f 93       	push	r19
- ad4:	4f 93       	push	r20
- ad6:	5f 93       	push	r21
- ad8:	6f 93       	push	r22
- ada:	7f 93       	push	r23
- adc:	8f 93       	push	r24
- ade:	9f 93       	push	r25
- ae0:	af 93       	push	r26
- ae2:	bf 93       	push	r27
- ae4:	ef 93       	push	r30
- ae6:	ff 93       	push	r31
+ a90:	1f 92       	push	r1
+ a92:	0f 92       	push	r0
+ a94:	0f b6       	in	r0, 0x3f	; 63
+ a96:	0f 92       	push	r0
+ a98:	11 24       	eor	r1, r1
+ a9a:	08 b6       	in	r0, 0x38	; 56
+ a9c:	0f 92       	push	r0
+ a9e:	18 be       	out	0x38, r1	; 56
+ aa0:	09 b6       	in	r0, 0x39	; 57
+ aa2:	0f 92       	push	r0
+ aa4:	19 be       	out	0x39, r1	; 57
+ aa6:	0b b6       	in	r0, 0x3b	; 59
+ aa8:	0f 92       	push	r0
+ aaa:	1b be       	out	0x3b, r1	; 59
+ aac:	2f 93       	push	r18
+ aae:	3f 93       	push	r19
+ ab0:	4f 93       	push	r20
+ ab2:	5f 93       	push	r21
+ ab4:	6f 93       	push	r22
+ ab6:	7f 93       	push	r23
+ ab8:	8f 93       	push	r24
+ aba:	9f 93       	push	r25
+ abc:	af 93       	push	r26
+ abe:	bf 93       	push	r27
+ ac0:	ef 93       	push	r30
+ ac2:	ff 93       	push	r31
 	
 	//ControlLoop();
 	 State();
- ae8:	5b df       	rcall	.-330    	; 0x9a0 <State>
+ ac4:	59 df       	rcall	.-334    	; 0x978 <State>
 	TCD0.CNT = 0;
- aea:	e0 e0       	ldi	r30, 0x00	; 0
- aec:	f9 e0       	ldi	r31, 0x09	; 9
- aee:	10 a2       	std	Z+32, r1	; 0x20
- af0:	11 a2       	std	Z+33, r1	; 0x21
+ ac6:	e0 e0       	ldi	r30, 0x00	; 0
+ ac8:	f9 e0       	ldi	r31, 0x09	; 9
+ aca:	10 a2       	std	Z+32, r1	; 0x20
+ acc:	11 a2       	std	Z+33, r1	; 0x21
 	
 }
- af2:	ff 91       	pop	r31
- af4:	ef 91       	pop	r30
- af6:	bf 91       	pop	r27
- af8:	af 91       	pop	r26
- afa:	9f 91       	pop	r25
- afc:	8f 91       	pop	r24
- afe:	7f 91       	pop	r23
- b00:	6f 91       	pop	r22
- b02:	5f 91       	pop	r21
- b04:	4f 91       	pop	r20
- b06:	3f 91       	pop	r19
- b08:	2f 91       	pop	r18
- b0a:	0f 90       	pop	r0
- b0c:	0b be       	out	0x3b, r0	; 59
- b0e:	0f 90       	pop	r0
- b10:	09 be       	out	0x39, r0	; 57
- b12:	0f 90       	pop	r0
- b14:	08 be       	out	0x38, r0	; 56
- b16:	0f 90       	pop	r0
- b18:	0f be       	out	0x3f, r0	; 63
- b1a:	0f 90       	pop	r0
- b1c:	1f 90       	pop	r1
- b1e:	18 95       	reti
+ ace:	ff 91       	pop	r31
+ ad0:	ef 91       	pop	r30
+ ad2:	bf 91       	pop	r27
+ ad4:	af 91       	pop	r26
+ ad6:	9f 91       	pop	r25
+ ad8:	8f 91       	pop	r24
+ ada:	7f 91       	pop	r23
+ adc:	6f 91       	pop	r22
+ ade:	5f 91       	pop	r21
+ ae0:	4f 91       	pop	r20
+ ae2:	3f 91       	pop	r19
+ ae4:	2f 91       	pop	r18
+ ae6:	0f 90       	pop	r0
+ ae8:	0b be       	out	0x3b, r0	; 59
+ aea:	0f 90       	pop	r0
+ aec:	09 be       	out	0x39, r0	; 57
+ aee:	0f 90       	pop	r0
+ af0:	08 be       	out	0x38, r0	; 56
+ af2:	0f 90       	pop	r0
+ af4:	0f be       	out	0x3f, r0	; 63
+ af6:	0f 90       	pop	r0
+ af8:	1f 90       	pop	r1
+ afa:	18 95       	reti
 
-00000b20 <spiPC_write_read>:
+00000afc <spiPC_write_read>:
 			  Read the data from the data register, this was on MISO
 *********************************************************************************************************** */
 
 unsigned char spiPC_write_read(unsigned char spi_data1)
 {
 	SPIE.DATA = spi_data1;
- b20:	e0 ec       	ldi	r30, 0xC0	; 192
- b22:	fa e0       	ldi	r31, 0x0A	; 10
- b24:	83 83       	std	Z+3, r24	; 0x03
+ afc:	e0 ec       	ldi	r30, 0xC0	; 192
+ afe:	fa e0       	ldi	r31, 0x0A	; 10
+ b00:	83 83       	std	Z+3, r24	; 0x03
 	while(!(SPIE.STATUS & SPI_IF_bm)); // Wait until the data transfer is complete
- b26:	82 81       	ldd	r24, Z+2	; 0x02
- b28:	88 23       	and	r24, r24
- b2a:	ec f7       	brge	.-6      	; 0xb26 <spiPC_write_read+0x6>
+ b02:	82 81       	ldd	r24, Z+2	; 0x02
+ b04:	88 23       	and	r24, r24
+ b06:	ec f7       	brge	.-6      	; 0xb02 <spiPC_write_read+0x6>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- b2c:	80 e4       	ldi	r24, 0x40	; 64
- b2e:	8a 95       	dec	r24
- b30:	f1 f7       	brne	.-4      	; 0xb2e <spiPC_write_read+0xe>
+ b08:	80 e4       	ldi	r24, 0x40	; 64
+ b0a:	8a 95       	dec	r24
+ b0c:	f1 f7       	brne	.-4      	; 0xb0a <spiPC_write_read+0xe>
 	_delay_us(6);
 	return SPIE.DATA;
- b32:	e0 ec       	ldi	r30, 0xC0	; 192
- b34:	fa e0       	ldi	r31, 0x0A	; 10
- b36:	83 81       	ldd	r24, Z+3	; 0x03
+ b0e:	e0 ec       	ldi	r30, 0xC0	; 192
+ b10:	fa e0       	ldi	r31, 0x0A	; 10
+ b12:	83 81       	ldd	r24, Z+3	; 0x03
 }
- b38:	08 95       	ret
+ b14:	08 95       	ret
 
-00000b3a <spiIMU_write_read>:
+00000b16 <spiIMU_write_read>:
 			  Wait until the interrupt flag is set	
 			  Read the data from the data register, this was on MISO
 *********************************************************************************************************** */
 unsigned char spiIMU_write_read(unsigned char spi_data)
 {
 	SPIF.DATA = spi_data;
- b3a:	e0 ec       	ldi	r30, 0xC0	; 192
- b3c:	fb e0       	ldi	r31, 0x0B	; 11
- b3e:	83 83       	std	Z+3, r24	; 0x03
+ b16:	e0 ec       	ldi	r30, 0xC0	; 192
+ b18:	fb e0       	ldi	r31, 0x0B	; 11
+ b1a:	83 83       	std	Z+3, r24	; 0x03
 	while(!(SPIF.STATUS & SPI_IF_bm)); // Wait until the data transfer is complete
- b40:	82 81       	ldd	r24, Z+2	; 0x02
- b42:	88 23       	and	r24, r24
- b44:	ec f7       	brge	.-6      	; 0xb40 <spiIMU_write_read+0x6>
- b46:	80 e2       	ldi	r24, 0x20	; 32
- b48:	8a 95       	dec	r24
- b4a:	f1 f7       	brne	.-4      	; 0xb48 <spiIMU_write_read+0xe>
+ b1c:	82 81       	ldd	r24, Z+2	; 0x02
+ b1e:	88 23       	and	r24, r24
+ b20:	ec f7       	brge	.-6      	; 0xb1c <spiIMU_write_read+0x6>
+ b22:	80 e2       	ldi	r24, 0x20	; 32
+ b24:	8a 95       	dec	r24
+ b26:	f1 f7       	brne	.-4      	; 0xb24 <spiIMU_write_read+0xe>
 	_delay_us(3);
 	return SPIF.DATA;
- b4c:	e0 ec       	ldi	r30, 0xC0	; 192
- b4e:	fb e0       	ldi	r31, 0x0B	; 11
- b50:	83 81       	ldd	r24, Z+3	; 0x03
+ b28:	e0 ec       	ldi	r30, 0xC0	; 192
+ b2a:	fb e0       	ldi	r31, 0x0B	; 11
+ b2c:	83 81       	ldd	r24, Z+3	; 0x03
 }
- b52:	08 95       	ret
+ b2e:	08 95       	ret
 
-00000b54 <spi_set_up>:
+00000b30 <spi_set_up>:
 DISCRIPTION:    Initialize SPI master on port F for the IMU communication.
 			    Initialize SPI master on port F for the PC communication
 *********************************************************************************************************** */
 	
 void spi_set_up()
 {
- b54:	af 92       	push	r10
- b56:	cf 92       	push	r12
- b58:	ef 92       	push	r14
- b5a:	0f 93       	push	r16
- b5c:	cf 93       	push	r28
- b5e:	df 93       	push	r29
+ b30:	af 92       	push	r10
+ b32:	cf 92       	push	r12
+ b34:	ef 92       	push	r14
+ b36:	0f 93       	push	r16
+ b38:	cf 93       	push	r28
+ b3a:	df 93       	push	r29
 	/* Initialize SPI master on port F for the IMU communication. */
 	/* Init SS pin as output with wired AND and pull-up. */
 	//*************************************************************
 	PORTF.DIRSET = PIN4_bm;
- b60:	e0 ea       	ldi	r30, 0xA0	; 160
- b62:	f6 e0       	ldi	r31, 0x06	; 6
- b64:	c0 e1       	ldi	r28, 0x10	; 16
- b66:	c1 83       	std	Z+1, r28	; 0x01
+ b3c:	e0 ea       	ldi	r30, 0xA0	; 160
+ b3e:	f6 e0       	ldi	r31, 0x06	; 6
+ b40:	c0 e1       	ldi	r28, 0x10	; 16
+ b42:	c1 83       	std	Z+1, r28	; 0x01
 	PORTF.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
- b68:	d8 e3       	ldi	r29, 0x38	; 56
- b6a:	d4 8b       	std	Z+20, r29	; 0x14
+ b44:	d8 e3       	ldi	r29, 0x38	; 56
+ b46:	d4 8b       	std	Z+20, r29	; 0x14
 
 	/* Set SS output to high. (No slave addressed). */
 	PORTF.OUTSET = PIN4_bm;
- b6c:	c5 83       	std	Z+5, r28	; 0x05
+ b48:	c5 83       	std	Z+5, r28	; 0x05
 
 	/* Initialize SPI master on port F for the IMU communication. */
 	SPI_MasterInit(&spiMasterF,
- b6e:	0f 2e       	mov	r0, r31
- b70:	f3 e0       	ldi	r31, 0x03	; 3
- b72:	af 2e       	mov	r10, r31
- b74:	f0 2d       	mov	r31, r0
- b76:	c1 2c       	mov	r12, r1
- b78:	e1 2c       	mov	r14, r1
- b7a:	00 e0       	ldi	r16, 0x00	; 0
- b7c:	20 e0       	ldi	r18, 0x00	; 0
- b7e:	40 ea       	ldi	r20, 0xA0	; 160
- b80:	56 e0       	ldi	r21, 0x06	; 6
- b82:	60 ec       	ldi	r22, 0xC0	; 192
- b84:	7b e0       	ldi	r23, 0x0B	; 11
- b86:	88 e3       	ldi	r24, 0x38	; 56
- b88:	91 e2       	ldi	r25, 0x21	; 33
- b8a:	1d d0       	rcall	.+58     	; 0xbc6 <SPI_MasterInit>
+ b4a:	0f 2e       	mov	r0, r31
+ b4c:	f3 e0       	ldi	r31, 0x03	; 3
+ b4e:	af 2e       	mov	r10, r31
+ b50:	f0 2d       	mov	r31, r0
+ b52:	c1 2c       	mov	r12, r1
+ b54:	e1 2c       	mov	r14, r1
+ b56:	00 e0       	ldi	r16, 0x00	; 0
+ b58:	20 e0       	ldi	r18, 0x00	; 0
+ b5a:	40 ea       	ldi	r20, 0xA0	; 160
+ b5c:	56 e0       	ldi	r21, 0x06	; 6
+ b5e:	60 ec       	ldi	r22, 0xC0	; 192
+ b60:	7b e0       	ldi	r23, 0x0B	; 11
+ b62:	8e e2       	ldi	r24, 0x2E	; 46
+ b64:	91 e2       	ldi	r25, 0x21	; 33
+ b66:	1d d0       	rcall	.+58     	; 0xba2 <SPI_MasterInit>
 		SPI_MODE_0_gc,							//The UM6 SPI clock (SCK) is active high, with data clocked in on the first rising edge1
 		SPI_INTLVL_OFF_gc,
 		false,									// false to double clock mode
 		SPI_PRESCALER_DIV128_gc);					//32mHz /128 = 250kHz  MAX rate is 400kHz but there is not prescaler
 
 		SPIF.DATA = 0x00;						// init SPI data register
- b8c:	e0 ec       	ldi	r30, 0xC0	; 192
- b8e:	fb e0       	ldi	r31, 0x0B	; 11
- b90:	13 82       	std	Z+3, r1	; 0x03
+ b68:	e0 ec       	ldi	r30, 0xC0	; 192
+ b6a:	fb e0       	ldi	r31, 0x0B	; 11
+ b6c:	13 82       	std	Z+3, r1	; 0x03
 		
 		
 		/* Initialize SPI master on port F for the PC communication */
 		//*************************************************************
 		/* Init SS pin as output with wired AND and pull-up. */
 		PORTE.DIRSET = PIN4_bm;
- b92:	e0 e8       	ldi	r30, 0x80	; 128
- b94:	f6 e0       	ldi	r31, 0x06	; 6
- b96:	c1 83       	std	Z+1, r28	; 0x01
+ b6e:	e0 e8       	ldi	r30, 0x80	; 128
+ b70:	f6 e0       	ldi	r31, 0x06	; 6
+ b72:	c1 83       	std	Z+1, r28	; 0x01
 		PORTE.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
- b98:	d4 8b       	std	Z+20, r29	; 0x14
+ b74:	d4 8b       	std	Z+20, r29	; 0x14
 
 		/* Set SS output to high. (No slave addressed). */
 		PORTE.OUTSET = PIN4_bm;
- b9a:	c5 83       	std	Z+5, r28	; 0x05
+ b76:	c5 83       	std	Z+5, r28	; 0x05
 
 		SPI_MasterInit(&spiMasterE,
- b9c:	68 94       	set
- b9e:	aa 24       	eor	r10, r10
- ba0:	a1 f8       	bld	r10, 1
- ba2:	20 e0       	ldi	r18, 0x00	; 0
- ba4:	40 e8       	ldi	r20, 0x80	; 128
- ba6:	56 e0       	ldi	r21, 0x06	; 6
- ba8:	60 ec       	ldi	r22, 0xC0	; 192
- baa:	7a e0       	ldi	r23, 0x0A	; 10
- bac:	8f e3       	ldi	r24, 0x3F	; 63
- bae:	91 e2       	ldi	r25, 0x21	; 33
- bb0:	0a d0       	rcall	.+20     	; 0xbc6 <SPI_MasterInit>
+ b78:	68 94       	set
+ b7a:	aa 24       	eor	r10, r10
+ b7c:	a1 f8       	bld	r10, 1
+ b7e:	20 e0       	ldi	r18, 0x00	; 0
+ b80:	40 e8       	ldi	r20, 0x80	; 128
+ b82:	56 e0       	ldi	r21, 0x06	; 6
+ b84:	60 ec       	ldi	r22, 0xC0	; 192
+ b86:	7a e0       	ldi	r23, 0x0A	; 10
+ b88:	85 e3       	ldi	r24, 0x35	; 53
+ b8a:	91 e2       	ldi	r25, 0x21	; 33
+ b8c:	0a d0       	rcall	.+20     	; 0xba2 <SPI_MasterInit>
 		false,
 		SPI_MODE_0_gc,							//The UM6 SPI clock (SCK) is active high, with data clocked in on the first rising edge1
 		SPI_INTLVL_OFF_gc,
 		false,									// false to double clock mode
 		SPI_PRESCALER_DIV64_gc);				//32mHz /64 = 500,000 bps
 		SPIE.DATA = 0x00;						// init SPI data register
- bb2:	e0 ec       	ldi	r30, 0xC0	; 192
- bb4:	fa e0       	ldi	r31, 0x0A	; 10
- bb6:	13 82       	std	Z+3, r1	; 0x03
+ b8e:	e0 ec       	ldi	r30, 0xC0	; 192
+ b90:	fa e0       	ldi	r31, 0x0A	; 10
+ b92:	13 82       	std	Z+3, r1	; 0x03
 
 }
- bb8:	df 91       	pop	r29
- bba:	cf 91       	pop	r28
- bbc:	0f 91       	pop	r16
- bbe:	ef 90       	pop	r14
- bc0:	cf 90       	pop	r12
- bc2:	af 90       	pop	r10
- bc4:	08 95       	ret
+ b94:	df 91       	pop	r29
+ b96:	cf 91       	pop	r28
+ b98:	0f 91       	pop	r16
+ b9a:	ef 90       	pop	r14
+ b9c:	cf 90       	pop	r12
+ b9e:	af 90       	pop	r10
+ ba0:	08 95       	ret
 
-00000bc6 <SPI_MasterInit>:
+00000ba2 <SPI_MasterInit>:
                     bool lsbFirst,
                     SPI_MODE_t mode,
                     SPI_INTLVL_t intLevel,
                     bool clk2x,
                     SPI_PRESCALER_t clockDivision)
 {
- bc6:	af 92       	push	r10
- bc8:	cf 92       	push	r12
- bca:	ef 92       	push	r14
- bcc:	0f 93       	push	r16
- bce:	fc 01       	movw	r30, r24
+ ba2:	af 92       	push	r10
+ ba4:	cf 92       	push	r12
+ ba6:	ef 92       	push	r14
+ ba8:	0f 93       	push	r16
+ baa:	fc 01       	movw	r30, r24
 	spi->module         = module;
- bd0:	60 83       	st	Z, r22
- bd2:	71 83       	std	Z+1, r23	; 0x01
+ bac:	60 83       	st	Z, r22
+ bae:	71 83       	std	Z+1, r23	; 0x01
 	spi->port           = port;
- bd4:	42 83       	std	Z+2, r20	; 0x02
- bd6:	53 83       	std	Z+3, r21	; 0x03
+ bb0:	42 83       	std	Z+2, r20	; 0x02
+ bb2:	53 83       	std	Z+3, r21	; 0x03
 	spi->interrupted    = false;
- bd8:	14 82       	std	Z+4, r1	; 0x04
+ bb4:	14 82       	std	Z+4, r1	; 0x04
 
 	spi->module->CTRL   = clockDivision |                  /* SPI prescaler. */
- bda:	cc 20       	and	r12, r12
- bdc:	11 f0       	breq	.+4      	; 0xbe2 <SPI_MasterInit+0x1c>
- bde:	90 e8       	ldi	r25, 0x80	; 128
- be0:	01 c0       	rjmp	.+2      	; 0xbe4 <SPI_MasterInit+0x1e>
- be2:	90 e0       	ldi	r25, 0x00	; 0
- be4:	22 23       	and	r18, r18
- be6:	11 f0       	breq	.+4      	; 0xbec <SPI_MasterInit+0x26>
- be8:	80 e2       	ldi	r24, 0x20	; 32
- bea:	01 c0       	rjmp	.+2      	; 0xbee <SPI_MasterInit+0x28>
- bec:	80 e0       	ldi	r24, 0x00	; 0
- bee:	00 65       	ori	r16, 0x50	; 80
- bf0:	0a 29       	or	r16, r10
- bf2:	09 2b       	or	r16, r25
- bf4:	08 2b       	or	r16, r24
- bf6:	db 01       	movw	r26, r22
- bf8:	0c 93       	st	X, r16
+ bb6:	cc 20       	and	r12, r12
+ bb8:	11 f0       	breq	.+4      	; 0xbbe <SPI_MasterInit+0x1c>
+ bba:	90 e8       	ldi	r25, 0x80	; 128
+ bbc:	01 c0       	rjmp	.+2      	; 0xbc0 <SPI_MasterInit+0x1e>
+ bbe:	90 e0       	ldi	r25, 0x00	; 0
+ bc0:	22 23       	and	r18, r18
+ bc2:	11 f0       	breq	.+4      	; 0xbc8 <SPI_MasterInit+0x26>
+ bc4:	80 e2       	ldi	r24, 0x20	; 32
+ bc6:	01 c0       	rjmp	.+2      	; 0xbca <SPI_MasterInit+0x28>
+ bc8:	80 e0       	ldi	r24, 0x00	; 0
+ bca:	00 65       	ori	r16, 0x50	; 80
+ bcc:	0a 29       	or	r16, r10
+ bce:	09 2b       	or	r16, r25
+ bd0:	08 2b       	or	r16, r24
+ bd2:	db 01       	movw	r26, r22
+ bd4:	0c 93       	st	X, r16
 	                      (lsbFirst ? SPI_DORD_bm  : 0) |  /* Data order. */
 	                      SPI_MASTER_bm |                  /* SPI master. */
 	                      mode;                            /* SPI mode. */
 
 	/* Interrupt level. */
 	spi->module->INTCTRL = intLevel;
- bfa:	a0 81       	ld	r26, Z
- bfc:	b1 81       	ldd	r27, Z+1	; 0x01
- bfe:	11 96       	adiw	r26, 0x01	; 1
- c00:	ec 92       	st	X, r14
+ bd6:	a0 81       	ld	r26, Z
+ bd8:	b1 81       	ldd	r27, Z+1	; 0x01
+ bda:	11 96       	adiw	r26, 0x01	; 1
+ bdc:	ec 92       	st	X, r14
 
 	/* No assigned data packet. */
 	spi->dataPacket = NULL;
- c02:	15 82       	std	Z+5, r1	; 0x05
- c04:	16 82       	std	Z+6, r1	; 0x06
+ bde:	15 82       	std	Z+5, r1	; 0x05
+ be0:	16 82       	std	Z+6, r1	; 0x06
 
  	/* MOSI and SCK as output. */
 	spi->port->DIRSET  = SPI_MOSI_bm | SPI_SCK_bm;
- c06:	02 80       	ldd	r0, Z+2	; 0x02
- c08:	f3 81       	ldd	r31, Z+3	; 0x03
- c0a:	e0 2d       	mov	r30, r0
- c0c:	80 ea       	ldi	r24, 0xA0	; 160
- c0e:	81 83       	std	Z+1, r24	; 0x01
+ be2:	02 80       	ldd	r0, Z+2	; 0x02
+ be4:	f3 81       	ldd	r31, Z+3	; 0x03
+ be6:	e0 2d       	mov	r30, r0
+ be8:	80 ea       	ldi	r24, 0xA0	; 160
+ bea:	81 83       	std	Z+1, r24	; 0x01
 }
- c10:	0f 91       	pop	r16
- c12:	ef 90       	pop	r14
- c14:	cf 90       	pop	r12
- c16:	af 90       	pop	r10
- c18:	08 95       	ret
+ bec:	0f 91       	pop	r16
+ bee:	ef 90       	pop	r14
+ bf0:	cf 90       	pop	r12
+ bf2:	af 90       	pop	r10
+ bf4:	08 95       	ret
 
-00000c1a <TC0_ConfigClockSource>:
+00000bf6 <TC0_ConfigClockSource>:
  *  \param tc              Timer/Counter module instance.
  *  \param clockSelection  Timer/Counter clock source setting.
  */
 void TC0_ConfigClockSource( volatile TC0_t * tc, TC_CLKSEL_t clockSelection )
 {
 	tc->CTRLA = ( tc->CTRLA & ~TC0_CLKSEL_gm ) | clockSelection;
- c1a:	fc 01       	movw	r30, r24
- c1c:	20 81       	ld	r18, Z
- c1e:	20 7f       	andi	r18, 0xF0	; 240
- c20:	62 2b       	or	r22, r18
- c22:	60 83       	st	Z, r22
- c24:	08 95       	ret
+ bf6:	fc 01       	movw	r30, r24
+ bf8:	20 81       	ld	r18, Z
+ bfa:	20 7f       	andi	r18, 0xF0	; 240
+ bfc:	62 2b       	or	r22, r18
+ bfe:	60 83       	st	Z, r22
+ c00:	08 95       	ret
 
-00000c26 <initUART>:
+00000c02 <initUART>:
 void initUART()
 {
 	
 	//  XBEE on USARTD1
 	/* PD6 (RXD1) input*/
 	PORTD.DIRCLR = PIN6_bm;
- c26:	e0 e6       	ldi	r30, 0x60	; 96
- c28:	f6 e0       	ldi	r31, 0x06	; 6
- c2a:	90 e4       	ldi	r25, 0x40	; 64
- c2c:	92 83       	std	Z+2, r25	; 0x02
+ c02:	e0 e6       	ldi	r30, 0x60	; 96
+ c04:	f6 e0       	ldi	r31, 0x06	; 6
+ c06:	90 e4       	ldi	r25, 0x40	; 64
+ c08:	92 83       	std	Z+2, r25	; 0x02
 	/* PD7 (TXD1) as output. */
 	PORTD.DIRSET = PIN7_bm;
- c2e:	80 e8       	ldi	r24, 0x80	; 128
- c30:	81 83       	std	Z+1, r24	; 0x01
+ c0a:	80 e8       	ldi	r24, 0x80	; 128
+ c0c:	81 83       	std	Z+1, r24	; 0x01
 	
 	
 	//  IMU on USARTC1
 	/* PC6 (RXD1) input*/
 	PORTC.DIRCLR = PIN6_bm;
- c32:	e0 e4       	ldi	r30, 0x40	; 64
- c34:	f6 e0       	ldi	r31, 0x06	; 6
- c36:	92 83       	std	Z+2, r25	; 0x02
+ c0e:	e0 e4       	ldi	r30, 0x40	; 64
+ c10:	f6 e0       	ldi	r31, 0x06	; 6
+ c12:	92 83       	std	Z+2, r25	; 0x02
 	/* PD7 (TXD1) as output. */
 	PORTC.DIRSET = PIN7_bm;
- c38:	81 83       	std	Z+1, r24	; 0x01
+ c14:	81 83       	std	Z+1, r24	; 0x01
 	
 	USART_Format_Set(&XBEE_USART, USART_CHSIZE_8BIT_gc, USART_PMODE_DISABLED_gc, true);
- c3a:	e0 eb       	ldi	r30, 0xB0	; 176
- c3c:	f9 e0       	ldi	r31, 0x09	; 9
- c3e:	8b e0       	ldi	r24, 0x0B	; 11
- c40:	85 83       	std	Z+5, r24	; 0x05
+ c16:	e0 eb       	ldi	r30, 0xB0	; 176
+ c18:	f9 e0       	ldi	r31, 0x09	; 9
+ c1a:	8b e0       	ldi	r24, 0x0B	; 11
+ c1c:	85 83       	std	Z+5, r24	; 0x05
 	USART_Baudrate_Set(&XBEE_USART, 1047 , -6);			// set for 32MHZ and 115200
- c42:	87 e1       	ldi	r24, 0x17	; 23
- c44:	86 83       	std	Z+6, r24	; 0x06
- c46:	84 ea       	ldi	r24, 0xA4	; 164
- c48:	87 83       	std	Z+7, r24	; 0x07
+ c1e:	87 e1       	ldi	r24, 0x17	; 23
+ c20:	86 83       	std	Z+6, r24	; 0x06
+ c22:	84 ea       	ldi	r24, 0xA4	; 164
+ c24:	87 83       	std	Z+7, r24	; 0x07
 	/* Enable both RX and TX. */
 	USART_Rx_Enable(&XBEE_USART);
- c4a:	84 81       	ldd	r24, Z+4	; 0x04
- c4c:	80 61       	ori	r24, 0x10	; 16
- c4e:	84 83       	std	Z+4, r24	; 0x04
+ c26:	84 81       	ldd	r24, Z+4	; 0x04
+ c28:	80 61       	ori	r24, 0x10	; 16
+ c2a:	84 83       	std	Z+4, r24	; 0x04
 	USART_Tx_Enable(&XBEE_USART);
- c50:	84 81       	ldd	r24, Z+4	; 0x04
- c52:	88 60       	ori	r24, 0x08	; 8
- c54:	84 83       	std	Z+4, r24	; 0x04
- c56:	08 95       	ret
+ c2c:	84 81       	ldd	r24, Z+4	; 0x04
+ c2e:	88 60       	ori	r24, 0x08	; 8
+ c30:	84 83       	std	Z+4, r24	; 0x04
+ c32:	08 95       	ret
 
-00000c58 <__divmodhi4>:
- c58:	97 fb       	bst	r25, 7
- c5a:	07 2e       	mov	r0, r23
- c5c:	16 f4       	brtc	.+4      	; 0xc62 <__divmodhi4+0xa>
- c5e:	00 94       	com	r0
- c60:	06 d0       	rcall	.+12     	; 0xc6e <__divmodhi4_neg1>
- c62:	77 fd       	sbrc	r23, 7
- c64:	08 d0       	rcall	.+16     	; 0xc76 <__divmodhi4_neg2>
- c66:	0b d0       	rcall	.+22     	; 0xc7e <__udivmodhi4>
- c68:	07 fc       	sbrc	r0, 7
- c6a:	05 d0       	rcall	.+10     	; 0xc76 <__divmodhi4_neg2>
- c6c:	3e f4       	brtc	.+14     	; 0xc7c <__divmodhi4_exit>
+00000c34 <__divmodhi4>:
+ c34:	97 fb       	bst	r25, 7
+ c36:	07 2e       	mov	r0, r23
+ c38:	16 f4       	brtc	.+4      	; 0xc3e <__divmodhi4+0xa>
+ c3a:	00 94       	com	r0
+ c3c:	06 d0       	rcall	.+12     	; 0xc4a <__divmodhi4_neg1>
+ c3e:	77 fd       	sbrc	r23, 7
+ c40:	08 d0       	rcall	.+16     	; 0xc52 <__divmodhi4_neg2>
+ c42:	0b d0       	rcall	.+22     	; 0xc5a <__udivmodhi4>
+ c44:	07 fc       	sbrc	r0, 7
+ c46:	05 d0       	rcall	.+10     	; 0xc52 <__divmodhi4_neg2>
+ c48:	3e f4       	brtc	.+14     	; 0xc58 <__divmodhi4_exit>
 
-00000c6e <__divmodhi4_neg1>:
- c6e:	90 95       	com	r25
- c70:	81 95       	neg	r24
- c72:	9f 4f       	sbci	r25, 0xFF	; 255
- c74:	08 95       	ret
+00000c4a <__divmodhi4_neg1>:
+ c4a:	90 95       	com	r25
+ c4c:	81 95       	neg	r24
+ c4e:	9f 4f       	sbci	r25, 0xFF	; 255
+ c50:	08 95       	ret
 
-00000c76 <__divmodhi4_neg2>:
- c76:	70 95       	com	r23
- c78:	61 95       	neg	r22
- c7a:	7f 4f       	sbci	r23, 0xFF	; 255
+00000c52 <__divmodhi4_neg2>:
+ c52:	70 95       	com	r23
+ c54:	61 95       	neg	r22
+ c56:	7f 4f       	sbci	r23, 0xFF	; 255
 
-00000c7c <__divmodhi4_exit>:
- c7c:	08 95       	ret
+00000c58 <__divmodhi4_exit>:
+ c58:	08 95       	ret
 
-00000c7e <__udivmodhi4>:
- c7e:	aa 1b       	sub	r26, r26
- c80:	bb 1b       	sub	r27, r27
- c82:	51 e1       	ldi	r21, 0x11	; 17
- c84:	07 c0       	rjmp	.+14     	; 0xc94 <__udivmodhi4_ep>
+00000c5a <__udivmodhi4>:
+ c5a:	aa 1b       	sub	r26, r26
+ c5c:	bb 1b       	sub	r27, r27
+ c5e:	51 e1       	ldi	r21, 0x11	; 17
+ c60:	07 c0       	rjmp	.+14     	; 0xc70 <__udivmodhi4_ep>
 
-00000c86 <__udivmodhi4_loop>:
- c86:	aa 1f       	adc	r26, r26
- c88:	bb 1f       	adc	r27, r27
- c8a:	a6 17       	cp	r26, r22
- c8c:	b7 07       	cpc	r27, r23
- c8e:	10 f0       	brcs	.+4      	; 0xc94 <__udivmodhi4_ep>
- c90:	a6 1b       	sub	r26, r22
- c92:	b7 0b       	sbc	r27, r23
+00000c62 <__udivmodhi4_loop>:
+ c62:	aa 1f       	adc	r26, r26
+ c64:	bb 1f       	adc	r27, r27
+ c66:	a6 17       	cp	r26, r22
+ c68:	b7 07       	cpc	r27, r23
+ c6a:	10 f0       	brcs	.+4      	; 0xc70 <__udivmodhi4_ep>
+ c6c:	a6 1b       	sub	r26, r22
+ c6e:	b7 0b       	sbc	r27, r23
 
-00000c94 <__udivmodhi4_ep>:
- c94:	88 1f       	adc	r24, r24
- c96:	99 1f       	adc	r25, r25
- c98:	5a 95       	dec	r21
- c9a:	a9 f7       	brne	.-22     	; 0xc86 <__udivmodhi4_loop>
- c9c:	80 95       	com	r24
- c9e:	90 95       	com	r25
- ca0:	bc 01       	movw	r22, r24
- ca2:	cd 01       	movw	r24, r26
- ca4:	08 95       	ret
+00000c70 <__udivmodhi4_ep>:
+ c70:	88 1f       	adc	r24, r24
+ c72:	99 1f       	adc	r25, r25
+ c74:	5a 95       	dec	r21
+ c76:	a9 f7       	brne	.-22     	; 0xc62 <__udivmodhi4_loop>
+ c78:	80 95       	com	r24
+ c7a:	90 95       	com	r25
+ c7c:	bc 01       	movw	r22, r24
+ c7e:	cd 01       	movw	r24, r26
+ c80:	08 95       	ret
 
-00000ca6 <_exit>:
- ca6:	f8 94       	cli
+00000c82 <_exit>:
+ c82:	f8 94       	cli
 
-00000ca8 <__stop_program>:
- ca8:	ff cf       	rjmp	.-2      	; 0xca8 <__stop_program>
+00000c84 <__stop_program>:
+ c84:	ff cf       	rjmp	.-2      	; 0xc84 <__stop_program>

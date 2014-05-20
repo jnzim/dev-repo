@@ -1,19 +1,55 @@
-///*
- //* FILTER.c
- //*
- //* Created: 4/1/2014 8:56:02 PM
- //*  Author: Justin
- //*/ 
-//
-//#include <avr/io.h>
-//
-//#include "FILTER.h"
-//#include "systemData.h"
-//
-//float alpha;
-//float gama;
-//float x_bar_k_minus_1;
-//float x_bar_k;
+/*
+ * FILTER.c
+ *
+ * Created: 4/1/2014 8:56:02 PM
+ *  Author: Justin
+ */ 
+
+#include <avr/io.h>
+
+#include "FILTER.h"
+#include "systemData.h"
+
+float alpha;
+float gama;
+float x_bar_k_minus_1;
+float x_bar_k;
+
+
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:  Low pass filter.  There a bug here in the break frequency calculation.
+The filter keeps track of the previous sample require for the recursive calculation.
+*********************************************************************************************************** */
+float lowPassFilter(float currentSample)
+{
+	
+	int Ts = 1;
+
+	float Tau = 1.0/(.9*2.0*PI);				//.9 is the break frequency.... somehow?  need to check the conversion .9Hz does not seem to be correct
+	float alpha = Tau/(Tau + Ts);
+	float gama = 1-alpha;
+
+	x_bar_k =  (alpha * x_bar_k_minus_1) +  (gama*(currentSample));
+
+	x_bar_k_minus_1 = x_bar_k;
+
+	return x_bar_k;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 //
 //float pitch=0, roll=0;
 //
@@ -30,21 +66,21 @@
 ////}
 ////
 ////
-////int16_t lowPassFilter(PID_data * pid_data)
-////{
-	////
-	////alpha =0.987591053;
-	////gama = 1-alpha;
-////
-	////
-	////
-	////x_bar_k = (alpha * x_bar_k_minus_1) + gama *pid_data->rate_feedback;
-	////
-	////x_bar_k_minus_1 = x_bar_k;
-	////
-	////return (int16_t)x_bar_k;
-	////
-////}
+//int16_t lowPassFilter(PID_data * pid_data)
+//{
+	//
+	//alpha =0.987591053;
+	//gama = 1-alpha;
+//
+	//
+	//
+	//x_bar_k = (alpha * x_bar_k_minus_1) + gama *pid_data->rate_feedback;
+	//
+	//x_bar_k_minus_1 = x_bar_k;
+	//
+	//return (int16_t)x_bar_k;
+	//
+//}
 //
 //
 //void ComplementaryFilter(uint16_t accData[3], uint16_t gyrData[3], float *pitch, float *roll)
@@ -208,23 +244,8 @@
 //
 //}
 //
-////int16_t lowPassFilter(PID_data * pid_data)
-//float lowPassFilter(float currentSample)
-//{
-	//
-	//int Ts = 1;
-//
-	//float Tau = 1.0/(.9*2.0*PI);				//.9 is the break frequency.... somehow?  need to check the conversion .9Hz does not seem to be correct
-	//float alpha = Tau/(Tau + Ts);
-	//float gama = 1-alpha;
-//
-	//x_bar_k =  (alpha * x_bar_k_minus_1) +  (gama*(currentSample));
-//
-	//x_bar_k_minus_1 = x_bar_k;
-//
-	//return x_bar_k;
-//
-//}
+//int16_t lowPassFilter(PID_data * pid_data)
+
 //
 //
 //
