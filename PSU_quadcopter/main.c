@@ -210,8 +210,8 @@ void intPID_gains()
 	rollAxis.Ki_rate =0;
 	rollAxis.Kd_rate =5;
 	
-	pitchAxis.Kp_rate = 75;
-	pitchAxis.Ki_rate =30;
+	pitchAxis.Kp_rate = 12;
+	pitchAxis.Ki_rate =24;
 	pitchAxis.Kd_rate =0;
 	
 	rollAxis.windupGuard = 200;
@@ -263,17 +263,17 @@ int16_t WriteToPC_SPI()
 	yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback)) << 8;
 	yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback));
 		
-	pitchAxis.Kp = (spiPC_write_read(upperByte16(pitchAxis.attitude_command ))) << 8;					
-	pitchAxis.Kp += spiPC_write_read(lowerByte16(pitchAxis.attitude_command ));							
+	pitchAxis.Kp = (spiPC_write_read(upperByte16(pitchAxis.pid_total ))) << 8;					
+	pitchAxis.Kp += spiPC_write_read(lowerByte16(pitchAxis.pid_total ));							
 	
-	pitchAxis.Ki = (spiPC_write_read(upperByte16(rollAxis.attitude_command ))) << 8;					
-	pitchAxis.Ki += spiPC_write_read(lowerByte16(rollAxis.attitude_command));							
+	pitchAxis.Ki = (spiPC_write_read(upperByte16(pitchAxis.pid_total  ))) << 8;					
+	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.pid_total ));							
 		
-	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.attitude_command))) << 8;					
-	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.attitude_command));			
+	pitchAxis.Kd= (spiPC_write_read(upperByte16(pitchAxis.pid_total))) << 8;					
+	pitchAxis.Kd+= spiPC_write_read(lowerByte16(pitchAxis.pid_total));			
 	
-	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;
-	command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
+	command= (spiPC_write_read(upperByte16(pitchAxis.pid_total))) << 8;
+	command+= spiPC_write_read(lowerByte16(pitchAxis.pid_total));			
 	
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);													
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);			

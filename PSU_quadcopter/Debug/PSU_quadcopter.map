@@ -38,15 +38,16 @@ Common symbol       size              file
 
 gama                0x4               FILTER.o
 spiMasterF          0x7               spi.o
-rollAxis            0x4a              main.o
+rollAxis            0x4c              main.o
 command             0x2               main.o
 dummy_read          0x1               main.o
 x_bar_k_minus_1     0x4               FILTER.o
 x_bar_k             0x4               FILTER.o
-pitchAxis           0x4a              main.o
-throttleAxis        0x4a              main.o
+pitchAxis           0x4c              main.o
+throttleAxis        0x4c              main.o
+attitude_loop_out   0x2               pid.o
 spiMasterE          0x7               spi.o
-yawAxis             0x4a              main.o
+yawAxis             0x4c              main.o
 alpha               0x4               FILTER.o
 int16counter        0x2               main.o
 
@@ -60,20 +61,18 @@ Discarded input sections
  COMMON         0x00000000       0x10 FILTER.o
  .text          0x00000000        0x0 pid.o
  .bss           0x00000000        0x0 pid.o
- .text.PI_rate  0x00000000       0xec pid.o
+ .text.PI_rate  0x00000000       0xe4 pid.o
  .text.PI_attitude_rate
-                0x00000000      0x17e pid.o
+                0x00000000      0x18a pid.o
  .text.pid_rate
                 0x00000000       0x92 pid.o
  .text.pid_attitude
-                0x00000000       0xd0 pid.o
- .text.pid      0x00000000       0xe4 pid.o
+                0x00000000       0xe2 pid.o
+ .text.pid      0x00000000       0xbe pid.o
  .text.CalculateRate
                 0x00000000       0x40 pid.o
  .text.Limit_value_signed
                 0x00000000       0x22 pid.o
- .data.integral_addup_reducer
-                0x00000000        0x2 pid.o
  .data.i_attitude_divisor
                 0x00000000        0x2 pid.o
  .data.p_attitude_divisor
@@ -82,6 +81,7 @@ Discarded input sections
                 0x00000000        0x2 pid.o
  .data.p_rate_divisor
                 0x00000000        0x2 pid.o
+ COMMON         0x00000000        0x2 pid.o
  .text          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
  .text.sendUM6_Data
@@ -404,7 +404,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xc86
+.text           0x00000000      0xc66
  *(.vectors)
  .vectors       0x00000000      0x1f4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avrxmega7/crtx128a1.o
                 0x00000000                __vector_default
@@ -587,79 +587,79 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                 0x0000023e                . = ALIGN (0x2)
  *(.text.*)
  .text.pid_attitude_rate
-                0x0000023e      0x17a pid.o
+                0x0000023e      0x174 pid.o
                 0x0000023e                pid_attitude_rate
- .text.initPWM  0x000003b8       0x54 main.o
-                0x000003b8                initPWM
+ .text.initPWM  0x000003b2       0x54 main.o
+                0x000003b2                initPWM
  .text.DisablePWM
-                0x0000040c       0x16 main.o
-                0x0000040c                DisablePWM
- .text.doPWM    0x00000422       0x28 main.o
-                0x00000422                doPWM
+                0x00000406       0x16 main.o
+                0x00000406                DisablePWM
+ .text.doPWM    0x0000041c       0x28 main.o
+                0x0000041c                doPWM
  .text.SetPulseWidths
-                0x0000044a       0x58 main.o
-                0x0000044a                SetPulseWidths
+                0x00000444       0x58 main.o
+                0x00000444                SetPulseWidths
  .text.intPID_gains
-                0x000004a2       0x5a main.o
-                0x000004a2                intPID_gains
+                0x0000049c       0x5a main.o
+                0x0000049c                intPID_gains
  .text.WriteToPC_SPI
-                0x000004fc      0x1fe main.o
-                0x000004fc                WriteToPC_SPI
+                0x000004f6      0x1e4 main.o
+                0x000004f6                WriteToPC_SPI
  .text.UpdateEulerAngles
-                0x000006fa       0xf4 main.o
-                0x000006fa                UpdateEulerAngles
+                0x000006da       0xf4 main.o
+                0x000006da                UpdateEulerAngles
  .text.ControlLoop
-                0x000007ee       0x34 main.o
-                0x000007ee                ControlLoop
+                0x000007ce       0x34 main.o
+                0x000007ce                ControlLoop
  .text.init32MHzClock
-                0x00000822       0x1c main.o
-                0x00000822                init32MHzClock
+                0x00000802       0x1c main.o
+                0x00000802                init32MHzClock
  .text.intiLoopTimer
-                0x0000083e       0x22 main.o
-                0x0000083e                intiLoopTimer
+                0x0000081e       0x22 main.o
+                0x0000081e                intiLoopTimer
  .text.zeroSensor
-                0x00000860       0xce main.o
-                0x00000860                zeroSensor
+                0x00000840       0xce main.o
+                0x00000840                zeroSensor
  .text.initSystem
-                0x0000092e       0x34 main.o
-                0x0000092e                initSystem
- .text.main     0x00000962       0x16 main.o
-                0x00000962                main
- .text.State    0x00000978      0x118 main.o
-                0x00000978                State
+                0x0000090e       0x34 main.o
+                0x0000090e                initSystem
+ .text.main     0x00000942       0x16 main.o
+                0x00000942                main
+ .text.State    0x00000958      0x118 main.o
+                0x00000958                State
  .text.__vector_77
-                0x00000a90       0x6c main.o
-                0x00000a90                __vector_77
+                0x00000a70       0x6c main.o
+                0x00000a70                __vector_77
  .text.spiPC_write_read
-                0x00000afc       0x1a spi.o
-                0x00000afc                spiPC_write_read
+                0x00000adc       0x1a spi.o
+                0x00000adc                spiPC_write_read
  .text.spiIMU_write_read
-                0x00000b16       0x1a spi.o
-                0x00000b16                spiIMU_write_read
+                0x00000af6       0x1a spi.o
+                0x00000af6                spiIMU_write_read
  .text.spi_set_up
-                0x00000b30       0x72 spi.o
-                0x00000b30                spi_set_up
+                0x00000b10       0x72 spi.o
+                0x00000b10                spi_set_up
  .text.SPI_MasterInit
-                0x00000ba2       0x54 spi_driver.o
-                0x00000ba2                SPI_MasterInit
+                0x00000b82       0x54 spi_driver.o
+                0x00000b82                SPI_MasterInit
  .text.TC0_ConfigClockSource
-                0x00000bf6        0xc TC_driver.o
-                0x00000bf6                TC0_ConfigClockSource
+                0x00000bd6        0xc TC_driver.o
+                0x00000bd6                TC0_ConfigClockSource
  .text.initUART
-                0x00000c02       0x32 uart.o
-                0x00000c02                initUART
+                0x00000be2       0x32 uart.o
+                0x00000be2                initUART
  .text.libgcc.div
-                0x00000c34       0x26 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_divmodhi4.o)
-                0x00000c34                _div
-                0x00000c34                __divmodhi4
+                0x00000c14       0x26 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_divmodhi4.o)
+                0x00000c14                _div
+                0x00000c14                __divmodhi4
  .text.libgcc.div
-                0x00000c5a       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_udivmodhi4.o)
-                0x00000c5a                __udivmodhi4
-                0x00000c82                . = ALIGN (0x2)
+                0x00000c3a       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_udivmodhi4.o)
+                0x00000c3a                __udivmodhi4
+                0x00000c62                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000c82        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_exit.o)
-                0x00000c82                _exit
-                0x00000c82                exit
+ .fini9         0x00000c62        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_exit.o)
+                0x00000c62                _exit
+                0x00000c62                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -678,11 +678,11 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000c82        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_exit.o)
+ .fini0         0x00000c62        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000c86                _etext = .
+                0x00000c66                _etext = .
 
-.data           0x00802000        0x0 load address 0x00000c86
+.data           0x00802000        0x2 load address 0x00000c66
                 0x00802000                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00802000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avrxmega7/crtx128a1.o
@@ -711,42 +711,45 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .data          0x00802000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_clear_bss.o)
  .data          0x00802000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avrxmega7\libgcc.a(_udivmodhi4.o)
  *(.data*)
+ .data.integral_addup_reducer
+                0x00802000        0x2 pid.o
+                0x00802000                integral_addup_reducer
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x00802000                . = ALIGN (0x2)
-                0x00802000                _edata = .
-                0x00802000                PROVIDE (__data_end, .)
+                0x00802002                . = ALIGN (0x2)
+                0x00802002                _edata = .
+                0x00802002                PROVIDE (__data_end, .)
 
-.bss            0x00802000      0x13c
-                0x00802000                PROVIDE (__bss_start, .)
+.bss            0x00802002      0x144
+                0x00802002                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.systemState
-                0x00802000        0x1 main.o
-                0x00802000                systemState
+                0x00802002        0x1 main.o
+                0x00802002                systemState
  *(COMMON)
- COMMON         0x00802001      0x12d main.o
-                0x00802001                rollAxis
-                0x0080204b                command
-                0x0080204d                dummy_read
-                0x0080204e                pitchAxis
-                0x00802098                throttleAxis
-                0x008020e2                yawAxis
-                0x0080212c                int16counter
- COMMON         0x0080212e        0xe spi.o
-                0x0080212e                spiMasterF
-                0x00802135                spiMasterE
-                0x0080213c                PROVIDE (__bss_end, .)
-                0x00000c86                __data_load_start = LOADADDR (.data)
-                0x00000c86                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00802003      0x135 main.o
+                0x00802003                rollAxis
+                0x0080204f                command
+                0x00802051                dummy_read
+                0x00802052                pitchAxis
+                0x0080209e                throttleAxis
+                0x008020ea                yawAxis
+                0x00802136                int16counter
+ COMMON         0x00802138        0xe spi.o
+                0x00802138                spiMasterF
+                0x0080213f                spiMasterE
+                0x00802146                PROVIDE (__bss_end, .)
+                0x00000c66                __data_load_start = LOADADDR (.data)
+                0x00000c68                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080213c        0x0
-                0x0080213c                PROVIDE (__noinit_start, .)
+.noinit         0x00802146        0x0
+                0x00802146                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080213c                PROVIDE (__noinit_end, .)
-                0x0080213c                _end = .
-                0x0080213c                PROVIDE (__heap_start, .)
+                0x00802146                PROVIDE (__noinit_end, .)
+                0x00802146                _end = .
+                0x00802146                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -855,28 +858,28 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x4894
+.debug_info     0x00000000     0x48b9
  *(.debug_info)
  .debug_info    0x00000000      0x121 FILTER.o
- .debug_info    0x00000121      0x484 pid.o
- .debug_info    0x000005a5     0x1910 main.o
- .debug_info    0x00001eb5      0x691 spi.o
- .debug_info    0x00002546      0x761 spi_driver.o
- .debug_info    0x00002ca7     0x12fd TC_driver.o
- .debug_info    0x00003fa4      0x36a uart.o
- .debug_info    0x0000430e      0x586 usart_driver.o
+ .debug_info    0x00000121      0x49b pid.o
+ .debug_info    0x000005bc     0x191e main.o
+ .debug_info    0x00001eda      0x691 spi.o
+ .debug_info    0x0000256b      0x761 spi_driver.o
+ .debug_info    0x00002ccc     0x12fd TC_driver.o
+ .debug_info    0x00003fc9      0x36a uart.o
+ .debug_info    0x00004333      0x586 usart_driver.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0xd5b
+.debug_abbrev   0x00000000      0xd66
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x95 FILTER.o
- .debug_abbrev  0x00000095      0x126 pid.o
- .debug_abbrev  0x000001bb      0x3a5 main.o
- .debug_abbrev  0x00000560      0x1c8 spi.o
- .debug_abbrev  0x00000728      0x1a0 spi_driver.o
- .debug_abbrev  0x000008c8      0x176 TC_driver.o
- .debug_abbrev  0x00000a3e      0x11a uart.o
- .debug_abbrev  0x00000b58      0x203 usart_driver.o
+ .debug_abbrev  0x00000095      0x131 pid.o
+ .debug_abbrev  0x000001c6      0x3a5 main.o
+ .debug_abbrev  0x0000056b      0x1c8 spi.o
+ .debug_abbrev  0x00000733      0x1a0 spi_driver.o
+ .debug_abbrev  0x000008d3      0x176 TC_driver.o
+ .debug_abbrev  0x00000a49      0x11a uart.o
+ .debug_abbrev  0x00000b63      0x203 usart_driver.o
 
 .debug_line     0x00000000     0x1ba7
  *(.debug_line)
@@ -889,16 +892,16 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_line    0x0000165d      0x1e9 uart.o
  .debug_line    0x00001846      0x361 usart_driver.o
 
-.debug_frame    0x00000000      0x784
+.debug_frame    0x00000000      0x76c
  *(.debug_frame)
  .debug_frame   0x00000000       0x4c FILTER.o
- .debug_frame   0x0000004c      0x1a4 pid.o
- .debug_frame   0x000001f0      0x1e0 main.o
- .debug_frame   0x000003d0       0x64 spi.o
- .debug_frame   0x00000434       0xcc spi_driver.o
- .debug_frame   0x00000500      0x174 TC_driver.o
- .debug_frame   0x00000674       0x4c uart.o
- .debug_frame   0x000006c0       0xc4 usart_driver.o
+ .debug_frame   0x0000004c      0x1a0 pid.o
+ .debug_frame   0x000001ec      0x1cc main.o
+ .debug_frame   0x000003b8       0x64 spi.o
+ .debug_frame   0x0000041c       0xcc spi_driver.o
+ .debug_frame   0x000004e8      0x174 TC_driver.o
+ .debug_frame   0x0000065c       0x4c uart.o
+ .debug_frame   0x000006a8       0xc4 usart_driver.o
 
 .debug_str      0x00000000     0x19c3
  *(.debug_str)
@@ -907,7 +910,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_str     0x000000d3      0x2d8 pid.o
                                 0x3a8 (size before relaxing)
  .debug_str     0x000003ab      0x8b5 main.o
-                                0xb9c (size before relaxing)
+                                0xbae (size before relaxing)
  .debug_str     0x00000c60      0x30b spi.o
                                 0x532 (size before relaxing)
  .debug_str     0x00000f6b       0xfd spi_driver.o
@@ -919,16 +922,16 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_str     0x0000177f      0x244 usart_driver.o
                                 0x3b6 (size before relaxing)
 
-.debug_loc      0x00000000     0x17d6
+.debug_loc      0x00000000     0x16ca
  *(.debug_loc)
  .debug_loc     0x00000000       0xc1 FILTER.o
- .debug_loc     0x000000c1      0x512 pid.o
- .debug_loc     0x000005d3      0x451 main.o
- .debug_loc     0x00000a24       0xa1 spi.o
- .debug_loc     0x00000ac5      0x582 spi_driver.o
- .debug_loc     0x00001047      0x378 TC_driver.o
- .debug_loc     0x000013bf       0x48 uart.o
- .debug_loc     0x00001407      0x3cf usart_driver.o
+ .debug_loc     0x000000c1      0x43a pid.o
+ .debug_loc     0x000004fb      0x41d main.o
+ .debug_loc     0x00000918       0xa1 spi.o
+ .debug_loc     0x000009b9      0x582 spi_driver.o
+ .debug_loc     0x00000f3b      0x378 TC_driver.o
+ .debug_loc     0x000012b3       0x48 uart.o
+ .debug_loc     0x000012fb      0x3cf usart_driver.o
 
 .debug_macinfo
  *(.debug_macinfo)

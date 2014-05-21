@@ -50,6 +50,7 @@ typedef struct PID_data
 	int16_t previousPosition1;
 	int16_t previousPosition2;
 	int16_t thrust;
+	int16_t attitude_loop_out;
 
 	
 } PID_data;

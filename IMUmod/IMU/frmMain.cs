@@ -36,7 +36,7 @@ namespace IMU
         bool gotJoystick = false;
         const double UMT_CONVERT_EULER = 1; //0.0109863;         //  number spec'd in the UM6 data sheet to convert sensor output to degrees
         const int NUM_BYTES_TO_RECIVE = 16;
-        const int YEI_CONVERT_EULER = 91;
+        const int YEI_CONVERT_EULER = 1;
         const int pitchCommandScale = 10;
         const int rollCommandScale  = 10;
         const int yawCommandScale = 10;
