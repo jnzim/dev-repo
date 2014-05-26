@@ -313,7 +313,7 @@ namespace IMU
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
             this.Yaw.rate_feedback = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
-            Debug.WriteLine("Y= " + this.Yaw.rate_feedback.ToString("x"));
+            //Debug.WriteLine("Y= " + this.Yaw.rate_feedback.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
             /////GPS
@@ -463,6 +463,8 @@ namespace IMU
 
                // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
                 this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback , this.Yaw.rate_feedback , this.int16_GPS_E);
+                Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
+                Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
 
                 //this.PlotChartForm.UpdateGraph(DateTime.Now, this.int_imu_Yaw, this.int_imu_Pitch, this.int_imu_Roll, this.int_Roll_Error, 
                 //    this.int_Roll_Command, this.int_Roll_PID);

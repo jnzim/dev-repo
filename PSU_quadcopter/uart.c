@@ -15,8 +15,6 @@
 #define tbi(x,y) x ^= _BV(y)		
 
 
-void sendData_int16_t(int16_t);
-void put_USART_PC_char(uint8_t);
 
 
 //  set up the serial port for sending data back and forth to the PC

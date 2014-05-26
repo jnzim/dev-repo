@@ -33,7 +33,7 @@ typedef struct PID_data
 	int16_t attitude_command;
 	int16_t attitude_pid_out;
 	int16_t rate_pid_out;
-	int16_t pid_out;
+	//int16_t pid_out;
 	int16_t attitude_error;
 	int16_t rate_error;
 	int16_t attitude_slope;
@@ -51,6 +51,8 @@ typedef struct PID_data
 	int16_t previousPosition2;
 	int16_t thrust;
 	int16_t attitude_loop_out;
+	int16_t PI_rate_max;
+	int16_t PI_attitude_max;
 
 	
 } PID_data;

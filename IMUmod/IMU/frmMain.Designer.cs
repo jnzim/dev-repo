@@ -141,7 +141,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(13, 45);
+            this.label2.Location = new System.Drawing.Point(13, 75);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 20);
@@ -162,7 +162,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(21, 78);
+            this.label3.Location = new System.Drawing.Point(21, 45);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(36, 20);
@@ -368,7 +368,7 @@
             // 
             this.textBoxRollRate.Enabled = false;
             this.textBoxRollRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxRollRate.Location = new System.Drawing.Point(135, 72);
+            this.textBoxRollRate.Location = new System.Drawing.Point(135, 42);
             this.textBoxRollRate.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxRollRate.Name = "textBoxRollRate";
             this.textBoxRollRate.Size = new System.Drawing.Size(70, 26);
@@ -378,7 +378,7 @@
             // 
             this.textBoxPitchRate.Enabled = false;
             this.textBoxPitchRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPitchRate.Location = new System.Drawing.Point(135, 42);
+            this.textBoxPitchRate.Location = new System.Drawing.Point(135, 72);
             this.textBoxPitchRate.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxPitchRate.Name = "textBoxPitchRate";
             this.textBoxPitchRate.Size = new System.Drawing.Size(70, 26);

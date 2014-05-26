@@ -3,33 +3,33 @@ ATmega323_Com_buffer.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00000500  00000594  2**0
+  0 .data         00000000  00800100  00000508  0000059c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000500  00000000  00000000  00000094  2**1
+  1 .text         00000508  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000117  00800100  00800100  00000594  2**0
+  2 .bss          00000117  00800100  00800100  0000059c  2**0
                   ALLOC
-  3 .stab         000006cc  00000000  00000000  00000594  2**2
+  3 .stab         000006cc  00000000  00000000  0000059c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000097  00000000  00000000  00000c60  2**0
+  4 .stabstr      00000097  00000000  00000000  00000c68  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      0000002f  00000000  00000000  00000cf7  2**0
+  5 .comment      0000002f  00000000  00000000  00000cff  2**0
                   CONTENTS, READONLY
-  6 .debug_aranges 000000b0  00000000  00000000  00000d26  2**0
+  6 .debug_aranges 000000b0  00000000  00000000  00000d2e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00000896  00000000  00000000  00000dd6  2**0
+  7 .debug_info   00000897  00000000  00000000  00000dde  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00000255  00000000  00000000  0000166c  2**0
+  8 .debug_abbrev 00000255  00000000  00000000  00001675  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000314  00000000  00000000  000018c1  2**0
+  9 .debug_line   00000314  00000000  00000000  000018ca  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  000001b0  00000000  00000000  00001bd8  2**2
+ 10 .debug_frame  000001b0  00000000  00000000  00001be0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00000501  00000000  00000000  00001d88  2**0
+ 11 .debug_str    00000501  00000000  00000000  00001d90  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000003d4  00000000  00000000  00002289  2**0
+ 12 .debug_loc    000003d4  00000000  00000000  00002291  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 000000a0  00000000  00000000  0000265d  2**0
+ 13 .debug_ranges 000000a0  00000000  00000000  00002665  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -52,7 +52,7 @@ Disassembly of section .text:
   38:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
-  44:	0c 94 6d 01 	jmp	0x2da	; 0x2da <__vector_17>
+  44:	0c 94 71 01 	jmp	0x2e2	; 0x2e2 <__vector_17>
   48:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
   50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
@@ -83,8 +83,8 @@ Disassembly of section .text:
   7e:	a7 31       	cpi	r26, 0x17	; 23
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
-  84:	0e 94 75 02 	call	0x4ea	; 0x4ea <main>
-  88:	0c 94 7e 02 	jmp	0x4fc	; 0x4fc <_exit>
+  84:	0e 94 79 02 	call	0x4f2	; 0x4f2 <main>
+  88:	0c 94 82 02 	jmp	0x504	; 0x504 <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -224,629 +224,634 @@ bool IsPacketEnd(uint8_t thisByte)
  14a:	08 95       	ret
 
 0000014c <parse_packet>:
-{
-	int i = 0;
 	
 	
 	dummyVariable=(dummyVariable << 8 ) + incoming[i++];					//receive thrust
 	dummyVariable=(dummyVariable << 8 ) + incoming[i++];					//receive thrust
- 14c:	80 91 72 01 	lds	r24, 0x0172
- 150:	80 93 02 01 	sts	0x0102, r24
-	
-	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
- 154:	e3 e4       	ldi	r30, 0x43	; 67
- 156:	f1 e0       	ldi	r31, 0x01	; 1
- 158:	90 81       	ld	r25, Z
- 15a:	80 e0       	ldi	r24, 0x00	; 0
- 15c:	40 91 73 01 	lds	r20, 0x0173
- 160:	84 0f       	add	r24, r20
- 162:	91 1d       	adc	r25, r1
-	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
- 164:	98 2f       	mov	r25, r24
- 166:	88 27       	eor	r24, r24
- 168:	40 91 74 01 	lds	r20, 0x0174
- 16c:	84 0f       	add	r24, r20
- 16e:	91 1d       	adc	r25, r1
- 170:	91 83       	std	Z+1, r25	; 0x01
- 172:	80 83       	st	Z, r24
 	
 	rollAxis.attitude_feedback = (rollAxis.attitude_feedback << 8 ) + incoming[i++];
- 174:	eb e0       	ldi	r30, 0x0B	; 11
- 176:	f1 e0       	ldi	r31, 0x01	; 1
- 178:	90 81       	ld	r25, Z
- 17a:	80 e0       	ldi	r24, 0x00	; 0
- 17c:	40 91 75 01 	lds	r20, 0x0175
- 180:	84 0f       	add	r24, r20
- 182:	91 1d       	adc	r25, r1
+ 14c:	eb e0       	ldi	r30, 0x0B	; 11
+ 14e:	f1 e0       	ldi	r31, 0x01	; 1
+ 150:	90 81       	ld	r25, Z
+ 152:	80 e0       	ldi	r24, 0x00	; 0
+ 154:	20 91 73 01 	lds	r18, 0x0173
+ 158:	82 0f       	add	r24, r18
+ 15a:	91 1d       	adc	r25, r1
 	rollAxis.attitude_feedback = (rollAxis.attitude_feedback << 8 ) + incoming[i++];
- 184:	98 2f       	mov	r25, r24
- 186:	88 27       	eor	r24, r24
- 188:	40 91 76 01 	lds	r20, 0x0176
- 18c:	84 0f       	add	r24, r20
- 18e:	91 1d       	adc	r25, r1
- 190:	91 83       	std	Z+1, r25	; 0x01
- 192:	80 83       	st	Z, r24
+ 15c:	98 2f       	mov	r25, r24
+ 15e:	88 27       	eor	r24, r24
+ 160:	20 91 74 01 	lds	r18, 0x0174
+ 164:	82 0f       	add	r24, r18
+ 166:	91 1d       	adc	r25, r1
+ 168:	91 83       	std	Z+1, r25	; 0x01
+ 16a:	80 83       	st	Z, r24
+	
+	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
+ 16c:	e3 e4       	ldi	r30, 0x43	; 67
+ 16e:	f1 e0       	ldi	r31, 0x01	; 1
+ 170:	90 81       	ld	r25, Z
+ 172:	80 e0       	ldi	r24, 0x00	; 0
+ 174:	20 91 75 01 	lds	r18, 0x0175
+ 178:	82 0f       	add	r24, r18
+ 17a:	91 1d       	adc	r25, r1
+	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
+ 17c:	98 2f       	mov	r25, r24
+ 17e:	88 27       	eor	r24, r24
+ 180:	20 91 76 01 	lds	r18, 0x0176
+ 184:	82 0f       	add	r24, r18
+ 186:	91 1d       	adc	r25, r1
+ 188:	91 83       	std	Z+1, r25	; 0x01
+ 18a:	80 83       	st	Z, r24
 
 	yawAxis.attitude_feedback = (yawAxis.attitude_feedback << 8 ) + incoming[i++];
- 194:	e9 ee       	ldi	r30, 0xE9	; 233
- 196:	f1 e0       	ldi	r31, 0x01	; 1
- 198:	90 81       	ld	r25, Z
- 19a:	80 e0       	ldi	r24, 0x00	; 0
- 19c:	40 91 77 01 	lds	r20, 0x0177
- 1a0:	84 0f       	add	r24, r20
- 1a2:	91 1d       	adc	r25, r1
+ 18c:	e9 ee       	ldi	r30, 0xE9	; 233
+ 18e:	f1 e0       	ldi	r31, 0x01	; 1
+ 190:	90 81       	ld	r25, Z
+ 192:	80 e0       	ldi	r24, 0x00	; 0
+ 194:	20 91 77 01 	lds	r18, 0x0177
+ 198:	82 0f       	add	r24, r18
+ 19a:	91 1d       	adc	r25, r1
 	yawAxis.attitude_feedback = (yawAxis.attitude_feedback << 8 ) + incoming[i++];
- 1a4:	98 2f       	mov	r25, r24
- 1a6:	88 27       	eor	r24, r24
- 1a8:	40 91 78 01 	lds	r20, 0x0178
- 1ac:	84 0f       	add	r24, r20
- 1ae:	91 1d       	adc	r25, r1
- 1b0:	91 83       	std	Z+1, r25	; 0x01
- 1b2:	80 83       	st	Z, r24
-	
-	pitchAxis.rate_feedback = (pitchAxis.rate_feedback  << 8 ) + incoming[i++];
- 1b4:	e3 e5       	ldi	r30, 0x53	; 83
- 1b6:	f1 e0       	ldi	r31, 0x01	; 1
- 1b8:	90 81       	ld	r25, Z
- 1ba:	80 e0       	ldi	r24, 0x00	; 0
- 1bc:	40 91 79 01 	lds	r20, 0x0179
- 1c0:	84 0f       	add	r24, r20
- 1c2:	91 1d       	adc	r25, r1
-	pitchAxis.rate_feedback =(pitchAxis.rate_feedback  << 8 ) + incoming[i++];
- 1c4:	98 2f       	mov	r25, r24
- 1c6:	88 27       	eor	r24, r24
- 1c8:	40 91 7a 01 	lds	r20, 0x017A
- 1cc:	84 0f       	add	r24, r20
- 1ce:	91 1d       	adc	r25, r1
- 1d0:	91 83       	std	Z+1, r25	; 0x01
- 1d2:	80 83       	st	Z, r24
+ 19c:	98 2f       	mov	r25, r24
+ 19e:	88 27       	eor	r24, r24
+ 1a0:	20 91 78 01 	lds	r18, 0x0178
+ 1a4:	82 0f       	add	r24, r18
+ 1a6:	91 1d       	adc	r25, r1
+ 1a8:	91 83       	std	Z+1, r25	; 0x01
+ 1aa:	80 83       	st	Z, r24
 	
 	rollAxis.rate_feedback = (rollAxis.rate_feedback  << 8 ) + incoming[i++];
- 1d4:	eb e1       	ldi	r30, 0x1B	; 27
- 1d6:	f1 e0       	ldi	r31, 0x01	; 1
- 1d8:	90 81       	ld	r25, Z
- 1da:	80 e0       	ldi	r24, 0x00	; 0
- 1dc:	40 91 7b 01 	lds	r20, 0x017B
- 1e0:	84 0f       	add	r24, r20
- 1e2:	91 1d       	adc	r25, r1
+ 1ac:	eb e1       	ldi	r30, 0x1B	; 27
+ 1ae:	f1 e0       	ldi	r31, 0x01	; 1
+ 1b0:	90 81       	ld	r25, Z
+ 1b2:	80 e0       	ldi	r24, 0x00	; 0
+ 1b4:	20 91 79 01 	lds	r18, 0x0179
+ 1b8:	82 0f       	add	r24, r18
+ 1ba:	91 1d       	adc	r25, r1
 	rollAxis.rate_feedback =(rollAxis.rate_feedback  << 8 ) + incoming[i++];
- 1e4:	98 2f       	mov	r25, r24
- 1e6:	88 27       	eor	r24, r24
- 1e8:	40 91 7c 01 	lds	r20, 0x017C
- 1ec:	84 0f       	add	r24, r20
- 1ee:	91 1d       	adc	r25, r1
- 1f0:	91 83       	std	Z+1, r25	; 0x01
- 1f2:	80 83       	st	Z, r24
+ 1bc:	98 2f       	mov	r25, r24
+ 1be:	88 27       	eor	r24, r24
+ 1c0:	20 91 7a 01 	lds	r18, 0x017A
+ 1c4:	82 0f       	add	r24, r18
+ 1c6:	91 1d       	adc	r25, r1
+ 1c8:	91 83       	std	Z+1, r25	; 0x01
+ 1ca:	80 83       	st	Z, r24
+	
+	pitchAxis.rate_feedback = (pitchAxis.rate_feedback  << 8 ) + incoming[i++];
+ 1cc:	e3 e5       	ldi	r30, 0x53	; 83
+ 1ce:	f1 e0       	ldi	r31, 0x01	; 1
+ 1d0:	90 81       	ld	r25, Z
+ 1d2:	80 e0       	ldi	r24, 0x00	; 0
+ 1d4:	20 91 7b 01 	lds	r18, 0x017B
+ 1d8:	82 0f       	add	r24, r18
+ 1da:	91 1d       	adc	r25, r1
+	pitchAxis.rate_feedback =(pitchAxis.rate_feedback  << 8 ) + incoming[i++];
+ 1dc:	98 2f       	mov	r25, r24
+ 1de:	88 27       	eor	r24, r24
+ 1e0:	20 91 7c 01 	lds	r18, 0x017C
+ 1e4:	82 0f       	add	r24, r18
+ 1e6:	91 1d       	adc	r25, r1
+ 1e8:	91 83       	std	Z+1, r25	; 0x01
+ 1ea:	80 83       	st	Z, r24
+	
 	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+ 1ec:	e9 ef       	ldi	r30, 0xF9	; 249
+ 1ee:	f1 e0       	ldi	r31, 0x01	; 1
+ 1f0:	90 81       	ld	r25, Z
+ 1f2:	80 e0       	ldi	r24, 0x00	; 0
+ 1f4:	20 91 7d 01 	lds	r18, 0x017D
+ 1f8:	82 0f       	add	r24, r18
+ 1fa:	91 1d       	adc	r25, r1
 	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+ 1fc:	98 2f       	mov	r25, r24
+ 1fe:	88 27       	eor	r24, r24
+ 200:	20 91 7e 01 	lds	r18, 0x017E
+ 204:	82 0f       	add	r24, r18
+ 206:	91 1d       	adc	r25, r1
+ 208:	91 83       	std	Z+1, r25	; 0x01
+ 20a:	80 83       	st	Z, r24
 	
 	
 	// dummy read for now, need something to transact for the command
-	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
- 1f4:	80 91 7f 01 	lds	r24, 0x017F
-	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
- 1f8:	38 2f       	mov	r19, r24
- 1fa:	20 e0       	ldi	r18, 0x00	; 0
- 1fc:	80 91 80 01 	lds	r24, 0x0180
- 200:	28 0f       	add	r18, r24
- 202:	31 1d       	adc	r19, r1
- 204:	30 93 fa 01 	sts	0x01FA, r19
- 208:	20 93 f9 01 	sts	0x01F9, r18
- 20c:	08 95       	ret
+	dummyVariable = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+	dummyVariable = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+ 20c:	80 91 80 01 	lds	r24, 0x0180
+ 210:	80 93 02 01 	sts	0x0102, r24
+ 214:	08 95       	ret
 
-0000020e <SPI_transaction>:
+00000216 <SPI_transaction>:
 }
 
 
 //  read and write SPI
 uint8_t SPI_transaction(uint8_t data)
 {
- 20e:	98 2f       	mov	r25, r24
+ 216:	98 2f       	mov	r25, r24
 	//  the interrupt flag was set when the ISR was called do just read the data register, then copy the data to be sent to the register,
 	//  return the received byte
 	uint8_t recivedByte = SPDR;
- 210:	8e b5       	in	r24, 0x2e	; 46
+ 218:	8e b5       	in	r24, 0x2e	; 46
 	SPDR  = data ;
- 212:	9e bd       	out	0x2e, r25	; 46
+ 21a:	9e bd       	out	0x2e, r25	; 46
 	return recivedByte;
 }
- 214:	08 95       	ret
+ 21c:	08 95       	ret
 
-00000216 <transmit_SPI_Packet>:
+0000021e <transmit_SPI_Packet>:
 void transmit_SPI_Packet()
 {
 	
 	//  check to see if we have found the 2 byte end of packet indicator
 	//  bool isEnd = IsPacketEnd(rdata = SPI_transaction(commandPacket[received]));
 	bool isEnd = IsPacketEnd(rdata = SPI_transaction(commandPacket[received]));
- 216:	e0 91 00 01 	lds	r30, 0x0100
- 21a:	f0 e0       	ldi	r31, 0x00	; 0
- 21c:	e9 52       	subi	r30, 0x29	; 41
- 21e:	fe 4f       	sbci	r31, 0xFE	; 254
- 220:	80 81       	ld	r24, Z
- 222:	0e 94 07 01 	call	0x20e	; 0x20e <SPI_transaction>
- 226:	80 93 04 01 	sts	0x0104, r24
- 22a:	0e 94 8d 00 	call	0x11a	; 0x11a <IsPacketEnd>
+ 21e:	e0 91 00 01 	lds	r30, 0x0100
+ 222:	f0 e0       	ldi	r31, 0x00	; 0
+ 224:	e9 52       	subi	r30, 0x29	; 41
+ 226:	fe 4f       	sbci	r31, 0xFE	; 254
+ 228:	80 81       	ld	r24, Z
+ 22a:	0e 94 0b 01 	call	0x216	; 0x216 <SPI_transaction>
+ 22e:	80 93 04 01 	sts	0x0104, r24
+ 232:	0e 94 8d 00 	call	0x11a	; 0x11a <IsPacketEnd>
 
 	//  if we have not found the end of packet and we have not gathered the correct number of bytes, collect a byte 
 	if   ((received != (BUFSIZE-1))  && (!isEnd))
- 22e:	90 91 00 01 	lds	r25, 0x0100
- 232:	91 31       	cpi	r25, 0x11	; 17
- 234:	99 f0       	breq	.+38     	; 0x25c <transmit_SPI_Packet+0x46>
- 236:	81 11       	cpse	r24, r1
- 238:	39 c0       	rjmp	.+114    	; 0x2ac <transmit_SPI_Packet+0x96>
+ 236:	90 91 00 01 	lds	r25, 0x0100
+ 23a:	91 31       	cpi	r25, 0x11	; 17
+ 23c:	99 f0       	breq	.+38     	; 0x264 <transmit_SPI_Packet+0x46>
+ 23e:	81 11       	cpse	r24, r1
+ 240:	39 c0       	rjmp	.+114    	; 0x2b4 <transmit_SPI_Packet+0x96>
 	{
 		//USART_send_byte(received);
 		incoming[received++]  = rdata;
- 23a:	80 91 00 01 	lds	r24, 0x0100
- 23e:	e8 2f       	mov	r30, r24
- 240:	f0 e0       	ldi	r31, 0x00	; 0
- 242:	ef 58       	subi	r30, 0x8F	; 143
- 244:	fe 4f       	sbci	r31, 0xFE	; 254
- 246:	90 91 04 01 	lds	r25, 0x0104
- 24a:	90 83       	st	Z, r25
- 24c:	8f 5f       	subi	r24, 0xFF	; 255
- 24e:	80 93 00 01 	sts	0x0100, r24
+ 242:	80 91 00 01 	lds	r24, 0x0100
+ 246:	e8 2f       	mov	r30, r24
+ 248:	f0 e0       	ldi	r31, 0x00	; 0
+ 24a:	ef 58       	subi	r30, 0x8F	; 143
+ 24c:	fe 4f       	sbci	r31, 0xFE	; 254
+ 24e:	90 91 04 01 	lds	r25, 0x0104
+ 252:	90 83       	st	Z, r25
+ 254:	8f 5f       	subi	r24, 0xFF	; 255
+ 256:	80 93 00 01 	sts	0x0100, r24
 		
 		tbi(PORTC,PC5);
- 252:	98 b1       	in	r25, 0x08	; 8
- 254:	80 e2       	ldi	r24, 0x20	; 32
- 256:	89 27       	eor	r24, r25
- 258:	88 b9       	out	0x08, r24	; 8
- 25a:	08 95       	ret
+ 25a:	98 b1       	in	r25, 0x08	; 8
+ 25c:	80 e2       	ldi	r24, 0x20	; 32
+ 25e:	89 27       	eor	r24, r25
+ 260:	88 b9       	out	0x08, r24	; 8
+ 262:	08 95       	ret
 	}
 	//  if we have found the end of packet and we have gathered the correct number of bytes, parse the data
 	//  also we should be able to do a UART transaction before the next SPI frame starts,  depend of PC and Xmega data rates tho
 	else if ((received == (BUFSIZE-1))  && isEnd)
- 25c:	90 91 00 01 	lds	r25, 0x0100
- 260:	91 31       	cpi	r25, 0x11	; 17
- 262:	71 f4       	brne	.+28     	; 0x280 <transmit_SPI_Packet+0x6a>
- 264:	88 23       	and	r24, r24
- 266:	39 f1       	breq	.+78     	; 0x2b6 <transmit_SPI_Packet+0xa0>
+ 264:	90 91 00 01 	lds	r25, 0x0100
+ 268:	91 31       	cpi	r25, 0x11	; 17
+ 26a:	71 f4       	brne	.+28     	; 0x288 <transmit_SPI_Packet+0x6a>
+ 26c:	88 23       	and	r24, r24
+ 26e:	39 f1       	breq	.+78     	; 0x2be <transmit_SPI_Packet+0xa0>
 	{
 		parse_packet();
- 268:	0e 94 a6 00 	call	0x14c	; 0x14c <parse_packet>
+ 270:	0e 94 a6 00 	call	0x14c	; 0x14c <parse_packet>
 
 		received = 0;
- 26c:	10 92 00 01 	sts	0x0100, r1
+ 274:	10 92 00 01 	sts	0x0100, r1
 		gotIMU_Packet = true;	
- 270:	81 e0       	ldi	r24, 0x01	; 1
- 272:	80 93 01 01 	sts	0x0101, r24
+ 278:	81 e0       	ldi	r24, 0x01	; 1
+ 27a:	80 93 01 01 	sts	0x0101, r24
 		tbi(PORTC,PC4);			// 150mSec
- 276:	98 b1       	in	r25, 0x08	; 8
- 278:	80 e1       	ldi	r24, 0x10	; 16
- 27a:	89 27       	eor	r24, r25
- 27c:	88 b9       	out	0x08, r24	; 8
- 27e:	08 95       	ret
+ 27e:	98 b1       	in	r25, 0x08	; 8
+ 280:	80 e1       	ldi	r24, 0x10	; 16
+ 282:	89 27       	eor	r24, r25
+ 284:	88 b9       	out	0x08, r24	; 8
+ 286:	08 95       	ret
 		//TransactWithPC();
 	}
 	//  we found the the end of packet sequence but did not gather the correct number of bytes, something is wrong
 	//  try to sync
 	else if ((received != (BUFSIZE-1)) && isEnd)
- 280:	90 91 00 01 	lds	r25, 0x0100
- 284:	91 31       	cpi	r25, 0x11	; 17
- 286:	29 f0       	breq	.+10     	; 0x292 <transmit_SPI_Packet+0x7c>
- 288:	88 23       	and	r24, r24
- 28a:	e1 f0       	breq	.+56     	; 0x2c4 <transmit_SPI_Packet+0xae>
+ 288:	90 91 00 01 	lds	r25, 0x0100
+ 28c:	91 31       	cpi	r25, 0x11	; 17
+ 28e:	29 f0       	breq	.+10     	; 0x29a <transmit_SPI_Packet+0x7c>
+ 290:	88 23       	and	r24, r24
+ 292:	e1 f0       	breq	.+56     	; 0x2cc <transmit_SPI_Packet+0xae>
 	{
 		received = 0;
- 28c:	10 92 00 01 	sts	0x0100, r1
- 290:	08 95       	ret
+ 294:	10 92 00 01 	sts	0x0100, r1
+ 298:	08 95       	ret
 		//tbi(PORTC,PC3);
 		
 	}
 	//  got the correct number of byte but no packed is, resync
 	else if ((received == (BUFSIZE-1)) && !(isEnd))
- 292:	90 91 00 01 	lds	r25, 0x0100
- 296:	91 31       	cpi	r25, 0x11	; 17
- 298:	f9 f4       	brne	.+62     	; 0x2d8 <transmit_SPI_Packet+0xc2>
- 29a:	81 11       	cpse	r24, r1
- 29c:	1d c0       	rjmp	.+58     	; 0x2d8 <transmit_SPI_Packet+0xc2>
+ 29a:	90 91 00 01 	lds	r25, 0x0100
+ 29e:	91 31       	cpi	r25, 0x11	; 17
+ 2a0:	f9 f4       	brne	.+62     	; 0x2e0 <transmit_SPI_Packet+0xc2>
+ 2a2:	81 11       	cpse	r24, r1
+ 2a4:	1d c0       	rjmp	.+58     	; 0x2e0 <transmit_SPI_Packet+0xc2>
 	{
 		received = 0;
- 29e:	10 92 00 01 	sts	0x0100, r1
+ 2a6:	10 92 00 01 	sts	0x0100, r1
 		tbi(PORTC,PC2);
- 2a2:	98 b1       	in	r25, 0x08	; 8
- 2a4:	84 e0       	ldi	r24, 0x04	; 4
- 2a6:	89 27       	eor	r24, r25
- 2a8:	88 b9       	out	0x08, r24	; 8
- 2aa:	08 95       	ret
+ 2aa:	98 b1       	in	r25, 0x08	; 8
+ 2ac:	84 e0       	ldi	r24, 0x04	; 4
+ 2ae:	89 27       	eor	r24, r25
+ 2b0:	88 b9       	out	0x08, r24	; 8
+ 2b2:	08 95       	ret
 		
 		tbi(PORTC,PC5);
 	}
 	//  if we have found the end of packet and we have gathered the correct number of bytes, parse the data
 	//  also we should be able to do a UART transaction before the next SPI frame starts,  depend of PC and Xmega data rates tho
 	else if ((received == (BUFSIZE-1))  && isEnd)
- 2ac:	90 91 00 01 	lds	r25, 0x0100
- 2b0:	91 31       	cpi	r25, 0x11	; 17
- 2b2:	69 f4       	brne	.+26     	; 0x2ce <transmit_SPI_Packet+0xb8>
- 2b4:	d9 cf       	rjmp	.-78     	; 0x268 <transmit_SPI_Packet+0x52>
+ 2b4:	90 91 00 01 	lds	r25, 0x0100
+ 2b8:	91 31       	cpi	r25, 0x11	; 17
+ 2ba:	69 f4       	brne	.+26     	; 0x2d6 <transmit_SPI_Packet+0xb8>
+ 2bc:	d9 cf       	rjmp	.-78     	; 0x270 <transmit_SPI_Packet+0x52>
 		tbi(PORTC,PC4);			// 150mSec
 		//TransactWithPC();
 	}
 	//  we found the the end of packet sequence but did not gather the correct number of bytes, something is wrong
 	//  try to sync
 	else if ((received != (BUFSIZE-1)) && isEnd)
- 2b6:	80 91 00 01 	lds	r24, 0x0100
+ 2be:	80 91 00 01 	lds	r24, 0x0100
 		received = 0;
 		//tbi(PORTC,PC3);
 		
 	}
 	//  got the correct number of byte but no packed is, resync
 	else if ((received == (BUFSIZE-1)) && !(isEnd))
- 2ba:	80 91 00 01 	lds	r24, 0x0100
- 2be:	81 31       	cpi	r24, 0x11	; 17
- 2c0:	59 f4       	brne	.+22     	; 0x2d8 <transmit_SPI_Packet+0xc2>
- 2c2:	ed cf       	rjmp	.-38     	; 0x29e <transmit_SPI_Packet+0x88>
- 2c4:	80 91 00 01 	lds	r24, 0x0100
- 2c8:	81 31       	cpi	r24, 0x11	; 17
- 2ca:	31 f4       	brne	.+12     	; 0x2d8 <transmit_SPI_Packet+0xc2>
- 2cc:	e8 cf       	rjmp	.-48     	; 0x29e <transmit_SPI_Packet+0x88>
+ 2c2:	80 91 00 01 	lds	r24, 0x0100
+ 2c6:	81 31       	cpi	r24, 0x11	; 17
+ 2c8:	59 f4       	brne	.+22     	; 0x2e0 <transmit_SPI_Packet+0xc2>
+ 2ca:	ed cf       	rjmp	.-38     	; 0x2a6 <transmit_SPI_Packet+0x88>
+ 2cc:	80 91 00 01 	lds	r24, 0x0100
+ 2d0:	81 31       	cpi	r24, 0x11	; 17
+ 2d2:	31 f4       	brne	.+12     	; 0x2e0 <transmit_SPI_Packet+0xc2>
+ 2d4:	e8 cf       	rjmp	.-48     	; 0x2a6 <transmit_SPI_Packet+0x88>
 		tbi(PORTC,PC4);			// 150mSec
 		//TransactWithPC();
 	}
 	//  we found the the end of packet sequence but did not gather the correct number of bytes, something is wrong
 	//  try to sync
 	else if ((received != (BUFSIZE-1)) && isEnd)
- 2ce:	90 91 00 01 	lds	r25, 0x0100
- 2d2:	91 31       	cpi	r25, 0x11	; 17
- 2d4:	d9 f6       	brne	.-74     	; 0x28c <transmit_SPI_Packet+0x76>
- 2d6:	dd cf       	rjmp	.-70     	; 0x292 <transmit_SPI_Packet+0x7c>
- 2d8:	08 95       	ret
+ 2d6:	90 91 00 01 	lds	r25, 0x0100
+ 2da:	91 31       	cpi	r25, 0x11	; 17
+ 2dc:	d9 f6       	brne	.-74     	; 0x294 <transmit_SPI_Packet+0x76>
+ 2de:	dd cf       	rjmp	.-70     	; 0x29a <transmit_SPI_Packet+0x7c>
+ 2e0:	08 95       	ret
 
-000002da <__vector_17>:
+000002e2 <__vector_17>:
   INPUT:
   OUTPUT:
   DISCRIPTION:  SPI ISR, called every time a byte is received in the SPI data register
 *********************************************************************************************************** */
 ISR(SPI_STC_vect)
 {	
- 2da:	1f 92       	push	r1
- 2dc:	0f 92       	push	r0
- 2de:	0f b6       	in	r0, 0x3f	; 63
- 2e0:	0f 92       	push	r0
- 2e2:	11 24       	eor	r1, r1
- 2e4:	2f 93       	push	r18
- 2e6:	3f 93       	push	r19
- 2e8:	4f 93       	push	r20
- 2ea:	5f 93       	push	r21
- 2ec:	6f 93       	push	r22
- 2ee:	7f 93       	push	r23
- 2f0:	8f 93       	push	r24
- 2f2:	9f 93       	push	r25
- 2f4:	af 93       	push	r26
- 2f6:	bf 93       	push	r27
- 2f8:	ef 93       	push	r30
- 2fa:	ff 93       	push	r31
+ 2e2:	1f 92       	push	r1
+ 2e4:	0f 92       	push	r0
+ 2e6:	0f b6       	in	r0, 0x3f	; 63
+ 2e8:	0f 92       	push	r0
+ 2ea:	11 24       	eor	r1, r1
+ 2ec:	2f 93       	push	r18
+ 2ee:	3f 93       	push	r19
+ 2f0:	4f 93       	push	r20
+ 2f2:	5f 93       	push	r21
+ 2f4:	6f 93       	push	r22
+ 2f6:	7f 93       	push	r23
+ 2f8:	8f 93       	push	r24
+ 2fa:	9f 93       	push	r25
+ 2fc:	af 93       	push	r26
+ 2fe:	bf 93       	push	r27
+ 300:	ef 93       	push	r30
+ 302:	ff 93       	push	r31
 	tbi(PORTC,PC3);
- 2fc:	98 b1       	in	r25, 0x08	; 8
- 2fe:	88 e0       	ldi	r24, 0x08	; 8
- 300:	89 27       	eor	r24, r25
- 302:	88 b9       	out	0x08, r24	; 8
+ 304:	98 b1       	in	r25, 0x08	; 8
+ 306:	88 e0       	ldi	r24, 0x08	; 8
+ 308:	89 27       	eor	r24, r25
+ 30a:	88 b9       	out	0x08, r24	; 8
 	transmit_SPI_Packet();
- 304:	0e 94 0b 01 	call	0x216	; 0x216 <transmit_SPI_Packet>
+ 30c:	0e 94 0f 01 	call	0x21e	; 0x21e <transmit_SPI_Packet>
 	
 }
- 308:	ff 91       	pop	r31
- 30a:	ef 91       	pop	r30
- 30c:	bf 91       	pop	r27
- 30e:	af 91       	pop	r26
- 310:	9f 91       	pop	r25
- 312:	8f 91       	pop	r24
- 314:	7f 91       	pop	r23
- 316:	6f 91       	pop	r22
- 318:	5f 91       	pop	r21
- 31a:	4f 91       	pop	r20
- 31c:	3f 91       	pop	r19
- 31e:	2f 91       	pop	r18
- 320:	0f 90       	pop	r0
- 322:	0f be       	out	0x3f, r0	; 63
- 324:	0f 90       	pop	r0
- 326:	1f 90       	pop	r1
- 328:	18 95       	reti
+ 310:	ff 91       	pop	r31
+ 312:	ef 91       	pop	r30
+ 314:	bf 91       	pop	r27
+ 316:	af 91       	pop	r26
+ 318:	9f 91       	pop	r25
+ 31a:	8f 91       	pop	r24
+ 31c:	7f 91       	pop	r23
+ 31e:	6f 91       	pop	r22
+ 320:	5f 91       	pop	r21
+ 322:	4f 91       	pop	r20
+ 324:	3f 91       	pop	r19
+ 326:	2f 91       	pop	r18
+ 328:	0f 90       	pop	r0
+ 32a:	0f be       	out	0x3f, r0	; 63
+ 32c:	0f 90       	pop	r0
+ 32e:	1f 90       	pop	r1
+ 330:	18 95       	reti
 
-0000032a <USART_init>:
+00000332 <USART_init>:
 
 
 void USART_init(void)
 {
 	// UBBRR values, 115200bps @ 11Mhz from Worm food on line calculator
 	UBRR0H = 0x00;
- 32a:	10 92 c5 00 	sts	0x00C5, r1
+ 332:	10 92 c5 00 	sts	0x00C5, r1
 	UBRR0L = 0x05;
- 32e:	85 e0       	ldi	r24, 0x05	; 5
- 330:	80 93 c4 00 	sts	0x00C4, r24
+ 336:	85 e0       	ldi	r24, 0x05	; 5
+ 338:	80 93 c4 00 	sts	0x00C4, r24
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
- 334:	88 e1       	ldi	r24, 0x18	; 24
- 336:	80 93 c1 00 	sts	0x00C1, r24
+ 33c:	88 e1       	ldi	r24, 0x18	; 24
+ 33e:	80 93 c1 00 	sts	0x00C1, r24
 	UCSR0C = (3<<UCSZ00);
- 33a:	86 e0       	ldi	r24, 0x06	; 6
- 33c:	80 93 c2 00 	sts	0x00C2, r24
- 340:	08 95       	ret
+ 342:	86 e0       	ldi	r24, 0x06	; 6
+ 344:	80 93 c2 00 	sts	0x00C2, r24
+ 348:	08 95       	ret
 
-00000342 <USART_receive>:
+0000034a <USART_receive>:
 
 //read in one byte
 uint8_t USART_receive(void)
 {
 	//  RXCn  is set when the Rx is complete
 	while(!(UCSR0A & (1 << RXC0)));
- 342:	e0 ec       	ldi	r30, 0xC0	; 192
- 344:	f0 e0       	ldi	r31, 0x00	; 0
- 346:	80 81       	ld	r24, Z
- 348:	88 23       	and	r24, r24
- 34a:	ec f7       	brge	.-6      	; 0x346 <USART_receive+0x4>
+ 34a:	e0 ec       	ldi	r30, 0xC0	; 192
+ 34c:	f0 e0       	ldi	r31, 0x00	; 0
+ 34e:	80 81       	ld	r24, Z
+ 350:	88 23       	and	r24, r24
+ 352:	ec f7       	brge	.-6      	; 0x34e <USART_receive+0x4>
 	//  one the RXC0 bit is set, we can load the data register with the byte to send
 	return UDR0;
- 34c:	80 91 c6 00 	lds	r24, 0x00C6
+ 354:	80 91 c6 00 	lds	r24, 0x00C6
 	
 }
- 350:	08 95       	ret
+ 358:	08 95       	ret
 
-00000352 <Read_USART_CommandData>:
+0000035a <Read_USART_CommandData>:
 //250 mSec * 1000mSec / 1 Sec * 1/32,000,000
 //  this date is read in on the USART, it's sent from the PC
 //  joystick commands, gains...
 //this should be call every 42mSec, 
 uint8_t Read_USART_CommandData()
 {	
- 352:	cf 93       	push	r28
+ 35a:	cf 93       	push	r28
 		
 		bool gotHeader = false;
- 354:	c0 e0       	ldi	r28, 0x00	; 0
+ 35c:	c0 e0       	ldi	r28, 0x00	; 0
 
 		//  hold execution until we get the 2 byte header character
 		while (gotHeader == false)
 		{
 			if (USART_receive() == PACKET_END_CHAR)
- 356:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 35a:	8c 3c       	cpi	r24, 0xCC	; 204
- 35c:	39 f4       	brne	.+14     	; 0x36c <Read_USART_CommandData+0x1a>
+ 35e:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 362:	8c 3c       	cpi	r24, 0xCC	; 204
+ 364:	39 f4       	brne	.+14     	; 0x374 <Read_USART_CommandData+0x1a>
 			{
 				if (USART_receive() == PACKET_END_CHAR)
- 35e:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 362:	8c 3c       	cpi	r24, 0xCC	; 204
- 364:	29 f0       	breq	.+10     	; 0x370 <Read_USART_CommandData+0x1e>
+ 366:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 36a:	8c 3c       	cpi	r24, 0xCC	; 204
+ 36c:	29 f0       	breq	.+10     	; 0x378 <Read_USART_CommandData+0x1e>
 {	
 		
 		bool gotHeader = false;
 
 		//  hold execution until we get the 2 byte header character
 		while (gotHeader == false)
- 366:	cc 23       	and	r28, r28
- 368:	b1 f3       	breq	.-20     	; 0x356 <Read_USART_CommandData+0x4>
- 36a:	02 c0       	rjmp	.+4      	; 0x370 <Read_USART_CommandData+0x1e>
- 36c:	cc 23       	and	r28, r28
- 36e:	99 f3       	breq	.-26     	; 0x356 <Read_USART_CommandData+0x4>
+ 36e:	cc 23       	and	r28, r28
+ 370:	b1 f3       	breq	.-20     	; 0x35e <Read_USART_CommandData+0x4>
+ 372:	02 c0       	rjmp	.+4      	; 0x378 <Read_USART_CommandData+0x1e>
+ 374:	cc 23       	and	r28, r28
+ 376:	99 f3       	breq	.-26     	; 0x35e <Read_USART_CommandData+0x4>
 					//tbi(PORTC,PC3);
 				}
 			}
 		}
 		
 		throttleAxis.thrust = (USART_receive() << 8) | USART_receive();
- 370:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 374:	c8 2f       	mov	r28, r24
- 376:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 37a:	3c 2f       	mov	r19, r28
- 37c:	20 e0       	ldi	r18, 0x00	; 0
- 37e:	28 2b       	or	r18, r24
- 380:	30 93 b6 01 	sts	0x01B6, r19
- 384:	20 93 b5 01 	sts	0x01B5, r18
+ 378:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 37c:	c8 2f       	mov	r28, r24
+ 37e:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 382:	3c 2f       	mov	r19, r28
+ 384:	20 e0       	ldi	r18, 0x00	; 0
+ 386:	28 2b       	or	r18, r24
+ 388:	30 93 b6 01 	sts	0x01B6, r19
+ 38c:	20 93 b5 01 	sts	0x01B5, r18
 		rollAxis.attitude_command = (USART_receive() << 8) | USART_receive();
- 388:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 38c:	c8 2f       	mov	r28, r24
- 38e:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 392:	3c 2f       	mov	r19, r28
- 394:	20 e0       	ldi	r18, 0x00	; 0
- 396:	28 2b       	or	r18, r24
- 398:	30 93 0e 01 	sts	0x010E, r19
- 39c:	20 93 0d 01 	sts	0x010D, r18
+ 390:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 394:	c8 2f       	mov	r28, r24
+ 396:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 39a:	3c 2f       	mov	r19, r28
+ 39c:	20 e0       	ldi	r18, 0x00	; 0
+ 39e:	28 2b       	or	r18, r24
+ 3a0:	30 93 0e 01 	sts	0x010E, r19
+ 3a4:	20 93 0d 01 	sts	0x010D, r18
 		pitchAxis.attitude_command = (USART_receive() << 8) | USART_receive();
- 3a0:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3a4:	c8 2f       	mov	r28, r24
- 3a6:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3aa:	3c 2f       	mov	r19, r28
- 3ac:	20 e0       	ldi	r18, 0x00	; 0
- 3ae:	28 2b       	or	r18, r24
- 3b0:	30 93 46 01 	sts	0x0146, r19
- 3b4:	20 93 45 01 	sts	0x0145, r18
+ 3a8:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3ac:	c8 2f       	mov	r28, r24
+ 3ae:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3b2:	3c 2f       	mov	r19, r28
+ 3b4:	20 e0       	ldi	r18, 0x00	; 0
+ 3b6:	28 2b       	or	r18, r24
+ 3b8:	30 93 46 01 	sts	0x0146, r19
+ 3bc:	20 93 45 01 	sts	0x0145, r18
 		yawAxis.attitude_command = (USART_receive() << 8) | USART_receive();
- 3b8:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3bc:	c8 2f       	mov	r28, r24
- 3be:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3c2:	3c 2f       	mov	r19, r28
- 3c4:	20 e0       	ldi	r18, 0x00	; 0
- 3c6:	28 2b       	or	r18, r24
- 3c8:	30 93 ec 01 	sts	0x01EC, r19
- 3cc:	20 93 eb 01 	sts	0x01EB, r18
+ 3c0:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3c4:	c8 2f       	mov	r28, r24
+ 3c6:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3ca:	3c 2f       	mov	r19, r28
+ 3cc:	20 e0       	ldi	r18, 0x00	; 0
+ 3ce:	28 2b       	or	r18, r24
+ 3d0:	30 93 ec 01 	sts	0x01EC, r19
+ 3d4:	20 93 eb 01 	sts	0x01EB, r18
 		pitchAxis.Kp_attitude = (USART_receive() << 8) | USART_receive();
- 3d0:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3d4:	c8 2f       	mov	r28, r24
- 3d6:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3da:	3c 2f       	mov	r19, r28
- 3dc:	20 e0       	ldi	r18, 0x00	; 0
- 3de:	28 2b       	or	r18, r24
- 3e0:	30 93 3e 01 	sts	0x013E, r19
- 3e4:	20 93 3d 01 	sts	0x013D, r18
+ 3d8:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3dc:	c8 2f       	mov	r28, r24
+ 3de:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3e2:	3c 2f       	mov	r19, r28
+ 3e4:	20 e0       	ldi	r18, 0x00	; 0
+ 3e6:	28 2b       	or	r18, r24
+ 3e8:	30 93 3e 01 	sts	0x013E, r19
+ 3ec:	20 93 3d 01 	sts	0x013D, r18
 		pitchAxis.Ki_attitude = (USART_receive() << 8) | USART_receive();
- 3e8:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3ec:	c8 2f       	mov	r28, r24
- 3ee:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 3f2:	3c 2f       	mov	r19, r28
- 3f4:	20 e0       	ldi	r18, 0x00	; 0
- 3f6:	28 2b       	or	r18, r24
- 3f8:	30 93 40 01 	sts	0x0140, r19
- 3fc:	20 93 3f 01 	sts	0x013F, r18
+ 3f0:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3f4:	c8 2f       	mov	r28, r24
+ 3f6:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 3fa:	3c 2f       	mov	r19, r28
+ 3fc:	20 e0       	ldi	r18, 0x00	; 0
+ 3fe:	28 2b       	or	r18, r24
+ 400:	30 93 40 01 	sts	0x0140, r19
+ 404:	20 93 3f 01 	sts	0x013F, r18
 		pitchAxis.Kd_attitude = (USART_receive() << 8) | USART_receive();
- 400:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 404:	c8 2f       	mov	r28, r24
- 406:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 40a:	3c 2f       	mov	r19, r28
- 40c:	20 e0       	ldi	r18, 0x00	; 0
- 40e:	28 2b       	or	r18, r24
- 410:	30 93 42 01 	sts	0x0142, r19
- 414:	20 93 41 01 	sts	0x0141, r18
+ 408:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 40c:	c8 2f       	mov	r28, r24
+ 40e:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 412:	3c 2f       	mov	r19, r28
+ 414:	20 e0       	ldi	r18, 0x00	; 0
+ 416:	28 2b       	or	r18, r24
+ 418:	30 93 42 01 	sts	0x0142, r19
+ 41c:	20 93 41 01 	sts	0x0141, r18
 		command = (USART_receive() << 8) | USART_receive();
- 418:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 41c:	c8 2f       	mov	r28, r24
- 41e:	0e 94 a1 01 	call	0x342	; 0x342 <USART_receive>
- 422:	3c 2f       	mov	r19, r28
- 424:	20 e0       	ldi	r18, 0x00	; 0
- 426:	28 2b       	or	r18, r24
- 428:	30 93 3a 01 	sts	0x013A, r19
- 42c:	20 93 39 01 	sts	0x0139, r18
+ 420:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 424:	c8 2f       	mov	r28, r24
+ 426:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
+ 42a:	3c 2f       	mov	r19, r28
+ 42c:	20 e0       	ldi	r18, 0x00	; 0
+ 42e:	28 2b       	or	r18, r24
+ 430:	30 93 3a 01 	sts	0x013A, r19
+ 434:	20 93 39 01 	sts	0x0139, r18
 		
 		return 1;
 			
 }
- 430:	81 e0       	ldi	r24, 0x01	; 1
- 432:	cf 91       	pop	r28
- 434:	08 95       	ret
+ 438:	81 e0       	ldi	r24, 0x01	; 1
+ 43a:	cf 91       	pop	r28
+ 43c:	08 95       	ret
 
-00000436 <SPIinitSlave>:
+0000043e <SPIinitSlave>:
 
 
 
 
 void SPIinitSlave()
 {
- 436:	cf 93       	push	r28
- 438:	df 93       	push	r29
- 43a:	1f 92       	push	r1
- 43c:	cd b7       	in	r28, 0x3d	; 61
- 43e:	de b7       	in	r29, 0x3e	; 62
+ 43e:	cf 93       	push	r28
+ 440:	df 93       	push	r29
+ 442:	1f 92       	push	r1
+ 444:	cd b7       	in	r28, 0x3d	; 61
+ 446:	de b7       	in	r29, 0x3e	; 62
 
     //**********************************************************
 	volatile char IOReg;
 	// Set PB6(MISO) as output
 	DDRB    = (1<<PB4);											
- 440:	80 e1       	ldi	r24, 0x10	; 16
- 442:	84 b9       	out	0x04, r24	; 4
+ 448:	80 e1       	ldi	r24, 0x10	; 16
+ 44a:	84 b9       	out	0x04, r24	; 4
 	SPCR = (1<<SPIE)|(1<<SPE)|(0<<DORD)|(0<<CPOL)|(0<<CPHA);				// Enable SPI Interrupt and SPI in Slave Mode with SCK = CK/4
- 444:	80 ec       	ldi	r24, 0xC0	; 192
- 446:	8c bd       	out	0x2c, r24	; 44
+ 44c:	80 ec       	ldi	r24, 0xC0	; 192
+ 44e:	8c bd       	out	0x2c, r24	; 44
 	IOReg   = SPSR;															// Clear SPIF bit in SPSR
- 448:	8d b5       	in	r24, 0x2d	; 45
- 44a:	89 83       	std	Y+1, r24	; 0x01
+ 450:	8d b5       	in	r24, 0x2d	; 45
+ 452:	89 83       	std	Y+1, r24	; 0x01
 	IOReg   = SPDR;
- 44c:	8e b5       	in	r24, 0x2e	; 46
- 44e:	89 83       	std	Y+1, r24	; 0x01
+ 454:	8e b5       	in	r24, 0x2e	; 46
+ 456:	89 83       	std	Y+1, r24	; 0x01
 	SPDR = 0x00;															// initialize SPI data register
- 450:	1e bc       	out	0x2e, r1	; 46
+ 458:	1e bc       	out	0x2e, r1	; 46
 	sei();																	// Enable global interrupt			
- 452:	78 94       	sei
+ 45a:	78 94       	sei
 	
 
 }
- 454:	0f 90       	pop	r0
- 456:	df 91       	pop	r29
- 458:	cf 91       	pop	r28
- 45a:	08 95       	ret
+ 45c:	0f 90       	pop	r0
+ 45e:	df 91       	pop	r29
+ 460:	cf 91       	pop	r28
+ 462:	08 95       	ret
 
-0000045c <USART_sendData_int16>:
+00000464 <USART_sendData_int16>:
 
 //send 16 bit data on USART, 2 bytes
 void USART_sendData_int16(int16_t sendthis)
 {
 	//  send upper byte
 	while(!(UCSR0A & (1<<UDRE0)));
- 45c:	e0 ec       	ldi	r30, 0xC0	; 192
- 45e:	f0 e0       	ldi	r31, 0x00	; 0
- 460:	20 81       	ld	r18, Z
- 462:	25 ff       	sbrs	r18, 5
- 464:	fd cf       	rjmp	.-6      	; 0x460 <USART_sendData_int16+0x4>
+ 464:	e0 ec       	ldi	r30, 0xC0	; 192
+ 466:	f0 e0       	ldi	r31, 0x00	; 0
+ 468:	20 81       	ld	r18, Z
+ 46a:	25 ff       	sbrs	r18, 5
+ 46c:	fd cf       	rjmp	.-6      	; 0x468 <USART_sendData_int16+0x4>
 	UDR0 = MASK_TOP_BYTE & (sendthis >> 8);
- 466:	90 93 c6 00 	sts	0x00C6, r25
+ 46e:	90 93 c6 00 	sts	0x00C6, r25
 	
 	//  send lower byte
 	while(!(UCSR0A & (1<<UDRE0)));
- 46a:	e0 ec       	ldi	r30, 0xC0	; 192
- 46c:	f0 e0       	ldi	r31, 0x00	; 0
- 46e:	90 81       	ld	r25, Z
- 470:	95 ff       	sbrs	r25, 5
- 472:	fd cf       	rjmp	.-6      	; 0x46e <USART_sendData_int16+0x12>
+ 472:	e0 ec       	ldi	r30, 0xC0	; 192
+ 474:	f0 e0       	ldi	r31, 0x00	; 0
+ 476:	90 81       	ld	r25, Z
+ 478:	95 ff       	sbrs	r25, 5
+ 47a:	fd cf       	rjmp	.-6      	; 0x476 <USART_sendData_int16+0x12>
 	UDR0 = (MASK_TOP_BYTE & sendthis);
- 474:	80 93 c6 00 	sts	0x00C6, r24
- 478:	08 95       	ret
+ 47c:	80 93 c6 00 	sts	0x00C6, r24
+ 480:	08 95       	ret
 
-0000047a <Send_USART_PC_Data>:
+00000482 <Send_USART_PC_Data>:
 // should match the number of bytes the PC expects to receive
 void Send_USART_PC_Data()
 {
 	// send header first, the PC will use the header to parse out the stream
 
 	USART_sendData_int16(0xCCCC);					
- 47a:	8c ec       	ldi	r24, 0xCC	; 204
- 47c:	9c ec       	ldi	r25, 0xCC	; 204
- 47e:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
+ 482:	8c ec       	ldi	r24, 0xCC	; 204
+ 484:	9c ec       	ldi	r25, 0xCC	; 204
+ 486:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
 	USART_sendData_int16(throttleAxis.thrust);
- 482:	80 91 b5 01 	lds	r24, 0x01B5
- 486:	90 91 b6 01 	lds	r25, 0x01B6
- 48a:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
-	USART_sendData_int16(pitchAxis.attitude_feedback);
- 48e:	80 91 43 01 	lds	r24, 0x0143
- 492:	90 91 44 01 	lds	r25, 0x0144
- 496:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
+ 48a:	80 91 b5 01 	lds	r24, 0x01B5
+ 48e:	90 91 b6 01 	lds	r25, 0x01B6
+ 492:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
 	USART_sendData_int16(rollAxis.attitude_feedback);
- 49a:	80 91 0b 01 	lds	r24, 0x010B
- 49e:	90 91 0c 01 	lds	r25, 0x010C
- 4a2:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
+ 496:	80 91 0b 01 	lds	r24, 0x010B
+ 49a:	90 91 0c 01 	lds	r25, 0x010C
+ 49e:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
+	USART_sendData_int16(pitchAxis.attitude_feedback);
+ 4a2:	80 91 43 01 	lds	r24, 0x0143
+ 4a6:	90 91 44 01 	lds	r25, 0x0144
+ 4aa:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
 	USART_sendData_int16(yawAxis.attitude_feedback);
- 4a6:	80 91 e9 01 	lds	r24, 0x01E9
- 4aa:	90 91 ea 01 	lds	r25, 0x01EA
- 4ae:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
-	USART_sendData_int16(pitchAxis.rate_feedback);
- 4b2:	80 91 53 01 	lds	r24, 0x0153
- 4b6:	90 91 54 01 	lds	r25, 0x0154
- 4ba:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
+ 4ae:	80 91 e9 01 	lds	r24, 0x01E9
+ 4b2:	90 91 ea 01 	lds	r25, 0x01EA
+ 4b6:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
 	USART_sendData_int16(rollAxis.rate_feedback);
- 4be:	80 91 1b 01 	lds	r24, 0x011B
- 4c2:	90 91 1c 01 	lds	r25, 0x011C
- 4c6:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
+ 4ba:	80 91 1b 01 	lds	r24, 0x011B
+ 4be:	90 91 1c 01 	lds	r25, 0x011C
+ 4c2:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
+	USART_sendData_int16(pitchAxis.rate_feedback);
+ 4c6:	80 91 53 01 	lds	r24, 0x0153
+ 4ca:	90 91 54 01 	lds	r25, 0x0154
+ 4ce:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
 	USART_sendData_int16(yawAxis.rate_feedback);
- 4ca:	80 91 f9 01 	lds	r24, 0x01F9
- 4ce:	90 91 fa 01 	lds	r25, 0x01FA
- 4d2:	0e 94 2e 02 	call	0x45c	; 0x45c <USART_sendData_int16>
- 4d6:	08 95       	ret
+ 4d2:	80 91 f9 01 	lds	r24, 0x01F9
+ 4d6:	90 91 fa 01 	lds	r25, 0x01FA
+ 4da:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
+ 4de:	08 95       	ret
 
-000004d8 <TransactWithPC>:
-
-
+000004e0 <TransactWithPC>:
+  
+*********************************************************************************************************** */
 TransactWithPC()
 {
 	
 			Read_USART_CommandData();
- 4d8:	0e 94 a9 01 	call	0x352	; 0x352 <Read_USART_CommandData>
+ 4e0:	0e 94 ad 01 	call	0x35a	; 0x35a <Read_USART_CommandData>
 			Send_USART_PC_Data();
- 4dc:	0e 94 3d 02 	call	0x47a	; 0x47a <Send_USART_PC_Data>
+ 4e4:	0e 94 41 02 	call	0x482	; 0x482 <Send_USART_PC_Data>
 			RefreshCommandPacket();
- 4e0:	0e 94 48 00 	call	0x90	; 0x90 <RefreshCommandPacket>
+ 4e8:	0e 94 48 00 	call	0x90	; 0x90 <RefreshCommandPacket>
 			gotIMU_Packet = false;
- 4e4:	10 92 01 01 	sts	0x0101, r1
- 4e8:	08 95       	ret
+ 4ec:	10 92 01 01 	sts	0x0101, r1
+ 4f0:	08 95       	ret
 
-000004ea <main>:
+000004f2 <main>:
 */
 
 
 int main()
 {
 	DDRC=0xff;									//Data direction register on PORTC as OUTPUT
- 4ea:	8f ef       	ldi	r24, 0xFF	; 255
- 4ec:	87 b9       	out	0x07, r24	; 7
+ 4f2:	8f ef       	ldi	r24, 0xFF	; 255
+ 4f4:	87 b9       	out	0x07, r24	; 7
 	USART_init();
- 4ee:	0e 94 95 01 	call	0x32a	; 0x32a <USART_init>
+ 4f6:	0e 94 99 01 	call	0x332	; 0x332 <USART_init>
 	SPIinitSlave();
- 4f2:	0e 94 1b 02 	call	0x436	; 0x436 <SPIinitSlave>
+ 4fa:	0e 94 1f 02 	call	0x43e	; 0x43e <SPIinitSlave>
 	//Timer_init();	
 	while(1) 
 	{
 	TransactWithPC();		
- 4f6:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <TransactWithPC>
- 4fa:	fd cf       	rjmp	.-6      	; 0x4f6 <main+0xc>
+ 4fe:	0e 94 70 02 	call	0x4e0	; 0x4e0 <TransactWithPC>
+ 502:	fd cf       	rjmp	.-6      	; 0x4fe <main+0xc>
 
-000004fc <_exit>:
- 4fc:	f8 94       	cli
+00000504 <_exit>:
+ 504:	f8 94       	cli
 
-000004fe <__stop_program>:
- 4fe:	ff cf       	rjmp	.-2      	; 0x4fe <__stop_program>
+00000506 <__stop_program>:
+ 506:	ff cf       	rjmp	.-2      	; 0x506 <__stop_program>

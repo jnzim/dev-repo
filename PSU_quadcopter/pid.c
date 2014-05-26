@@ -23,8 +23,7 @@ int16_t p_attitude_divisor = 50;
 int16_t i_attitude_divisor = 100;
 int16_t integral_addup_reducer = 10;
 int16_t attitude_loop_out;
-void PI_rate(PID_data *pid_data);
-void PI_attitude_rate(PID_data *pid_data);
+
 
 
 //  pid  position control loop
@@ -55,26 +54,18 @@ void PI_rate(PID_data *pid_data)
 	pid_data->previousRateError2 = pid_data->rate_error;
 
 	// calculate the current rate error
-	pid_data->rate_error = pid_data->attitude_command - pid_data->rate_feedback;
+	pid_data->rate_error = (0 - pid_data->rate_feedback)/10;
 	
 	// integrate the rate error
 	pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer + 
 	pid_data->previousRateError1/integral_addup_reducer + pid_data->previousRateError2/integral_addup_reducer;
 	
-	//pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp) / p_rate_divisor;
-	//pid_data->i_term_rate = (pid_data->rate_integral * pid_data->Ki) / i_rate_divisor;
-//
-	//
-	//pid_data->pid_total = pid_data->p_term_rate + pid_data->i_term_rate;// + pid_data->d_term_rate;
-	//
+	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp);
 	
-	
-	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp)/10;
-	
-	pid_data->i_term_rate = (pid_data->rate_total_error  * pid_data->Ki)/10;
+	pid_data->i_term_rate = (pid_data->rate_integral  * pid_data->Ki);
 
-	pid_data->pid_total =(pid_data->p_term_rate + pid_data->i_term_rate);
 	
+	pid_data->pid_total =pid_data->p_term_rate + pid_data->i_term_rate;
 }
 
 
@@ -86,51 +77,53 @@ DISCRIPTION:  nest PI loops, with the rate loop on the insidea
 *********************************************************************************************************** */
 void PI_attitude_rate(PID_data *pid_data)
 {
-	
-	int16_t attitude_loop_out;
-
-	
-	//  keep track of the last 3 error samples for the integral calculation 
+	////  save the last error calculation so we can calculate the derivative
 	pid_data->previousError0 = pid_data->previousError1;
 	pid_data->previousError1 = pid_data->previousError2;
 	pid_data->previousError2 = pid_data->attitude_error;
+	//pid_data->previousError0 = pid_data->error;
+	////  calculate the new error
+	////10 - 23 = -13
 	
-	// calculate the current attitude error
-	// this is nested loop so we take the output of the rate loop to calculate the error
-	pid_data->attitude_error = pid_data->attitude_command - pid_data->attitude_feedback;
+	pid_data->attitude_error = (pid_data->attitude_command - pid_data->attitude_feedback)/10;
 	
-	//  calculate the attitude loop integral 
-	pid_data->attitude_integral = pid_data->attitude_error/integral_addup_reducer + pid_data->previousError0/integral_addup_reducer + 
-	pid_data->previousError1/integral_addup_reducer + pid_data->previousError2/integral_addup_reducer;
+
+	pid_data->attitude_total_error = (pid_data->previousError0/integral_addup_reducer + pid_data->previousError1/integral_addup_reducer +
+	pid_data->previousError2/integral_addup_reducer + pid_data->attitude_error/integral_addup_reducer);
+
+
+
+	pid_data->p_term_attitude = (pid_data->attitude_error  *  pid_data->Kp);
 	
-	// calculate the attitude loop out, this is the rate loop input
-	pid_data->attitude_loop_out = ((pid_data->attitude_error * pid_data->Kp) / p_attitude_divisor) + ((pid_data->attitude_error* pid_data->Ki_rate) / i_attitude_divisor);
+	//calculate integral term
+	pid_data->i_term_attitude =(pid_data->attitude_total_error  * pid_data->Ki);
+
 	
+	// calculate the pid output
+	pid_data->attitude_loop_out = (pid_data->p_term_attitude + pid_data->i_term_attitude);
+	//pid_rate(pid_data);
+
 	
-	////RATE LOOP
-	
-	//  rate loop error is attitude loop output - the rate feedback
-	pid_data->rate_error = (pid_data->attitude_loop_out - pid_data->rate_feedback)/5;
-	
-	// keep track of the last 3 error samples, this is needed for attitude integration
+	//  rate calculations start here
 	pid_data->previousRateError0 = pid_data->previousRateError1;
 	pid_data->previousRateError1 = pid_data->previousRateError2;
 	pid_data->previousRateError2 = pid_data->rate_error;
-		
-	// integrate the rate error
-	pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer
-	 + pid_data->previousRateError1/integral_addup_reducer + pid_data->previousRateError2/integral_addup_reducer;
 	
-	//  calculate the p and i terms for the inner loop	
+	pid_data->rate_error = (pid_data->attitude_loop_out- pid_data->rate_feedback)/10;
 	
-	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp) / p_rate_divisor;
-	pid_data->i_term_rate = (pid_data->rate_integral * pid_data->Ki) / i_rate_divisor;
+	pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer +
+	pid_data->previousRateError1/integral_addup_reducer + pid_data->previousRateError2/integral_addup_reducer;
+	
+	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp_rate);
+	
+	pid_data->i_term_rate = (pid_data->rate_total_error  * pid_data->Ki_rate);
+	
+	pid_data->pid_total =(pid_data->p_term_rate + pid_data->i_term_rate);
 	
 
 	
-	pid_data->pid_total = pid_data->p_term_rate + pid_data->i_term_rate;
-	
 }
+
 
 
 //  prototypes
@@ -144,8 +137,8 @@ void pid_rate(PID_data *pid_data)
 	pid_data->previousRateError2 = pid_data->rate_error;
 		//pid_data->previousError0 = pid_data->error;
 	// the rate error is the output of the attitude pid  minus the rate which is calculated by taking the
-
-	pid_data->rate_error = (0 - pid_data->rate_feedback);
+	pid_data->rate_error = lowPassFilter( pid_data->rate_feedback);
+	//pid_data->rate_error = lowPassFilter((0 - pid_data->rate_feedback));
 	
 	//  calculate the integral of the rate,  this is just position so we should really use the IMU data, duh
 	pid_data->rate_total_error = pid_data->previousRateError0 + pid_data->previousRateError1 + pid_data->previousRateError2 + pid_data->rate_error;
@@ -170,18 +163,23 @@ void pid_attitude(PID_data * pid_data)
 
 		pid_data->attitude_error = (pid_data->attitude_command - pid_data->attitude_feedback);
 		
-		//p_term = Limit_value_signed(((pid_data->error  *  pid_data->Kp)/100), pid_data->error);
+		//p_term = Limit_value_signedlowPassFilter(((pid_data->error  *  pid_data->Kp)/100), pid_data->error);
 		pid_data->p_term_attitude =(pid_data->Kp * pid_data->attitude_error)/10;
+	
+		
+		
 		
 		//calculate integral term
 		pid_data->attitude_total_error = pid_data->previousError0/300 + pid_data->previousError1/300 +  pid_data->previousError2/300 + pid_data->attitude_error/300;
+		
+		
 		
 		//calculate integral term
 		pid_data->i_term_attitude =(pid_data->attitude_total_error  * pid_data->Ki)/10;
 		
 		
 		// calculate the pid output
-		pid_data->pid_total = pid_data->p_term_attitude + pid_data->i_term_attitude;
+		pid_data->pid_total = pid_data->p_term_attitude + pid_data->i_term_attitude+ pid_data->d_term_rate;
 
 		
 }
@@ -190,56 +188,6 @@ void pid_attitude(PID_data * pid_data)
 void pid_attitude_rate(PID_data * pid_data)
 {
 	
-	
-	////  save the last error calculation so we can calculate the derivative
-	pid_data->previousError0 = pid_data->previousError1;
-	pid_data->previousError1 = pid_data->previousError2;
-	pid_data->previousError2 = pid_data->attitude_error;
-	//pid_data->previousError0 = pid_data->error;
-	////  calculate the new error
-	////10 - 23 = -13
-	pid_data->attitude_command = 0;
-	pid_data->attitude_error = (pid_data->attitude_command - pid_data->attitude_feedback);
-	
-
-	pid_data->attitude_total_error = (pid_data->previousError0/integral_addup_reducer + pid_data->previousError1/integral_addup_reducer +
-	 pid_data->previousError2/integral_addup_reducer + pid_data->attitude_error/integral_addup_reducer);
-	//pid_data->total_error = Limit_value_signed(pid_data->total_error);
-
-	//p_term = Limit_value_signed(((pid_data->error  *  pid_data->Kp)/100), pid_data->error);
-	pid_data->p_term_attitude = (pid_data->attitude_error  *  pid_data->Kp)/100;
-	
-	//calculate integral term
-	pid_data->i_term_attitude =(pid_data->attitude_total_error  * pid_data->Ki)/1000;
-
-	
-	// calculate the pid output
-	pid_data->attitude_loop_out = pid_data->p_term_attitude + pid_data->i_term_attitude;
-	//pid_rate(pid_data);
-
-	
-	//  rate calculations start here
-	pid_data->previousRateError0 = pid_data->previousRateError1;
-	pid_data->previousRateError1 = pid_data->previousRateError2;
-	pid_data->previousRateError2 = pid_data->rate_error;
-	
-	pid_data->rate_error = (-pid_data->attitude_loop_out- pid_data->rate_feedback);
-	
-	pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer +
-	pid_data->previousRateError1/integral_addup_reducer + pid_data->previousRateError2/integral_addup_reducer;
-	
-	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp_rate)/10;
-	
-	pid_data->i_term_rate = (pid_data->rate_total_error  * pid_data->Ki_rate)/10;
-
-	pid_data->pid_total =(pid_data->p_term_rate + pid_data->i_term_rate);
-		
-	
-	//if(pid_data->pid_total >=1000)
-	//{
-	//pid_data->pid_total =1000;
-	//}
-	//pid_data->pid_total = pid_data->p_term_rate;
 	
 	
 	

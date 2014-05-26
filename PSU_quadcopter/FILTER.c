@@ -10,10 +10,12 @@
 #include "FILTER.h"
 #include "systemData.h"
 
+int16_t lowPassFilter(int16_t );
+
 float alpha;
 float gama;
-float x_bar_k_minus_1;
-float x_bar_k;
+int16_t x_bar_k_minus_1;
+int16_t x_bar_k;
 
 
 /***********************************************************************************************************
@@ -22,16 +24,16 @@ OUTPUT:
 DISCRIPTION:  Low pass filter.  There a bug here in the break frequency calculation.
 The filter keeps track of the previous sample require for the recursive calculation.
 *********************************************************************************************************** */
-float lowPassFilter(float currentSample)
+int16_t lowPassFilter(int16_t currentSample)
 {
 	
 	int Ts = 1;
 
-	float Tau = 1.0/(.9*2.0*PI);				//.9 is the break frequency.... somehow?  need to check the conversion .9Hz does not seem to be correct
-	float alpha = Tau/(Tau + Ts);
-	float gama = 1-alpha;
+	float Tau = 1.0/(.5*2.0*PI);				//.9 is the break frequency.... somehow?  need to check the conversion .9Hz does not seem to be correct
+	float alpha = Tau/(Tau + Ts);				//.25
+	float gama = 1-alpha;						//.75
 
-	x_bar_k =  (alpha * x_bar_k_minus_1) +  (gama*(currentSample));
+	x_bar_k =  (int16_t)((alpha  * x_bar_k_minus_1) +  (gama*(currentSample)));
 
 	x_bar_k_minus_1 = x_bar_k;
 

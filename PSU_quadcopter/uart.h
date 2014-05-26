@@ -12,5 +12,7 @@
 
 void initUART();
 
+void sendData_int16_t(int16_t);
+void put_USART_PC_char(uint8_t);
 
 #endif /* UART_H_ */

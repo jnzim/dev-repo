@@ -101,9 +101,9 @@ void doPWM(uint16_t speed_1, uint16_t speed_2, uint16_t speed_3, uint16_t speed_
          */
         if(TC_GetOverflowFlag(&MOTOR_PMW_TIMER0) != 0) 
         {
-            TC_ClearOverflowFlag(&MOTOR_PMW_TIMER0);      //Clear the IF by writing a logical 1 to the flag
+            TC_ClearOverflowFlag(&MOTOR_PMW_TIMER0);		//Clear the IF by writing a logical 1 to the flag
 
-            MOTOR_PMW_TIMER0.CCABUF = speed_1; //Change the compare value to change duty cycle
+            MOTOR_PMW_TIMER0.CCABUF = speed_1;				//Change the compare value to change duty cycle
 			MOTOR_PMW_TIMER0.CCBBUF = speed_2;
 			MOTOR_PMW_TIMER0.CCCBUF = speed_3;
 			MOTOR_PMW_TIMER0.CCDBUF = speed_4;

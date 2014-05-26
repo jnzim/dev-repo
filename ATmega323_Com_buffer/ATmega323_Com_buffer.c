@@ -266,28 +266,28 @@ void parse_packet()
 	dummyVariable=(dummyVariable << 8 ) + incoming[i++];					//receive thrust
 	dummyVariable=(dummyVariable << 8 ) + incoming[i++];					//receive thrust
 	
-	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
-	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
+	rollAxis.attitude_feedback = (rollAxis.attitude_feedback << 8 ) + incoming[i++];
+	rollAxis.attitude_feedback = (rollAxis.attitude_feedback << 8 ) + incoming[i++];
 	
-	rollAxis.attitude_feedback = (rollAxis.attitude_feedback << 8 ) + incoming[i++];
-	rollAxis.attitude_feedback = (rollAxis.attitude_feedback << 8 ) + incoming[i++];
+	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
+	pitchAxis.attitude_feedback = (pitchAxis.attitude_feedback << 8 ) + incoming[i++];
 
 	yawAxis.attitude_feedback = (yawAxis.attitude_feedback << 8 ) + incoming[i++];
 	yawAxis.attitude_feedback = (yawAxis.attitude_feedback << 8 ) + incoming[i++];
 	
-	pitchAxis.rate_feedback = (pitchAxis.rate_feedback  << 8 ) + incoming[i++];
-	pitchAxis.rate_feedback =(pitchAxis.rate_feedback  << 8 ) + incoming[i++];
-	
 	rollAxis.rate_feedback = (rollAxis.rate_feedback  << 8 ) + incoming[i++];
 	rollAxis.rate_feedback =(rollAxis.rate_feedback  << 8 ) + incoming[i++];
+	
+	pitchAxis.rate_feedback = (pitchAxis.rate_feedback  << 8 ) + incoming[i++];
+	pitchAxis.rate_feedback =(pitchAxis.rate_feedback  << 8 ) + incoming[i++];
 	
 	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
 	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
 	
 	
 	// dummy read for now, need something to transact for the command
-	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
-	yawAxis.rate_feedback = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+	dummyVariable = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
+	dummyVariable = (yawAxis.rate_feedback   << 8 ) + incoming[i++];
 
 }
 
@@ -312,11 +312,11 @@ void Send_USART_PC_Data()
 
 	USART_sendData_int16(0xCCCC);					
 	USART_sendData_int16(throttleAxis.thrust);
-	USART_sendData_int16(pitchAxis.attitude_feedback);
 	USART_sendData_int16(rollAxis.attitude_feedback);
+	USART_sendData_int16(pitchAxis.attitude_feedback);
 	USART_sendData_int16(yawAxis.attitude_feedback);
-	USART_sendData_int16(pitchAxis.rate_feedback);
 	USART_sendData_int16(rollAxis.rate_feedback);
+	USART_sendData_int16(pitchAxis.rate_feedback);
 	USART_sendData_int16(yawAxis.rate_feedback);
 	
 }

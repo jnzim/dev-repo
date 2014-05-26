@@ -10,9 +10,7 @@
 #include "spi_driver.h"
 
 
-unsigned char spiPC_write_read(unsigned char);
-unsigned char spiIMU_write_read(unsigned char);
-void spi_set_up();
+
 
 
 /* Instantiate pointer to ssPort. */
