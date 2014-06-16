@@ -67,7 +67,7 @@ PID_data rollAxis,yawAxis,pitchAxis,throttleAxis;
 #define UM6_GPS_ALTITUDE		0x79
 
 ///states
-#define SYSTEM_STATE_STARTUP	0x0000
+#define SYSTEM_STATE_STARTUP	0x00AA
 #define SYSTEM_ZERO				0x0001
 #define SYSTEM_ARM				0x0002
 #define SYSTEM_STATE_FLY		0x0004

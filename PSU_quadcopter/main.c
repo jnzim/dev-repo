@@ -18,7 +18,7 @@
 #include "PWM.h"
 #include "spi.h"
 
-#define TESTPORT_A PORTA
+#define LEDPORT PORTA
 
 
 int16_t WriteToPC_SPI();
@@ -34,7 +34,7 @@ void intiUM6();
 void UpdateEulerAngles();
 void State();
 
-uint8_t systemState = SYSTEM_STATE_STARTUP;
+uint8_t systemState;
 uint8_t dummy_read;
 uint16_t int16counter;
 int16_t command;
@@ -49,102 +49,92 @@ DISCRIPTION: Main is used for set up and then just an infinite loop
 *********************************************************************************************************** */
 int main()
 {
-		PORTA.OUTTGL = 0x0F;
-		systemState = SYSTEM_STATE_STARTUP;
-		init32MHzClock();
-		intiLoopTimer();
-		initSystem();
-
-		while(1)
-		{
-			nop();
-		}
+	PORTA.DIRSET = 0x0F;
+	systemState = SYSTEM_STATE_STARTUP;
+	init32MHzClock();
+	initSystem();
+	intiLoopTimer();
+	initPWM();
+	
+	while(1)
+	{
+		nop();
+	}
 }
 
 
 
-
-
-/***********************************************************************************************************
+/**********************************************************************************************************
 INPUT:
 OUTPUT:
 DISCRIPTION:   Determine what to do based on systemState.  Used to initializes and arm the quad.
 *********************************************************************************************************** */
 void State()
 {
-	
-	//sendUM6_Data();
+	LEDPORT.OUTTGL = PIN3_bm;
 	switch(systemState)
 	{
 		case SYSTEM_STATE_STARTUP:
-			PORTA.OUTTGL = 0x00;
-			PORTA.OUTTGL = PIN2_bm;
+			
+			LEDPORT.OUTSET = PIN0_bm;
 			if (initSystem() ==  1)
 			{
 				systemState = SYSTEM_ZERO;
-			}
-			PORTA.OUTSET = 0x00;
-			break;
-		
+			}	
+			LEDPORT.OUTCLR = PIN0_bm;
+		break;
+
 		case SYSTEM_ZERO:
+
+			LEDPORT.OUTTGL = PIN1_bm;
 			// read commands from the PC and zero the system as necessary
 			// PC transaction, read in command and send out sensor data
 			UpdateEulerAngles();
-		
-			PORTA.OUTTGL = PIN3_bm;
+			int16_t cmdBytes;	
 			//  get the last command sent form the PC, either zero the IMU or get ready to arm the system
-			if (WriteToPC_SPI() == SYSTEM_ZERO)
+			if ((cmdBytes = WriteToPC_SPI()) == SYSTEM_ZERO)
 			{
+				LEDPORT.OUTSET = PIN1_bm;
 				zeroSensor();
+				LEDPORT.OUTCLR = PIN1_bm;
 			}
-			
-			if (WriteToPC_SPI() == SYSTEM_ARM)
+
+			if (cmdBytes == SYSTEM_ARM)
 			{
 				systemState = SYSTEM_ARM;
 			}
-		
-			break;
-		
+
+		break;
+
 		case SYSTEM_ARM:
-			//Arm the system by enabling the PWM
-			PORTA.OUTTGL = 0x00;
-			PORTA.OUTTGL = PIN2_bm;
 			initPWM();
 			systemState = SYSTEM_STATE_FLY;
-			PORTA.OUTTGL = PIN2_bm;
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
-			break;
-		
+
+		break;
+
 		case SYSTEM_STATE_FLY:
 			// run the control loop
-			PORTA.OUTCLR = 0x00;
-			PORTA.OUTTGL = PIN3_bm;
+
 			ControlLoop();
-			break;
+
 			
-			case SYSTEM_DISARM:
-			
-			DisablePWM();
-			PORTA.OUTTGL = PIN2_bm;
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
-			_delay_ms(1000);
-			PORTA.OUTTGL = PIN2_bm;
-			systemState = SYSTEM_STATE_STARTUP;
-			break;
+		break;
+		
+		case 0x0000:
+			// The PC is alway outputting a command byte which is zero 0x000
+			// when there is no actual command so this is just a 
+			// default state
+		break;
 		
 		default:
-			break;
-		
+		break;
+
 	}			// end case
 }
+
+
+
+
 
 
 /***********************************************************************************************************
@@ -158,44 +148,55 @@ void ControlLoop()
 	
 
 	int16counter++;
+
 	UpdateEulerAngles();
-	SetPulseWidths();
+
 	PI_attitude_rate(&pitchAxis);
 	PI_attitude_rate(&yawAxis);
 	PI_attitude_rate(&rollAxis);
-	//PI_rate(&pitchAxis);
-	//PI_rate(&yawAxis);
-	//PI_rate(&rollAxis);
-	//pid_attitude_rate(&pitchAxis);
-	//PI_rate(&pitchAxis);
-	//PI_rate(&pitchAxis);
+
+	////PI_rate(&pitchAxis);
+	////PI_rate(&yawAxis);
+	////PI_rate(&rollAxis);
+	
+	SetPulseWidths();
+	sendUM6_Data();
 	if (int16counter >= 31)
 
 	{
-		 //sendUM6_Data();
-		WriteToPC_SPI();	// 400uSec	
+	
+		WriteToPC_SPI();	// 400uSec
+
 		int16counter = 0;
 	
 	}
 	
+
 }
 
+
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:   Set motor speeds
+*********************************************************************************************************** */
 void SetPulseWidths()
 {
 	// check the signs
 	if(throttleAxis.thrust > 2000 && throttleAxis.thrust <= 4095)
 	{
 		doPWM(
-		//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total,
-		//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total,
-		//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total,
-		//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total
+		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total ,
+		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total ,
+		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total ,
+		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total
+
 
 		
-		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total - yawAxis.pid_total,
-		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total,
-		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total,
-		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total  + yawAxis.pid_total
+		//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total - yawAxis.pid_total,
+		//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total,
+		//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total,
+		//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total  + yawAxis.pid_total
 	
 		);
 		
@@ -246,18 +247,9 @@ DISCRIPTION:   Send 16 bit data type over the standard serial port
 void sendUM6_Data()
 {
 
-		sendData_int16_t(0xCCCC);					//0xCCCC is the heade
-		sendData_int16_t(pitchAxis.rate_feedback);
-		sendData_int16_t(rollAxis.rate_feedback);
-		sendData_int16_t(yawAxis.rate_feedback);
-		
-		//sendData_int16_t(pitchAxis.attitude_feedback);
-		//sendData_int16_t(rollAxis.attitude_feedback);
-		//sendData_int16_t(yawAxis.attitude_feedback);
-//
-	
-		
-
+		sendData_int16_t(0xCCCC);					//0xCCCC is the header
+		sendData_int16_t(rollAxis.attitude_command);
+		sendData_int16_t(rollAxis.attitude_feedback);
 
 }
 
@@ -274,10 +266,11 @@ int16_t WriteToPC_SPI()
 	throttleAxis.thrust = spiPC_write_read(upperByte16(throttleAxis.thrust )) << 8;						
 	throttleAxis.thrust += spiPC_write_read(lowerByte16(throttleAxis.thrust ));							
 	
+	//rollAxis.attitude_feedback = throttleAxis.thrust;
 	rollAxis.attitude_command = spiPC_write_read(upperByte16(rollAxis.attitude_feedback)) << 8;
 	rollAxis.attitude_command  += spiPC_write_read(lowerByte16(rollAxis.attitude_feedback));
 	
-	//pitchAxis.attitude_feedback = 0;
+	//pitchAxis.attitude_feedback = rollAxis.attitude_command;
 	pitchAxis.attitude_command = spiPC_write_read(upperByte16(pitchAxis.attitude_feedback)) << 8;
 	pitchAxis.attitude_command += spiPC_write_read(lowerByte16(pitchAxis.attitude_feedback));
 	
@@ -292,7 +285,7 @@ int16_t WriteToPC_SPI()
 	pitchAxis.Ki = (spiPC_write_read(upperByte16(pitchAxis.rate_feedback  ))) << 8;					
 	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback ));							
 	
-	//pitchAxis.pid_out = 0;	
+	
 	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;					
 	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
 	
@@ -302,6 +295,8 @@ int16_t WriteToPC_SPI()
 	
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);													
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);			
+
+	PORTE.OUTSET = PIN4_bm;
 	
 	rollAxis.Kp = pitchAxis.Kp;
 	rollAxis.Ki = pitchAxis.Ki;
@@ -309,11 +304,8 @@ int16_t WriteToPC_SPI()
 	
 	yawAxis.Kp = pitchAxis.Kp;
 	yawAxis.Ki = pitchAxis.Ki;
-	yawAxis.Kd = pitchAxis.Kd;						
-	
-	
-	PORTE.OUTSET = PIN4_bm;
-	
+	yawAxis.Kd = pitchAxis.Kd;
+		
 	return command;
 	
 }
@@ -326,43 +318,36 @@ data sheet for read commands
 *********************************************************************************************************** */
 void UpdateEulerAngles()
 {
-	
-	uint8_t dummy_read = 0x00;
-	PORTF.OUTCLR = PIN4_bm;
 
-	//psi = yaw  phi = roll    theta = pitch
-	dummy_read = spiIMU_write_read(READ_COMMAND);
-	dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
-	delay_us(15);
-	//MSB first
-	rollAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+		PORTF.OUTCLR = PIN4_bm;
 
-	pitchAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_EULER_PSI);
-	
-	yawAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+		uint8_t dummy_read;
+		//psi = yaw  phi = roll    theta = pitch
+		dummy_read = spiIMU_write_read(READ_COMMAND);
+		dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
+		
+		//MSB first
 
-	dummy_read = spiIMU_write_read(DUMMY_READ);     
-	dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);			
-	
-	rollAxis.rate_feedback  = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+		rollAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
-	pitchAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_GYRO_PROC_Z);
-	
-	yawAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+		pitchAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_EULER_PSI);
+		
+		yawAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
-	dummy_read = spiIMU_write_read(DUMMY_READ);     
-	dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
+		dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);			// reserved bytes
+		
+		rollAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
-	PORTF.OUTSET = PIN4_bm;
-	
-	//rollAxis.rate_feedback /= rateScaler;
-	//pitchAxis.rate_feedback /= rateScaler;
-	//yawAxis.rate_feedback /= rateScaler;
-	//
-	//rollAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
-	//pitchAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
-	//yawAxis.attitude_feedback /= CONVERT_EULER_TO_DEG;
-	
+		pitchAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_GYRO_PROC_Z);
+		
+		yawAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+
+		dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
+
+		PORTF.OUTSET = PIN4_bm;
+		
+		
+
 }
 
 
@@ -374,7 +359,7 @@ void UpdateEulerAngles()
 *********************************************************************************************************** */
 uint8_t initSystem()
 {
-	PORTA.DIRSET = 0xFF;			//  LEDS
+
 	sei();
 	initUART();
 	spi_set_up();
@@ -382,7 +367,7 @@ uint8_t initSystem()
 	zeroSensor();
 	_delay_ms(2000);
 	zeroSensor();
-	PORTA.DIRSET = 0x00;			//  LEDS
+
 	return 1;
 
 }
@@ -433,10 +418,10 @@ void intiLoopTimer()
 	TCD0.CTRLB = TC_WGMODE_NORMAL_gc;
 
 	
-	// 21000 counts set f = 305HZ by trial and error
-	// frequency depends on IMU SPI clock pre scaler?
-	// TCD0.PER = 18000;
-	TCD0.PER = 15000;
+	//  Need the time to overflow at 300Hz
+	//  32MHz / TC_CLKSEL_DIV4_gc
+	TCD0.PER = 26666;
+
 
 	//Configure timer to generate an interrupt on overflow. */
 	TCD0.INTCTRLA = TC_OVFINTLVL_LO_gc;
@@ -453,11 +438,9 @@ void intiLoopTimer()
 *********************************************************************************************************** */
 ISR(TCD0_OVF_vect)
 {
-	
-	//ControlLoop();
-	 State();
 	TCD0.CNT = 0;
-	
+	State();
+
 }
 
 
@@ -474,7 +457,7 @@ uint8_t zeroSensor()
 	//zero accel 0xAF
 	//zero mad 0xB0
 	
-	uint8_t dummy_read = 0x00;
+	//uint8_t dummy_read = 0x00;
 	//psi = yaw  phi = roll    theta = pitch
 	//0x01 0xAC 0x00 0x00 0x00 0x00
 	dummy_read = spiIMU_write_read(WRITE_COMMAND);
@@ -515,3 +498,64 @@ uint8_t zeroSensor()
 	return 1;
 	
 }
+
+
+///***********************************************************************************************************
+//INPUT:
+//OUTPUT:
+//DISCRIPTION:   Read in data from the IMU.  Most of the IMU data are 16 bits sorted in 32 bit registers, see
+//data sheet for read commands
+//*********************************************************************************************************** */
+//void UpdateEulerAngles()
+//{
+	//
+	////uint8_t dummy_read = 0x00;
+	//PORTF.OUTCLR = PIN4_bm;
+//
+	////psi = yaw  phi = roll    theta = pitch
+	//dummy_read = spiIMU_write_read(READ_COMMAND);
+	//dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
+	//delay_us(15);
+	////MSB first
+	//temp_roll_attitude = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+//
+	//temp_pitch_attitude = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_EULER_PSI);
+	//
+	//temp_yaw_attitude = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+//
+	//dummy_read = spiIMU_write_read(DUMMY_READ);
+	//dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);
+	//
+	//temp_roll_rate  = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+//
+	//temp_pitch_rate = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_GYRO_PROC_Z);
+	//
+	//temp_yaw_rate = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
+//
+	//dummy_read = spiIMU_write_read(DUMMY_READ);
+	//dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
+//
+	//PORTF.OUTSET = PIN4_bm;
+	////temp_roll_rate = -1005;
+	//if(temp_roll_rate >= 1000 ||temp_pitch_rate >= 1000 ||temp_yaw_rate >= 1000 )
+	//{
+		//
+	//}
+	//else if(temp_roll_rate <= -1000 ||temp_pitch_rate <= -1000 ||temp_yaw_rate <= -1000 )
+	//{
+		//
+	//}
+	//else
+	//{
+		//rollAxis.attitude_feedback = temp_roll_attitude;
+		//pitchAxis.attitude_feedback = temp_pitch_attitude;
+		//yawAxis.attitude_feedback = temp_yaw_attitude;
+		//
+		//rollAxis.rate_feedback = temp_roll_rate;
+		//pitchAxis.rate_feedback = temp_pitch_rate;
+		//yawAxis.rate_feedback = temp_yaw_rate;
+		//
+		//
+	//}
+	//
+//}

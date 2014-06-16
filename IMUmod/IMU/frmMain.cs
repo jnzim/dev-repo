@@ -65,7 +65,7 @@ namespace IMU
        const Int16 UM6_SET_HOME_POSITION	=0x00B3;
        const Int16 ZERO_SENSORS             =0x0001;
        const Int16 ARM_SYSTEM               =0x0002;
-       const Int16 DISARM                   = 0x0005;
+       const Int16 DISARM                   =0x0005;
 
         
         enum errorType
@@ -316,22 +316,7 @@ namespace IMU
             //Debug.WriteLine("Y= " + this.Yaw.rate_feedback.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
-            /////GPS
-            //this.int16_GPS_N = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
-            ////Debug.WriteLine("PR= " + Thrust.thrust_cmd.ToString("x"));
-            //bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
-
-            //this.int16_GPS_E = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
-            ////Debug.WriteLine("PR= " + Thrust.thrust_cmd.ToString("x"));
-            //bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
-
-            //this.int16_GPS_A = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
-            ////Debug.WriteLine("PR= " + Thrust.thrust_cmd.ToString("x"));
-            //bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
-
-            //this.int16_GPS_SPEED = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
-            ////Debug.WriteLine("PR= " + Thrust.thrust_cmd.ToString("x"));
-            //bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
+    
 
         }
 
@@ -408,7 +393,7 @@ namespace IMU
                 //this._serialPort.Write(buffer, 0, 2);
 
 
-                this.cmd = 0x00;        //clear command so we don't over load the IMU
+               this.cmd = 0x0000;        //clear command byte after it's sent
               
                 
             }
@@ -463,8 +448,8 @@ namespace IMU
 
                // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
                 this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback , this.Yaw.rate_feedback , this.int16_GPS_E);
-                Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
-                Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
+                //Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
+                //Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
 
                 //this.PlotChartForm.UpdateGraph(DateTime.Now, this.int_imu_Yaw, this.int_imu_Pitch, this.int_imu_Roll, this.int_Roll_Error, 
                 //    this.int_Roll_Command, this.int_Roll_PID);
@@ -547,7 +532,7 @@ namespace IMU
                    // this.Roll.attitude_command = this.GetAutoCommand();
                 }
 
-                //this.Pitch.attitude_command = this.GetAutoCommand();
+                this.Roll.attitude_command = this.GetAutoCommand();
             }
             else
             {
@@ -692,7 +677,7 @@ namespace IMU
 
         private void textBoxCommands_DoubleClick(object sender, EventArgs e)
         {
-            cmd = 0x02;
+            cmd = 0x0002;
         }
 
         private void listCommands_SelectedIndexChanged(object sender, EventArgs e)

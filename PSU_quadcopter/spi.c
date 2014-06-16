@@ -35,7 +35,7 @@ unsigned char spiPC_write_read(unsigned char spi_data1)
 {
 	SPIE.DATA = spi_data1;
 	while(!(SPIE.STATUS & SPI_IF_bm)); // Wait until the data transfer is complete
-	_delay_us(6);
+	_delay_us(4);
 	return SPIE.DATA;
 }
 
@@ -55,6 +55,7 @@ unsigned char spiIMU_write_read(unsigned char spi_data)
 	while(!(SPIF.STATUS & SPI_IF_bm)); // Wait until the data transfer is complete
 	_delay_us(3);
 	return SPIF.DATA;
+
 }
 
 
@@ -74,9 +75,9 @@ DISCRIPTION:    Initialize SPI master on port F for the IMU communication.
 	
 void spi_set_up()
 {
-	/* Initialize SPI master on port F for the IMU communication. */
-	/* Init SS pin as output with wired AND and pull-up. */
-	//*************************************************************
+	///* Initialize SPI master on port F for the IMU communication. */
+	///* Init SS pin as output with wired AND and pull-up. */
+	////*************************************************************
 	PORTF.DIRSET = PIN4_bm;
 	PORTF.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
 
@@ -95,6 +96,7 @@ void spi_set_up()
 
 		SPIF.DATA = 0x00;						// init SPI data register
 		
+	
 		
 		/* Initialize SPI master on port F for the PC communication */
 		//*************************************************************
@@ -112,7 +114,7 @@ void spi_set_up()
 		SPI_MODE_0_gc,							//The UM6 SPI clock (SCK) is active high, with data clocked in on the first rising edge1
 		SPI_INTLVL_OFF_gc,
 		false,									// false to double clock mode
-		SPI_PRESCALER_DIV64_gc);				//32mHz /64 = 500,000 bps
+		SPI_PRESCALER_DIV128_gc);				//32mHz /64 = 500,000 bps
 		SPIE.DATA = 0x00;						// init SPI data register
 
 }

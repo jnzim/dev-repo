@@ -38,6 +38,7 @@ void initUART()
 	
 	USART_Format_Set(&XBEE_USART, USART_CHSIZE_8BIT_gc, USART_PMODE_DISABLED_gc, true);
 	USART_Baudrate_Set(&XBEE_USART, 1047 , -6);			// set for 32MHZ and 115200
+	USART_Baudrate_Set(&XBEE_USART, 1047 , -6);			// set for 32MHZ and 115200
 	/* Enable both RX and TX. */
 	USART_Rx_Enable(&XBEE_USART);
 	USART_Tx_Enable(&XBEE_USART);

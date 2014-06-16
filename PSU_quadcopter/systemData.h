@@ -17,7 +17,7 @@
 
  #include <stdbool.h>
 
-
+int16_t temp_roll_attitude,temp_pitch_attitude,temp_yaw_attitude,temp_roll_rate,temp_pitch_rate,temp_yaw_rate;
 
 
 typedef struct PID_data
@@ -53,6 +53,9 @@ typedef struct PID_data
 	int16_t attitude_loop_out;
 	int16_t PI_rate_max;
 	int16_t PI_attitude_max;
+	
+	
+	
 
 	
 } PID_data;
