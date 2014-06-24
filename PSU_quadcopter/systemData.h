@@ -75,7 +75,11 @@ typedef struct SystemData
 	
 } SystemData;
 
-
+typedef union AngleData
+{
+	uint8_t b[4];
+	float fp;
+} AngleData;
 
 
 #endif /* SYSTEMDATA_H_ */

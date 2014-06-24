@@ -246,9 +246,10 @@ namespace IMU
             //  if they are not 0xFF and 0xFF, the first one and check the next 2
             //  go thru all the data thats been stored in the buffer
             while (bBuffer.Count >= NUM_BYTES_TO_RECIVE)
-            {             
-                
-                if ((bBuffer.ElementAt(0) == 0xCC) && (bBuffer.ElementAt(1) == 0xCC))
+            {
+
+               // if ((bBuffer.ElementAt(0) == 0xCC) && (bBuffer.ElementAt(1) == 0xCC))
+                if ((bBuffer.ElementAt(0) == 0xAA) && (bBuffer.ElementAt(1) == 0xAA))
                 {
                     // we have found the start of a frame so we can remove the header, read in, and parse the data
                     //debugbuffer();
@@ -328,9 +329,12 @@ namespace IMU
         {
             try
             {
+                //// Data header: 
+                //byte upperByte = (byte)(0xCC);
+                //byte lowerByte = (byte)(0xCC);
                 // Data header: 
-                byte upperByte = (byte)(0xCC);
-                byte lowerByte = (byte)(0xCC);
+                byte upperByte = (byte)(0xAA);
+                byte lowerByte = (byte)(0xAA);
                 byte[] buffer = new byte[] { upperByte, lowerByte };
                 //Debug.WriteLine(upperByte.ToString("x"));
                 //Debug.WriteLine(lowerByte.ToString("x"));
@@ -447,9 +451,10 @@ namespace IMU
                 //    this.int_Roll_Error , this.int_Roll_Rate_PID);
 
                // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
-                this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback , this.Yaw.rate_feedback , this.int16_GPS_E);
-                //Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
-                //Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
+                //this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.int16_GPS_E);
+                this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.Roll.attitude_feedback,this.Pitch.attitude_feedback,this.Yaw.attitude_feedback);
+                Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
+                Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
 
                 //this.PlotChartForm.UpdateGraph(DateTime.Now, this.int_imu_Yaw, this.int_imu_Pitch, this.int_imu_Roll, this.int_Roll_Error, 
                 //    this.int_Roll_Command, this.int_Roll_PID);
@@ -511,7 +516,7 @@ namespace IMU
         {
             //  get the joystick command which is a float between -1 and 1 
            
-            AForge.Controls.Joystick.Status status = joystick.GetCurrentStatus();
+           AForge.Controls.Joystick.Status status = joystick.GetCurrentStatus();
 
             this.Thrust.thrust_cmd = (short)(2047 * (1 + -status.ZAxis));
             if (this.checkBoxStepCommandOn.Checked == false)
@@ -532,7 +537,7 @@ namespace IMU
                    // this.Roll.attitude_command = this.GetAutoCommand();
                 }
 
-                this.Roll.attitude_command = this.GetAutoCommand();
+                //this.Roll.attitude_command = this.GetAutoCommand();
             }
             else
             {

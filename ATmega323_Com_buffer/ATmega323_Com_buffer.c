@@ -15,7 +15,8 @@
 
 #define MASK_TOP_BYTE			0x00FF
 #define BUFSIZE					18								// BUFSIZE should be set to the number of bytes expected plus as 2 byte header
-#define PACKET_END_CHAR			0xCC
+//#define PACKET_END_CHAR			0xCC
+#define PACKET_END_CHAR			0xAA
 
 #define sbi(x,y) x |= _BV(y)									//set bit - using bitwise OR operator
 #define cbi(x,y) x &= ~(_BV(y))									//clear bit - using bitwise AND operator
@@ -310,7 +311,7 @@ void Send_USART_PC_Data()
 {
 	// send header first, the PC will use the header to parse out the stream
 
-	USART_sendData_int16(0xCCCC);					
+	USART_sendData_int16(0xAAAA);					
 	USART_sendData_int16(throttleAxis.thrust);
 	USART_sendData_int16(rollAxis.attitude_feedback);
 	USART_sendData_int16(pitchAxis.attitude_feedback);

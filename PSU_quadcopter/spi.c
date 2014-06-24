@@ -15,9 +15,11 @@
 
 /* Instantiate pointer to ssPort. */
 PORT_t *ssPortF = &PORTF;
+PORT_t *ssPortC = &PORTC;
 PORT_t *ssPortE = &PORTE;
 
 /* Global variables */
+SPI_Master_t spiMasterC;
 SPI_Master_t spiMasterF;
 SPI_Master_t spiMasterE;
 
@@ -58,6 +60,14 @@ unsigned char spiIMU_write_read(unsigned char spi_data)
 
 }
 
+unsigned char spi_YEI_IMU_write_read(unsigned char spi_data)
+{
+	SPIC.DATA = spi_data;
+	while(!(SPIC.STATUS & SPI_IF_bm)); // Wait until the data transfer is complete
+	_delay_us(6);
+	return SPIC.DATA;
+
+}
 
 /*
 	PF4 SS
@@ -92,10 +102,32 @@ void spi_set_up()
 		SPI_MODE_0_gc,							//The UM6 SPI clock (SCK) is active high, with data clocked in on the first rising edge1
 		SPI_INTLVL_OFF_gc,
 		false,									// false to double clock mode
-		SPI_PRESCALER_DIV128_gc);					//32mHz /128 = 250kHz  MAX rate is 400kHz but there is not prescaler
+		SPI_PRESCALER_DIV128_gc);					//32MHz /128 = 250kHz  MAX rate is 400kHz but there is not prescaler
 
 		SPIF.DATA = 0x00;						// init SPI data register
 		
+		
+			///* Initialize SPI master on port F for the IMU communication. */
+	///* Init SS pin as output with wired AND and pull-up. */
+	////*************************************************************
+	PORTC.DIRSET = PIN4_bm;
+	PORTC.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
+
+	/* Set SS output to high. (No slave addressed). */
+	PORTC.OUTSET = PIN4_bm;
+
+	/* Initialize SPI master on port F for the IMU communication. */
+	SPI_MasterInit(&spiMasterC,
+		&SPIC,
+		&PORTC,
+		false,
+		SPI_MODE_0_gc,							//The UM6 SPI clock (SCK) is active high, with data clocked in on the first rising edge1
+		SPI_INTLVL_OFF_gc,
+		false,									// false to double clock mode
+		SPI_PRESCALER_DIV64_gc);				//32MHz /128 = 250kHz  MAX rate is 400kHz but there is not prescaler
+
+		SPIC.DATA = 0x00;						// init SPI data register
+
 	
 		
 		/* Initialize SPI master on port F for the PC communication */
@@ -114,7 +146,7 @@ void spi_set_up()
 		SPI_MODE_0_gc,							//The UM6 SPI clock (SCK) is active high, with data clocked in on the first rising edge1
 		SPI_INTLVL_OFF_gc,
 		false,									// false to double clock mode
-		SPI_PRESCALER_DIV128_gc);				//32mHz /64 = 500,000 bps
+		SPI_PRESCALER_DIV128_gc);				//32MHz /64 = 500,000 bps
 		SPIE.DATA = 0x00;						// init SPI data register
 
 }

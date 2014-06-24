@@ -34,6 +34,11 @@ void intiUM6();
 void UpdateEulerAngles();
 void State();
 
+
+ void UpdateEulerAngles_YEI_fast();
+ void ConvertQuaterionToEuler();
+ void  UpdateCorrectedGyroRate_YEI();
+
 uint8_t systemState;
 uint8_t dummy_read;
 uint16_t int16counter;
@@ -54,7 +59,7 @@ int main()
 	init32MHzClock();
 	initSystem();
 	intiLoopTimer();
-	initPWM();
+
 	
 	while(1)
 	{
@@ -71,32 +76,40 @@ DISCRIPTION:   Determine what to do based on systemState.  Used to initializes a
 *********************************************************************************************************** */
 void State()
 {
-	LEDPORT.OUTTGL = PIN3_bm;
+	LEDPORT.OUTTGL = PIN0_bm;
+	
+	
+	//UpdateEulerAngles_YEI_fast();
 	switch(systemState)
 	{
 		case SYSTEM_STATE_STARTUP:
 			
-			LEDPORT.OUTSET = PIN0_bm;
+			
 			if (initSystem() ==  1)
 			{
 				systemState = SYSTEM_ZERO;
 			}	
-			LEDPORT.OUTCLR = PIN0_bm;
+			//LEDPORT.OUTCLR = PIN0_bm;
 		break;
 
 		case SYSTEM_ZERO:
 
-			LEDPORT.OUTTGL = PIN1_bm;
+			//LEDPORT.OUTTGL = PIN1_bm;
 			// read commands from the PC and zero the system as necessary
 			// PC transaction, read in command and send out sensor data
+			_delay_ms(100);
 			UpdateEulerAngles();
+		
+			
+		
+			
 			int16_t cmdBytes;	
 			//  get the last command sent form the PC, either zero the IMU or get ready to arm the system
 			if ((cmdBytes = WriteToPC_SPI()) == SYSTEM_ZERO)
 			{
 				LEDPORT.OUTSET = PIN1_bm;
 				zeroSensor();
-				LEDPORT.OUTCLR = PIN1_bm;
+				//LEDPORT.OUTCLR = PIN1_bm;
 			}
 
 			if (cmdBytes == SYSTEM_ARM)
@@ -114,9 +127,9 @@ void State()
 
 		case SYSTEM_STATE_FLY:
 			// run the control loop
-
+			LEDPORT.OUTTGL = PIN1_bm;
 			ControlLoop();
-
+			
 			
 		break;
 		
@@ -146,10 +159,10 @@ which runs at 300Hz.  The complementary filter can run at 750Hz so we could spee
 void ControlLoop()
 {
 	
-
 	int16counter++;
 
 	UpdateEulerAngles();
+	//UpdateEulerAngles_YEI_fast();
 
 	PI_attitude_rate(&pitchAxis);
 	PI_attitude_rate(&yawAxis);
@@ -160,13 +173,12 @@ void ControlLoop()
 	////PI_rate(&rollAxis);
 	
 	SetPulseWidths();
-	sendUM6_Data();
-	if (int16counter >= 31)
-
+	//sendUM6_Data();
+	//if (int16counter >= 31)
+	if (int16counter >= 10)
 	{
 	
 		WriteToPC_SPI();	// 400uSec
-
 		int16counter = 0;
 	
 	}
@@ -247,9 +259,14 @@ DISCRIPTION:   Send 16 bit data type over the standard serial port
 void sendUM6_Data()
 {
 
-		sendData_int16_t(0xCCCC);					//0xCCCC is the header
-		sendData_int16_t(rollAxis.attitude_command);
+		sendData_int16_t(0xCCCC);					//0xCCCC is the headersendData_int16_t(rollAxis.attitude_feedback);
+		sendData_int16_t(0x000);
 		sendData_int16_t(rollAxis.attitude_feedback);
+		sendData_int16_t(pitchAxis.attitude_feedback);
+		sendData_int16_t(yawAxis.attitude_feedback);
+		sendData_int16_t(rollAxis.rate_feedback);
+		sendData_int16_t(pitchAxis.rate_feedback);
+		sendData_int16_t(yawAxis.rate_feedback);
 
 }
 
@@ -263,8 +280,8 @@ int16_t WriteToPC_SPI()
 {
 	PORTE.OUTCLR = PIN4_bm;
 	
-	throttleAxis.thrust = spiPC_write_read(upperByte16(throttleAxis.thrust )) << 8;						
-	throttleAxis.thrust += spiPC_write_read(lowerByte16(throttleAxis.thrust ));							
+	throttleAxis.thrust = spiPC_write_read(upperByte16(dummy_read)) << 8;						
+	throttleAxis.thrust += spiPC_write_read(lowerByte16(dummy_read));							
 	
 	//rollAxis.attitude_feedback = throttleAxis.thrust;
 	rollAxis.attitude_command = spiPC_write_read(upperByte16(rollAxis.attitude_feedback)) << 8;
@@ -281,17 +298,17 @@ int16_t WriteToPC_SPI()
 	pitchAxis.Kp = (spiPC_write_read(upperByte16(rollAxis.rate_feedback ))) << 8;
 	pitchAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.rate_feedback ));							
 	
-	//pitchAxis.rate_feedback = 0;
+	//pitchAxis.rate_feedback = rollAxis.rate_feedback;
 	pitchAxis.Ki = (spiPC_write_read(upperByte16(pitchAxis.rate_feedback  ))) << 8;					
 	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback ));							
 	
-	
-	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;					
+	//yawAxis.rate_feedback = rollAxis.pid_total;
+	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;
 	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
 	
 	//yawAxis.rate_feedback = 0;
-	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;
-	command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
+	command= (spiPC_write_read(upperByte16(yawAxis.pid_total))) << 8;
+	command+= spiPC_write_read(lowerByte16(yawAxis.pid_total));			
 	
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);													
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);			
@@ -305,8 +322,13 @@ int16_t WriteToPC_SPI()
 	yawAxis.Kp = pitchAxis.Kp;
 	yawAxis.Ki = pitchAxis.Ki;
 	yawAxis.Kd = pitchAxis.Kd;
-		
+	
+	rollAxis.attitude_command = 0;
+	yawAxis.attitude_command = 0;
+	pitchAxis.attitude_command = 0;
+	
 	return command;
+	
 	
 }
 
@@ -320,30 +342,34 @@ void UpdateEulerAngles()
 {
 
 		PORTF.OUTCLR = PIN4_bm;
+		
 
 		uint8_t dummy_read;
 		//psi = yaw  phi = roll    theta = pitch
 		dummy_read = spiIMU_write_read(READ_COMMAND);
 		dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
-		
-		//MSB first
-
+		//delay_us(50);
 		rollAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
 		pitchAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_EULER_PSI);
-		
+			
 		yawAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
-		dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);			// reserved bytes
-		
+		dummy_read = spiIMU_write_read(DUMMY_READ);     
+		dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);			
+			
 		rollAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
 		pitchAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_GYRO_PROC_Z);
-		
+			
 		yawAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 
-		dummy_read = spiIMU_write_read(DUMMY_READ);     dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
+		dummy_read = spiIMU_write_read(DUMMY_READ);
+		dummy_read =  spiIMU_write_read(DUMMY_READ);
 
+		
+
+		
 		PORTF.OUTSET = PIN4_bm;
 		
 		
@@ -418,11 +444,11 @@ void intiLoopTimer()
 	TCD0.CTRLB = TC_WGMODE_NORMAL_gc;
 
 	
-	//  Need the time to overflow at 300Hz
+	
 	//  32MHz / TC_CLKSEL_DIV4_gc
-	TCD0.PER = 26666;
-
-
+	TCD0.PER = 26666;  //  Need the time to overflow at 300Hz
+	
+	//TCD0.PER = 60000;
 	//Configure timer to generate an interrupt on overflow. */
 	TCD0.INTCTRLA = TC_OVFINTLVL_LO_gc;
 
@@ -438,6 +464,7 @@ void intiLoopTimer()
 *********************************************************************************************************** */
 ISR(TCD0_OVF_vect)
 {
+	//LEDPORT.OUTTGL = PIN0_bm;
 	TCD0.CNT = 0;
 	State();
 
@@ -500,62 +527,148 @@ uint8_t zeroSensor()
 }
 
 
-///***********************************************************************************************************
-//INPUT:
-//OUTPUT:
-//DISCRIPTION:   Read in data from the IMU.  Most of the IMU data are 16 bits sorted in 32 bit registers, see
-//data sheet for read commands
-//*********************************************************************************************************** */
-//void UpdateEulerAngles()
-//{
-	//
-	////uint8_t dummy_read = 0x00;
-	//PORTF.OUTCLR = PIN4_bm;
-//
-	////psi = yaw  phi = roll    theta = pitch
-	//dummy_read = spiIMU_write_read(READ_COMMAND);
-	//dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
-	//delay_us(15);
-	////MSB first
-	//temp_roll_attitude = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-//
-	//temp_pitch_attitude = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_EULER_PSI);
-	//
-	//temp_yaw_attitude = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-//
-	//dummy_read = spiIMU_write_read(DUMMY_READ);
-	//dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);
-	//
-	//temp_roll_rate  = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-//
-	//temp_pitch_rate = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_GYRO_PROC_Z);
-	//
-	//temp_yaw_rate = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-//
-	//dummy_read = spiIMU_write_read(DUMMY_READ);
-	//dummy_read =  spiIMU_write_read(DUMMY_READ);			// reserved bytes
-//
-	//PORTF.OUTSET = PIN4_bm;
-	////temp_roll_rate = -1005;
-	//if(temp_roll_rate >= 1000 ||temp_pitch_rate >= 1000 ||temp_yaw_rate >= 1000 )
-	//{
-		//
-	//}
-	//else if(temp_roll_rate <= -1000 ||temp_pitch_rate <= -1000 ||temp_yaw_rate <= -1000 )
-	//{
-		//
-	//}
-	//else
-	//{
-		//rollAxis.attitude_feedback = temp_roll_attitude;
-		//pitchAxis.attitude_feedback = temp_pitch_attitude;
-		//yawAxis.attitude_feedback = temp_yaw_attitude;
-		//
-		//rollAxis.rate_feedback = temp_roll_rate;
-		//pitchAxis.rate_feedback = temp_pitch_rate;
-		//yawAxis.rate_feedback = temp_yaw_rate;
-		//
-		//
-	//}
-	//
-//}
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:   Read in quaternion data, 4 32 bit floats.  Send the start command and then the quaternion command,
+then wait until the IMU responds with the read to send command.
+
+*********************************************************************************************************** */
+void UpdateEulerAngles_YEI_fast()
+{
+
+	//SS
+	PORTC.OUTCLR = PIN4_bm;
+	
+	dummy_read = spi_YEI_IMU_write_read(0xF6);
+	dummy_read = spi_YEI_IMU_write_read(0x00);
+	
+	while(dummy_read != 0x01)
+	{
+
+		dummy_read = spi_YEI_IMU_write_read(0xFF);
+		//put_USART_PC_char(dummy_read);
+		delay_us(3);
+	}
+	
+
+	
+	for (int i = 3; i>=0; i--)
+	{
+		qx.b[i] = spi_YEI_IMU_write_read(0xFF);
+		//put_USART_PC_char(qx.b[i]);
+	}
+	
+	for (int i = 3; i>=0;i--)
+	{
+		qy.b[i] = spi_YEI_IMU_write_read(0xFF);
+		//put_USART_PC_char(qy.b[i]);
+	}
+
+	for (int i = 3; i>=0;i--)
+	{
+		qz.b[i] = spi_YEI_IMU_write_read(0xFF);
+		//put_USART_PC_char(qz.b[i]);
+	}
+	
+	for (int i = 3; i>=0;i--)
+	{
+		qw.b[i] = spi_YEI_IMU_write_read(0xFF);
+		//put_USART_PC_char(qw.b[i]);
+	}
+	//SS
+	PORTC.OUTSET = PIN4_bm;
+	ConvertQuaterionToEuler();
+	UpdateCorrectedGyroRate_YEI();
+	
+}
+
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:   Converts Quaternion data to Euler in radians and then scales and converts to int16_t.
+The function will set the global pitch roll and yaw angles to a 15 bit scaled radian (2*PI = 2^15)
+http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
+*********************************************************************************************************** */
+void ConvertQuaterionToEuler()
+{
+	//  test to to check if we are close to a singularity so we can take care of it
+	double test = qx.fp*qy.fp + qz.fp*qw.fp;
+	
+	if (test > 0.499) { // singularity at north pole, .499 is 86.3 degrees
+		yawAxis.attitude_feedback = 2 * atan2(qx.fp,qw.fp);
+		pitchAxis.attitude_feedback =PI/2;
+		rollAxis.attitude_feedback = 0;
+	}
+	else if (test < -0.499) { // singularity at south pole, , .499 is 86.3 degrees
+		yawAxis.attitude_feedback = -2 * atan2(qx.fp,qw.fp);
+		pitchAxis.attitude_feedback = -PI/2;
+		rollAxis.attitude_feedback = 0;
+	}
+	else
+	{
+		
+		//  faster way to calculate the squares of a number
+		float sqx = qx.fp*qx.fp;
+		float sqy = qy.fp*qy.fp;
+		float sqz = qz.fp*qz.fp;
+		
+		//  PI (rad) * 2^15/ 2PI = radians scaled to 15 bits and then converts to a singed 16 bit integer
+		yawAxis.attitude_feedback = (int16_t)(5215.1891*atan2f(2*qy.fp*qw.fp-2*qx.fp*qz.fp , 1 - 2*sqy - 2*sqz));    // atanf2 returns -PI,PI  (2*PI = 2^15)
+		rollAxis.attitude_feedback = (int16_t)(10430.378*asinf(2*test));											//asinf returns -PI/2,PI/2 (PI = 2^15)
+		pitchAxis.attitude_feedback = (int16_t)(5215.1891*atan2f(2*qx.fp*qw.fp-2*qy.fp*qz.fp , 1 - 2*sqx - 2*sqz));	// atanf2 returns -PI,PI  (2*PI = 2^15)
+
+	}
+
+}
+
+
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:   Read corrected gyro data.  The data are float so the should be read in and converted to
+int16.  The natural gyro output  is +/- 2000 deg./Sec maximum, however the data is reported but the IMU in Rad/Sec (float)
+CONVERT RAD/SEC to DEG/SEC and scale to +/- 2^15
+//2000 (deg/sec) * (PI/180)(Rad/Sec) = 2^15/2 = 16343
+//data (16343/34.90658) = 469.36709353
+*********************************************************************************************************** */
+void UpdateCorrectedGyroRate_YEI()
+{
+
+	PORTC.OUTCLR = PIN4_bm;
+
+	dummy_read = spi_YEI_IMU_write_read(0xF6);
+	dummy_read = spi_YEI_IMU_write_read(0x21);
+
+	while(dummy_read != 0x01)
+	{
+	dummy_read = spi_YEI_IMU_write_read(0xFF);
+	delay_us(3);
+	//put_USART_PC_char(dummy_read);
+	//PORTA.OUTTGL = 0b00000010;
+	}
+
+	for (int i = 3; i>=0;i--)
+	{
+	rr.b[i] = spi_YEI_IMU_write_read(0xFF);
+	//put_USART_PC_char(yr.b[i]);
+	}
+
+	for (int i = 3; i>=0;i--)
+	{
+	yr.b[i] = spi_YEI_IMU_write_read(0xFF);
+	//put_USART_PC_char(pr.b[i]);
+	}
+
+	for (int i = 3; i>=0;i--)
+	{
+	pr.b[i] = spi_YEI_IMU_write_read(0xFF);
+	//put_USART_PC_char(rr.b[i]);
+	}
+
+	PORTC.OUTSET = PIN4_bm;
+
+	rollAxis.rate_feedback = (int16_t)(pr.fp*SCALE_GYRO_TO_INT_DPS);
+	rollAxis.rate_feedback = (int16_t)(rr.fp*SCALE_GYRO_TO_INT_DPS);
+	yawAxis.rate_feedback = (int16_t)(yr.fp*SCALE_GYRO_TO_INT_DPS);
+}

@@ -166,7 +166,7 @@ Disassembly of section .text:
  10a:	80 93 e5 01 	sts	0x01E5, r24
 
 		commandPacket[i++] = PACKET_END_CHAR;
- 10e:	8c ec       	ldi	r24, 0xCC	; 204
+ 10e:	8a ea       	ldi	r24, 0xAA	; 170
  110:	80 93 e6 01 	sts	0x01E6, r24
 		commandPacket[i++] = PACKET_END_CHAR;
  114:	80 93 e7 01 	sts	0x01E7, r24
@@ -179,10 +179,10 @@ bool IsPacketEnd(uint8_t thisByte)
 	//static uint8_t theLastByte;
 	//  both the current byte and the previous byte are PACKET_END_CHAR, got header is true
 	if ((thisByte == PACKET_END_CHAR) && (lastByte == PACKET_END_CHAR))
- 11a:	8c 3c       	cpi	r24, 0xCC	; 204
+ 11a:	8a 3a       	cpi	r24, 0xAA	; 170
  11c:	69 f4       	brne	.+26     	; 0x138 <IsPacketEnd+0x1e>
  11e:	80 91 03 01 	lds	r24, 0x0103
- 122:	8c 3c       	cpi	r24, 0xCC	; 204
+ 122:	8a 3a       	cpi	r24, 0xAA	; 170
  124:	21 f4       	brne	.+8      	; 0x12e <IsPacketEnd+0x14>
 	{
 		lastByte = 0x00;
@@ -195,7 +195,7 @@ bool IsPacketEnd(uint8_t thisByte)
 	else if((thisByte == PACKET_END_CHAR) && (lastByte != PACKET_END_CHAR))
 	{
 		lastByte = PACKET_END_CHAR;
- 12e:	8c ec       	ldi	r24, 0xCC	; 204
+ 12e:	8a ea       	ldi	r24, 0xAA	; 170
  130:	80 93 03 01 	sts	0x0103, r24
 		return false;
  134:	80 e0       	ldi	r24, 0x00	; 0
@@ -204,7 +204,7 @@ bool IsPacketEnd(uint8_t thisByte)
 	//  the current byte is PACKET_END_CHAR, but the last byte is not, just keep trying
 	else if((thisByte != PACKET_END_CHAR) && (lastByte == PACKET_END_CHAR))
  138:	80 91 03 01 	lds	r24, 0x0103
- 13c:	8c 3c       	cpi	r24, 0xCC	; 204
+ 13c:	8a 3a       	cpi	r24, 0xAA	; 170
  13e:	21 f4       	brne	.+8      	; 0x148 <IsPacketEnd+0x2e>
 	{
 		lastByte = 0x00;
@@ -605,12 +605,12 @@ uint8_t Read_USART_CommandData()
 		{
 			if (USART_receive() == PACKET_END_CHAR)
  35e:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
- 362:	8c 3c       	cpi	r24, 0xCC	; 204
+ 362:	8a 3a       	cpi	r24, 0xAA	; 170
  364:	39 f4       	brne	.+14     	; 0x374 <Read_USART_CommandData+0x1a>
 			{
 				if (USART_receive() == PACKET_END_CHAR)
  366:	0e 94 a5 01 	call	0x34a	; 0x34a <USART_receive>
- 36a:	8c 3c       	cpi	r24, 0xCC	; 204
+ 36a:	8a 3a       	cpi	r24, 0xAA	; 170
  36c:	29 f0       	breq	.+10     	; 0x378 <Read_USART_CommandData+0x1e>
 {	
 		
@@ -780,9 +780,9 @@ void Send_USART_PC_Data()
 {
 	// send header first, the PC will use the header to parse out the stream
 
-	USART_sendData_int16(0xCCCC);					
- 482:	8c ec       	ldi	r24, 0xCC	; 204
- 484:	9c ec       	ldi	r25, 0xCC	; 204
+	USART_sendData_int16(0xAAAA);					
+ 482:	8a ea       	ldi	r24, 0xAA	; 170
+ 484:	9a ea       	ldi	r25, 0xAA	; 170
  486:	0e 94 32 02 	call	0x464	; 0x464 <USART_sendData_int16>
 	USART_sendData_int16(throttleAxis.thrust);
  48a:	80 91 b5 01 	lds	r24, 0x01B5

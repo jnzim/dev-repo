@@ -20,7 +20,8 @@ PID_data rollAxis,yawAxis,pitchAxis,throttleAxis;
 #define EULER_YEI				0x01
 #define GYRO_NORMILIZED_YEI		0x21
 #define DUMMY_READY_YEI			0xFF
-#define END_PACKET_CHAR			0xCC
+#define END_PACKET_CHAR			0xAA
+//#define END_PACKET_CHAR			0xCC
 
 
 /*! Define that selects the UASRT used in example. */
@@ -31,7 +32,7 @@ PID_data rollAxis,yawAxis,pitchAxis,throttleAxis;
 #define MASK_TOP_BYTE			0x00FF
 #define NUM_CMD_BYTES		    32
 #define SCALE_THROTTLE			4
-#define END_PACKET_CHAR			0xCC
+//#define END_PACKET_CHAR			0xCC
 #define upperByte16(x) (MASK_TOP_BYTE & (x >> 8))		// get the top 8 bits of a 16 bit word
 #define lowerByte16(x) (MASK_TOP_BYTE & x)				// get the lower 8 bits of a 16 bit word
 #define byte_4_32(x) (x >> 24)							// get the TOP 8 bits of a 16 bit word
@@ -77,7 +78,7 @@ PID_data rollAxis,yawAxis,pitchAxis,throttleAxis;
 #define  CONVERT_EULER_TO_DEG   91		// 1/ 0.0109863 = 91.002 ~ 91
 
 uint16_t rateScaler = 5;
-
+AngleData pr,yr,rr,qy,qx,qw,qz;
 
 
 #endif /* MAIN_H_ */
