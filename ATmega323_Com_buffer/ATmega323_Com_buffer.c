@@ -16,7 +16,7 @@
 #define MASK_TOP_BYTE			0x00FF
 #define BUFSIZE					18								// BUFSIZE should be set to the number of bytes expected plus as 2 byte header
 //#define PACKET_END_CHAR			0xCC
-#define PACKET_END_CHAR			0xAA
+#define PACKET_END_CHAR			0x80
 
 #define sbi(x,y) x |= _BV(y)									//set bit - using bitwise OR operator
 #define cbi(x,y) x &= ~(_BV(y))									//clear bit - using bitwise AND operator
@@ -80,7 +80,7 @@ int main()
 	//Timer_init();	
 	while(1) 
 	{
-	TransactWithPC();		
+		TransactWithPC();		
 	}
 }
 
@@ -109,7 +109,7 @@ TransactWithPC()
 *********************************************************************************************************** */
 ISR(SPI_STC_vect)
 {	
-	tbi(PORTC,PC3);
+	//tbi(PORTC,PC3);
 	transmit_SPI_Packet();
 	
 }
@@ -160,6 +160,63 @@ void RefreshCommandPacket()
 		commandPacket[i++] = PACKET_END_CHAR;
 
 }
+//
+///***********************************************************************************************************
+  //INPUT:
+  //OUTPUT:
+  //DISCRIPTION:  Send and received data with XMEGA.  We also looking for the end of packet tokens so that
+  //we know when to parse out the data.
+//*********************************************************************************************************** */
+//
+//void transmit_SPI_Packet()
+//{
+	//
+	////  check to see if we have found the 2 byte end of packet indicator
+//
+	//bool isEnd = IsPacketEnd(rdata = SPI_transaction(commandPacket[received]));
+//
+	////  if we have not found the end of packet and we have not gathered the correct number of bytes, collect a byte 
+	//if   ((received != (BUFSIZE-1))  && (!isEnd))
+	//{
+		////USART_send_byte(received);
+		////  put a byte in the buffer and increment the byte count
+		//incoming[received++]  = rdata;
+		//
+		//tbi(PORTC,PC5);
+	//}
+//
+	////  we found the the end of packet sequence but did not gather the correct number of bytes, something is wrong
+	////  try to sync
+	//else if (isEnd && (received != (BUFSIZE-1)))
+	//{
+		//received = 0;
+		////tbi(PORTC,PC5);
+			//
+	//}
+	////  if we have found the end of packet and we have gathered the correct number of bytes, parse the data
+	////  also we should be able to do a UART transaction before the next SPI frame starts,  depend of PC and Xmega data rates tho
+	//else if ((received == (BUFSIZE-1))  && isEnd)
+	//{
+		//parse_packet();
+//
+		//received = 0;
+		//gotIMU_Packet = true;	
+		//tbi(PORTC,PC4);			// 150mSec
+		//TransactWithPC();
+	//}
+//
+	////  got the correct number of byte but no packed is, resync
+	//else if ((received == (BUFSIZE-1)) && !(isEnd))
+	//{
+		//received = 0;
+		//tbi(PORTC,PC1);
+			//
+	//}
+	//else {}
+//
+//}
+
+
 
 /***********************************************************************************************************
   INPUT:
@@ -172,47 +229,49 @@ void transmit_SPI_Packet()
 {
 	
 	//  check to see if we have found the 2 byte end of packet indicator
-	//  bool isEnd = IsPacketEnd(rdata = SPI_transaction(commandPacket[received]));
+
 	bool isEnd = IsPacketEnd(rdata = SPI_transaction(commandPacket[received]));
 
 	//  if we have not found the end of packet and we have not gathered the correct number of bytes, collect a byte 
-	if   ((received != (BUFSIZE-1))  && (!isEnd))
+	if   (!isEnd && (received != (BUFSIZE-1))  )
 	{
 		//USART_send_byte(received);
+		//  put a byte in the buffer and increment the byte count
 		incoming[received++]  = rdata;
 		
 		tbi(PORTC,PC5);
 	}
+	
+	////  we found the the end of packet sequence but did not gather the correct number of bytes, something is wrong
+	////  try to sync
+	//else if (isEnd && (received != (BUFSIZE)))
+	//{
+		//received = 0;
+		////tbi(PORTC,PC5);
+			//
+	//}
 	//  if we have found the end of packet and we have gathered the correct number of bytes, parse the data
 	//  also we should be able to do a UART transaction before the next SPI frame starts,  depend of PC and Xmega data rates tho
 	else if ((received == (BUFSIZE-1))  && isEnd)
 	{
 		parse_packet();
-
+		
 		received = 0;
 		gotIMU_Packet = true;	
 		tbi(PORTC,PC4);			// 150mSec
 		//TransactWithPC();
 	}
-	//  we found the the end of packet sequence but did not gather the correct number of bytes, something is wrong
-	//  try to sync
-	else if ((received != (BUFSIZE-1)) && isEnd)
-	{
-		received = 0;
-		//tbi(PORTC,PC3);
-		
-	}
-	//  got the correct number of byte but no packed is, resync
-	else if ((received == (BUFSIZE-1)) && !(isEnd))
-	{
-		received = 0;
-		tbi(PORTC,PC2);
-			
-	}
+
+	////  got the correct number of byte but no packed is, resync
+	//else if ((received == (BUFSIZE)) && !(isEnd))
+	//{
+		//received = 0;
+		//tbi(PORTC,PC1);
+			//
+	//}
 	else {}
 
 }
-
 
 
 
@@ -228,7 +287,7 @@ bool IsPacketEnd(uint8_t thisByte)
 	//  both the current byte and the previous byte are PACKET_END_CHAR, got header is true
 	if ((thisByte == PACKET_END_CHAR) && (lastByte == PACKET_END_CHAR))
 	{
-		lastByte = 0x00;
+		//lastByte = 0x00;
 		return true;
 	}
 	//  the current byte is PACKET_END_CHAR and the last byte is not, maybe the header start
@@ -311,7 +370,7 @@ void Send_USART_PC_Data()
 {
 	// send header first, the PC will use the header to parse out the stream
 
-	USART_sendData_int16(0xAAAA);					
+	USART_sendData_int16(0x8080);					
 	USART_sendData_int16(throttleAxis.thrust);
 	USART_sendData_int16(rollAxis.attitude_feedback);
 	USART_sendData_int16(pitchAxis.attitude_feedback);

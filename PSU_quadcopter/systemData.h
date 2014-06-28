@@ -29,7 +29,9 @@ typedef struct PID_data
 	int16_t Kp, Ki, Kd;
 	int16_t pid_total;
 	int16_t attitude_feedback;
+	int16_t attitude_feedback_15;
 	int16_t rate_feedback;
+	int16_t rate_feedback_15;
 	int16_t attitude_command;
 	int16_t attitude_pid_out;
 	int16_t rate_pid_out;

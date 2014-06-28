@@ -184,7 +184,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x508
+.text           0x00000000      0x4a6
  *(.vectors)
  .vectors       0x00000000       0x68 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr5/crtm328.o
                 0x00000000                __vector_default
@@ -269,48 +269,48 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                 0x00000090       0x8a ATmega323_Com_buffer.o
                 0x00000090                RefreshCommandPacket
  .text.IsPacketEnd
-                0x0000011a       0x32 ATmega323_Com_buffer.o
+                0x0000011a       0x2e ATmega323_Com_buffer.o
                 0x0000011a                IsPacketEnd
  .text.parse_packet
-                0x0000014c       0xca ATmega323_Com_buffer.o
-                0x0000014c                parse_packet
+                0x00000148       0xca ATmega323_Com_buffer.o
+                0x00000148                parse_packet
  .text.SPI_transaction
-                0x00000216        0x8 ATmega323_Com_buffer.o
-                0x00000216                SPI_transaction
+                0x00000212        0x8 ATmega323_Com_buffer.o
+                0x00000212                SPI_transaction
  .text.transmit_SPI_Packet
-                0x0000021e       0xc4 ATmega323_Com_buffer.o
-                0x0000021e                transmit_SPI_Packet
+                0x0000021a       0x6e ATmega323_Com_buffer.o
+                0x0000021a                transmit_SPI_Packet
  .text.__vector_17
-                0x000002e2       0x50 ATmega323_Com_buffer.o
-                0x000002e2                __vector_17
+                0x00000288       0x48 ATmega323_Com_buffer.o
+                0x00000288                __vector_17
  .text.USART_init
-                0x00000332       0x18 ATmega323_Com_buffer.o
-                0x00000332                USART_init
+                0x000002d0       0x18 ATmega323_Com_buffer.o
+                0x000002d0                USART_init
  .text.USART_receive
-                0x0000034a       0x10 ATmega323_Com_buffer.o
-                0x0000034a                USART_receive
+                0x000002e8       0x10 ATmega323_Com_buffer.o
+                0x000002e8                USART_receive
  .text.Read_USART_CommandData
-                0x0000035a       0xe4 ATmega323_Com_buffer.o
-                0x0000035a                Read_USART_CommandData
+                0x000002f8       0xe4 ATmega323_Com_buffer.o
+                0x000002f8                Read_USART_CommandData
  .text.SPIinitSlave
-                0x0000043e       0x26 ATmega323_Com_buffer.o
-                0x0000043e                SPIinitSlave
+                0x000003dc       0x26 ATmega323_Com_buffer.o
+                0x000003dc                SPIinitSlave
  .text.USART_sendData_int16
-                0x00000464       0x1e ATmega323_Com_buffer.o
-                0x00000464                USART_sendData_int16
+                0x00000402       0x1e ATmega323_Com_buffer.o
+                0x00000402                USART_sendData_int16
  .text.Send_USART_PC_Data
-                0x00000482       0x5e ATmega323_Com_buffer.o
-                0x00000482                Send_USART_PC_Data
+                0x00000420       0x5e ATmega323_Com_buffer.o
+                0x00000420                Send_USART_PC_Data
  .text.TransactWithPC
-                0x000004e0       0x12 ATmega323_Com_buffer.o
-                0x000004e0                TransactWithPC
- .text.main     0x000004f2       0x12 ATmega323_Com_buffer.o
-                0x000004f2                main
-                0x00000504                . = ALIGN (0x2)
+                0x0000047e       0x12 ATmega323_Com_buffer.o
+                0x0000047e                TransactWithPC
+ .text.main     0x00000490       0x12 ATmega323_Com_buffer.o
+                0x00000490                main
+                0x000004a2                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000504        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
-                0x00000504                _exit
-                0x00000504                exit
+ .fini9         0x000004a2        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
+                0x000004a2                _exit
+                0x000004a2                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -329,11 +329,11 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000504        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x000004a2        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000508                _etext = .
+                0x000004a6                _etext = .
 
-.data           0x00800100        0x0 load address 0x00000508
+.data           0x00800100        0x0 load address 0x000004a6
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr5/crtm328.o
@@ -375,8 +375,8 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                 0x008001d7                commandPacket
                 0x008001e3                yawAxis
                 0x00800217                PROVIDE (__bss_end, .)
-                0x00000508                __data_load_start = LOADADDR (.data)
-                0x00000508                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000004a6                __data_load_start = LOADADDR (.data)
+                0x000004a6                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800217        0x0
                 0x00800217                PROVIDE (__noinit_start, .)
@@ -449,18 +449,18 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x897
+.debug_info     0x00000000      0x899
  *(.debug_info)
- .debug_info    0x00000000      0x897 ATmega323_Com_buffer.o
+ .debug_info    0x00000000      0x899 ATmega323_Com_buffer.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x255
+.debug_abbrev   0x00000000      0x22a
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x255 ATmega323_Com_buffer.o
+ .debug_abbrev  0x00000000      0x22a ATmega323_Com_buffer.o
 
-.debug_line     0x00000000      0x314
+.debug_line     0x00000000      0x2f6
  *(.debug_line)
- .debug_line    0x00000000      0x314 ATmega323_Com_buffer.o
+ .debug_line    0x00000000      0x2f6 ATmega323_Com_buffer.o
 
 .debug_frame    0x00000000      0x1b0
  *(.debug_frame)
@@ -471,9 +471,9 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_str     0x00000000      0x501 ATmega323_Com_buffer.o
                                 0x554 (size before relaxing)
 
-.debug_loc      0x00000000      0x3d4
+.debug_loc      0x00000000      0x3a8
  *(.debug_loc)
- .debug_loc     0x00000000      0x3d4 ATmega323_Com_buffer.o
+ .debug_loc     0x00000000      0x3a8 ATmega323_Com_buffer.o
 
 .debug_macinfo
  *(.debug_macinfo)

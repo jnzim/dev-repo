@@ -174,12 +174,13 @@ void ControlLoop()
 	
 	SetPulseWidths();
 	//sendUM6_Data();
-	//if (int16counter >= 31)
-	if (int16counter >= 10)
+	if (int16counter >= 31)
+	
 	{
 	
 		WriteToPC_SPI();	// 400uSec
 		int16counter = 0;
+		
 	
 	}
 	
@@ -203,8 +204,6 @@ void SetPulseWidths()
 		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total ,
 		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total
 
-
-		
 		//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total - yawAxis.pid_total,
 		//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total,
 		//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total,
@@ -213,7 +212,7 @@ void SetPulseWidths()
 		);
 		
 	}
-	else
+	else if(throttleAxis.thrust < 2000 || throttleAxis.thrust >= 4095)
 	{
 		doPWM(0,0,0,0);
 	}
@@ -224,20 +223,20 @@ void intPID_gains()
 {
 
 		
-	pitchAxis.Kp = 6;
-	pitchAxis.Ki =8;
+	pitchAxis.Kp =6;
+	pitchAxis.Ki =3;
 	pitchAxis.Kp_rate = 3;
 	pitchAxis.Ki_rate =2;
 	
 	
 	yawAxis.Kp = 6;
-	yawAxis.Ki =8;
+	yawAxis.Ki =3;
 	yawAxis.Kp_rate = 3;
 	yawAxis.Ki_rate =2;
 	
 	
 	rollAxis.Kp = 6;
-	rollAxis.Ki =8;
+	rollAxis.Ki =3;
 	rollAxis.Kp_rate = 3;
 	rollAxis.Ki_rate =2;
 	
@@ -259,7 +258,7 @@ DISCRIPTION:   Send 16 bit data type over the standard serial port
 void sendUM6_Data()
 {
 
-		sendData_int16_t(0xCCCC);					//0xCCCC is the headersendData_int16_t(rollAxis.attitude_feedback);
+		sendData_int16_t(0x8080);					//0xCCCC is the headersendData_int16_t(rollAxis.attitude_feedback);
 		sendData_int16_t(0x000);
 		sendData_int16_t(rollAxis.attitude_feedback);
 		sendData_int16_t(pitchAxis.attitude_feedback);
@@ -283,32 +282,32 @@ int16_t WriteToPC_SPI()
 	throttleAxis.thrust = spiPC_write_read(upperByte16(dummy_read)) << 8;						
 	throttleAxis.thrust += spiPC_write_read(lowerByte16(dummy_read));							
 	
-	//rollAxis.attitude_feedback = throttleAxis.thrust;
-	rollAxis.attitude_command = spiPC_write_read(upperByte16(rollAxis.attitude_feedback)) << 8;
-	rollAxis.attitude_command  += spiPC_write_read(lowerByte16(rollAxis.attitude_feedback));
+	//rollAxis.attitude_feedback_15 = throttleAxis.thrust;
+	rollAxis.attitude_command = spiPC_write_read(upperByte16(rollAxis.attitude_feedback_15)) << 8;
+	rollAxis.attitude_command  += spiPC_write_read(lowerByte16(rollAxis.attitude_feedback_15));
 	
 	//pitchAxis.attitude_feedback = rollAxis.attitude_command;
-	pitchAxis.attitude_command = spiPC_write_read(upperByte16(pitchAxis.attitude_feedback)) << 8;
-	pitchAxis.attitude_command += spiPC_write_read(lowerByte16(pitchAxis.attitude_feedback));
+	pitchAxis.attitude_command = spiPC_write_read(upperByte16(pitchAxis.attitude_feedback_15)) << 8;
+	pitchAxis.attitude_command += spiPC_write_read(lowerByte16(pitchAxis.attitude_feedback_15));
 	
 	//yawAxis.attitude_feedback = 0;
-	yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback)) << 8;
-	yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback));
+	yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback_15)) << 8;
+	yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback_15));
 		
-	pitchAxis.Kp = (spiPC_write_read(upperByte16(rollAxis.rate_feedback ))) << 8;
-	pitchAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.rate_feedback ));							
+	pitchAxis.Kp = spiPC_write_read(upperByte16(rollAxis.rate_feedback_15 ))<< 8;
+	pitchAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.rate_feedback_15 ));							
 	
-	//pitchAxis.rate_feedback = rollAxis.rate_feedback;
-	pitchAxis.Ki = (spiPC_write_read(upperByte16(pitchAxis.rate_feedback  ))) << 8;					
-	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback ));							
+	//pitchAxis.rate_feedback_15 = 0x8080;
+	pitchAxis.Ki = spiPC_write_read(upperByte16(pitchAxis.rate_feedback_15  )) << 8;					
+	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback_15 ));							
 	
 	//yawAxis.rate_feedback = rollAxis.pid_total;
-	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.rate_feedback))) << 8;
-	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback));			
+	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
+	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
 	
-	//yawAxis.rate_feedback = 0;
-	command= (spiPC_write_read(upperByte16(yawAxis.pid_total))) << 8;
-	command+= spiPC_write_read(lowerByte16(yawAxis.pid_total));			
+	//yawAxis.rate_feedback_15 = 0x0080;
+	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
+	command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
 	
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);													
 	dummy_read = spiPC_write_read(END_PACKET_CHAR);			
@@ -335,45 +334,44 @@ int16_t WriteToPC_SPI()
 /***********************************************************************************************************
 INPUT:
 OUTPUT:
-DISCRIPTION:   Read in data from the IMU.  Most of the IMU data are 16 bits sorted in 32 bit registers, see
-data sheet for read commands
+DISCRIPTION:   Read in data from the IMU.   IMU data are 16 bits sorted in 32 bit registers, see
+data sheet for read commands.  Divide all the data by 2 to convert to 15 bit int, this will leave 
+room for the header.
 *********************************************************************************************************** */
 void UpdateEulerAngles()
 {
-
 		PORTF.OUTCLR = PIN4_bm;
 		
-
 		uint8_t dummy_read;
 		//psi = yaw  phi = roll    theta = pitch
 		dummy_read = spiIMU_write_read(READ_COMMAND);
 		dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
 		//delay_us(50);
 		rollAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-
+		rollAxis.attitude_feedback_15 = rollAxis.attitude_feedback /2;
+		
 		pitchAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_EULER_PSI);
-			
+		pitchAxis.attitude_feedback_15 =pitchAxis.attitude_feedback/2;	
+		
 		yawAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-
+		yawAxis.attitude_feedback_15 = yawAxis.attitude_feedback/2;
+		
 		dummy_read = spiIMU_write_read(DUMMY_READ);     
 		dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);			
 			
 		rollAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-
+		rollAxis.rate_feedback_15 =rollAxis.rate_feedback/2;
+		
 		pitchAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(UM6_GYRO_PROC_Z);
-			
+		pitchAxis.rate_feedback_15 =pitchAxis.rate_feedback/2;	
+		
 		yawAxis.rate_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
-
+		yawAxis.rate_feedback_15 = yawAxis.rate_feedback/2;
+		
 		dummy_read = spiIMU_write_read(DUMMY_READ);
 		dummy_read =  spiIMU_write_read(DUMMY_READ);
-
 		
-
-		
-		PORTF.OUTSET = PIN4_bm;
-		
-		
-
+		PORTF.OUTSET = PIN4_bm;	
 }
 
 

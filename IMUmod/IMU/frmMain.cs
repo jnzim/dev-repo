@@ -67,6 +67,8 @@ namespace IMU
        const Int16 ARM_SYSTEM               =0x0002;
        const Int16 DISARM                   =0x0005;
 
+        const short END_PACKET_CHAR           =0x80;
+
         
         enum errorType
         {
@@ -249,7 +251,7 @@ namespace IMU
             {
 
                // if ((bBuffer.ElementAt(0) == 0xCC) && (bBuffer.ElementAt(1) == 0xCC))
-                if ((bBuffer.ElementAt(0) == 0xAA) && (bBuffer.ElementAt(1) == 0xAA))
+                if ((bBuffer.ElementAt(0) == END_PACKET_CHAR) && (bBuffer.ElementAt(1) == END_PACKET_CHAR))
                 {
                     // we have found the start of a frame so we can remove the header, read in, and parse the data
                     //debugbuffer();
@@ -333,8 +335,8 @@ namespace IMU
                 //byte upperByte = (byte)(0xCC);
                 //byte lowerByte = (byte)(0xCC);
                 // Data header: 
-                byte upperByte = (byte)(0xAA);
-                byte lowerByte = (byte)(0xAA);
+                byte upperByte = (byte)(END_PACKET_CHAR);
+                byte lowerByte = (byte)(END_PACKET_CHAR);
                 byte[] buffer = new byte[] { upperByte, lowerByte };
                 //Debug.WriteLine(upperByte.ToString("x"));
                 //Debug.WriteLine(lowerByte.ToString("x"));
@@ -437,9 +439,7 @@ namespace IMU
             this.textBoxcmdThrolttle.Text = this.Thrust.thrust_cmd.ToString();
             this.textBoxcmdPitch.Text = this.Pitch.attitude_command.ToString();
             this.textBoxcmdRoll.Text = this.Roll.attitude_command.ToString();
-            this.textBoxcmdYaw.Text = this.Yaw.attitude_command.ToString();
-
-       
+            this.textBoxcmdYaw.Text = this.Yaw.attitude_command.ToString(); 
 
             //this.textBoxPitchPIDout.Text = this.Pitch.attitude_pid_out.ToString();
             //// update the form with acceleration data
