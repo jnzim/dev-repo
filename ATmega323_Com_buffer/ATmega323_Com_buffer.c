@@ -242,14 +242,6 @@ void transmit_SPI_Packet()
 		tbi(PORTC,PC5);
 	}
 	
-	////  we found the the end of packet sequence but did not gather the correct number of bytes, something is wrong
-	////  try to sync
-	//else if (isEnd && (received != (BUFSIZE)))
-	//{
-		//received = 0;
-		////tbi(PORTC,PC5);
-			//
-	//}
 	//  if we have found the end of packet and we have gathered the correct number of bytes, parse the data
 	//  also we should be able to do a UART transaction before the next SPI frame starts,  depend of PC and Xmega data rates tho
 	else if ((received == (BUFSIZE-1))  && isEnd)
@@ -262,13 +254,7 @@ void transmit_SPI_Packet()
 		//TransactWithPC();
 	}
 
-	////  got the correct number of byte but no packed is, resync
-	//else if ((received == (BUFSIZE)) && !(isEnd))
-	//{
-		//received = 0;
-		//tbi(PORTC,PC1);
-			//
-	//}
+
 	else {}
 
 }

@@ -92,21 +92,48 @@ namespace IMU
 
 
 
-        public void UpdateGraph(XDate xValue, double yaw, double pitch, double roll, double rollError, double rollCommand, double rollPID)
+        //public void UpdateGraph(XDate xValue, double yaw, double pitch, double roll, double rollError, double rollCommand, double rollPID)
+        //{
+
+            
+            
+            
+        //    this.lstYawFeedback.Add(xValue, yaw);
+        //    this.lstRollFeedback.Add(xValue, roll);
+        //    this.lstPitchFeedback.Add(xValue, pitch); 
+        //    this.roll_Command_List.Add(xValue, rollCommand);
+        //    this.roll_Error_List.Add(xValue, rollError);
+        //    this.roll_PID_List.Add(xValue, rollPID);
+
+        //    zedGraphControl1.Invalidate();
+        //    zedGraphControl1.AxisChange();
+
+        //}
+
+        public void UpdateGraph(double time, double yaw, double pitch, double roll, double rollError, double rollCommand, double rollPID)
         {
 
-            this.lstYawFeedback.Add(xValue, yaw);
-            this.lstRollFeedback.Add(xValue, roll);
-            this.lstPitchFeedback.Add(xValue, pitch); 
-            this.roll_Command_List.Add(xValue, rollCommand);
-            this.roll_Error_List.Add(xValue, rollError);
-            this.roll_PID_List.Add(xValue, rollPID);
+            // Keep the X scale at a rolling 30 second interval, with one
+            // major step between the max X value and the end of the axis
+            Scale xScale = zedGraphControl1.GraphPane.XAxis.Scale;
+            if (time > xScale.Max - xScale.MajorStep)
+            {
+                xScale.Max = time + xScale.MajorStep;
+                xScale.Min = xScale.Max - 15.0;
+            }
+
+
+            this.lstYawFeedback.Add(time, yaw);
+            this.lstRollFeedback.Add(time, roll);
+            this.lstPitchFeedback.Add(time, pitch);
+            this.roll_Command_List.Add(time, rollCommand);
+            this.roll_Error_List.Add(time, rollError);
+            this.roll_PID_List.Add(time, rollPID);
 
             zedGraphControl1.Invalidate();
             zedGraphControl1.AxisChange();
 
         }
-
 
 
         public void UpdateGraph(XDate xValue,  double roll, double pitch, double yaw, double command)
@@ -165,9 +192,14 @@ namespace IMU
           
             // Tell ZedGraph to refigure the`
             // axes since the data have changed
-             myPane.XAxis.Type = AxisType.Date;
+             //myPane.XAxis.Type = AxisType.Date;
+             //myPane.XAxis.Scale.MajorUnit = DateUnit.Millisecond;
+             //myPane.XAxis.Scale.Format = "T";
 
-             myPane.XAxis.Scale.Format = "mm:ss"; // 24 hour clock for HH
+             myPane.XAxis.Scale.Min = 0;
+             myPane.XAxis.Scale.Max = 15;
+             myPane.XAxis.Scale.MinorStep = 1;
+             myPane.XAxis.Scale.MajorStep = 1;
 
              myPane.XAxis.MajorGrid.IsVisible = true;
 

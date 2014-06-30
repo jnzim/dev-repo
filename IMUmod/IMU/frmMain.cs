@@ -13,47 +13,43 @@ using ZedGraph;
 using AForge.Controls;
 
 
-/*
- * gains: kp = 2, ki = 3, kp_rate = 52, ki_rate = 8
- * 
- */
+
 
 namespace IMU
 {
     public partial class frmMain : Form
     {
-    
-
-
         
         public frmMain()
         {
             InitializeComponent();
         }
 
+        clsCommand Command = new clsCommand();
+
         int plusJoystickDeadZone  = 30;
         int  minusJoystickDeadZone  = -30;
         bool gotJoystick = false;
         const double UMT_CONVERT_EULER = 1; //0.0109863;         //  number spec'd in the UM6 data sheet to convert sensor output to degrees
         const int NUM_BYTES_TO_RECIVE = 16;
-        const int YEI_CONVERT_EULER = 1;
+        const int YEI_CONVERT_EULER = 1;   //const int YEI_CONVERT_EULER = (int)((1/16383)*180/Math.PI);
         const int pitchCommandScale = 10;
         const int rollCommandScale  = 10;
         const int yawCommandScale = 10;
-
-
+        // Starting time in milliseconds
+        int tickStart = 0;
+        
+       
         int cmd;  ///  hold command from text box enter event
                 ///  
         short int_Step_Command_Increment = 0;
-        int intUI_Update_mSec = 50;
+        int intUI_Update_mSec = 100;
         int intAutoCommandCounter = 0;
-        //int intUI_SendData = 20;
         List<byte> bBuffer = new List<byte>();
-        //const int YEI_CONVERT_EULER = (int)((1/16383)*180/Math.PI);
-        //const int YEI_CONVERT_EULER = 1;
+        
+  
 
-        short int16_GPS_N, int16_GPS_E, int16_GPS_A, int16_GPS_SPEED;
-
+       short int16_GPS_N, int16_GPS_E, int16_GPS_A, int16_GPS_SPEED;
 
        const Int16 NULL_COMMAND			    =0x0000;
        const Int16 UM6_GET_VERSION			=0x00AA;
@@ -66,46 +62,23 @@ namespace IMU
        const Int16 ZERO_SENSORS             =0x0001;
        const Int16 ARM_SYSTEM               =0x0002;
        const Int16 DISARM                   =0x0005;
+       const short END_PACKET_CHAR          =0x80;
 
-        const short END_PACKET_CHAR           =0x80;
 
-        
-        enum errorType
-        {
-            yawLargeNumber,
-            yawNegNumber,
-            pitchLargeNumber,
-            pitchNegNumber,
-            rollLargeNumber,
-            rollNegNumber,
-
-            AccelXLargeNumber,
-            AccelXNegNumber,
-            AccelYLargeNumber,
-            AccelYNegNumber,
-            AccelZLargeNumber,
-            AccelZNegNumber
-
-        }
 
         Joystick joystick;    
         frmBodePlotChart PlotChartForm; 
-        // = new frmPlotChart();
-        //frmBodePlot BodePlotForm;
 
+        //  data structer to hold data for each axis
         clsAxis Pitch  = new clsAxis();
         clsAxis Roll = new clsAxis();
         clsAxis Yaw = new clsAxis();
         clsAxis Thrust = new clsAxis();
         Filter filter = new Filter();
 
-        
-
-  
-
+     //  use a timer to send command data at a regular interval
        static System.Windows.Forms.Timer UpdateUI_timer = new System.Windows.Forms.Timer();
-       //static System.Windows.Forms.Timer Send_UART_timer = new System.Windows.Forms.Timer();
-       //private delegate void SetTextDeleg(int data);
+       DateTime startTime = DateTime.Now;
 
 
        private void Form1_Load(object sender, EventArgs e)
@@ -127,7 +100,13 @@ namespace IMU
                 {
                     this.EnableUI_Start();
                     this.StartTheTimmers();
-
+                    // Save the beginning time for reference
+                    
+                    tickStart = Environment.TickCount;
+                    Command.Amplitude = 1;
+                    Command.Frequency =1.0;
+                    Command.Delta_T = ((double)intUI_Update_mSec)/1000;
+                  
                     if (checkBoxPlotForm.Checked == true)
                     {
                         this.OpenPlot();
@@ -135,6 +114,7 @@ namespace IMU
                 }
                 else
                 {
+                    startTime = DateTime.Now;
                     this.gotJoystick = false;
                     this.send_UI_message("No joystick found.");
                     this.StartTheTimmers();
@@ -143,10 +123,6 @@ namespace IMU
             }
        
         }
-
-
-
-
 
 
         private bool initSerailPort()
@@ -185,10 +161,6 @@ namespace IMU
             this.PlotChartForm = new frmBodePlotChart();       
             this.PlotChartForm.Show();
 
-            //this.BodePlotForm = new frmBodePlot();
-            //this.BodePlotForm.Show();
-
-
             this.Refresh();
             Application.DoEvents();
             this.send_UI_message("Open plot form.");
@@ -196,8 +168,12 @@ namespace IMU
 
 
          }
- 
 
+/**********************************************************************************************************
+  INPUT:
+  OUTPUT:
+  DISCRIPTION:   Close the serial port and plot form
+  *********************************************************************************************************** */
         private void buttonClose_Click(object sender, EventArgs e)
         {
             if (  _serialPort.IsOpen)
@@ -221,9 +197,10 @@ namespace IMU
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
-        //  return (x - 0) * (16000 - 3000) / (4096 - 0) + 3000;
-        //event handeler for data recvied event
-        //  get all the bytes from the serail port buffer and put it in an array until there is time to process it
+
+
+       //  Event handeler for serial port data reacived event.  Just read the bytes and
+        // place in a byte buffer to parse them out later
         void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
     
@@ -235,22 +212,21 @@ namespace IMU
         }
 
 
-        // EXAMPLE OF FRAME:  255 254 90 97 2 34 8 255 255 254 255 253 10 110 255 254 91 100 
-        // 255 = 0b1111 1111 0xFF
-        // 254 = 0b1111 1110 0xFE
+        // EXAMPLE OF FRAME:  0x80 0x80 0xNN 0xNN ........ 0x80 0x80.... 
+        // Header is 0x80 0x80
 
         //  look for the begingin of the frame and then start parsing out the data
         private void ProcessData()
         {
           
 
-            //  check the first 2 element in the list, if they are 0xFF and 0xFE, toss them and read in a frame
+            //  check the first 2 element in the list, if they header bytes, toss them and read in a frame
             //  if they are not 0xFF and 0xFF, the first one and check the next 2
             //  go thru all the data thats been stored in the buffer
             while (bBuffer.Count >= NUM_BYTES_TO_RECIVE)
             {
 
-               // if ((bBuffer.ElementAt(0) == 0xCC) && (bBuffer.ElementAt(1) == 0xCC))
+             
                 if ((bBuffer.ElementAt(0) == END_PACKET_CHAR) && (bBuffer.ElementAt(1) == END_PACKET_CHAR))
                 {
                     // we have found the start of a frame so we can remove the header, read in, and parse the data
@@ -265,8 +241,7 @@ namespace IMU
                     //  just remove 1 byte so we can iterate thru the buffer
                     bBuffer.RemoveAt(0);
                 }
-            }
-                
+            }       
         }
 
 
@@ -279,62 +254,61 @@ namespace IMU
            }
 
         }
-       
+ /**********************************************************************************************************
+ INPUT:
+ OUTPUT:  Updates gloabl data
+ DISCRIPTION:  Data recived on serial port is placed into a byte array, this function parses out that data and stores into global variables
+ once we have found the beging of the frame, begin assmbling the bytes in to 16 bit representaions
+ *********************************************************************************************************** */
 
-        //  Data that comes in from the serial port is stuffed into a byte array.  This function parses out that data and stores into global variables
-        //  once we have found the beging of the frame, begin assmbling the bytes in to 16 bit int
         private void ParseRecivedData()
         {
 
 
-            //Debug.WriteLine(0x00);
-            //Debug.WriteLine(0x00);
+
       
-            this.Thrust.thrust_cmd = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
+            this.Thrust.thrust_cmd = (short)(2*(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
             //Debug.WriteLine("T= " + Thrust.thrust_cmd.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
-            this.Roll.attitude_feedback = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
+            this.Roll.attitude_feedback = (short)(2*(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
             // Debug.WriteLine("R " + Roll.attitude_feedback.ToString());
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
 
-            this.Pitch.attitude_feedback = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
+            this.Pitch.attitude_feedback = (short)(2*(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
             //Debug.WriteLine("P " + Pitch.attitude_feedback.ToString());
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
-            this.Yaw.attitude_feedback = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
+            this.Yaw.attitude_feedback = (short)(2*(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
             //Debug.WriteLine("Y= " + Yaw.attitude_feedback.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
-            this.Roll.rate_feedback = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
+            this.Roll.rate_feedback = (short)(2* (bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
            // Debug.WriteLine("RR= " + Pitch.attitude_pid_out.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
-            this.Pitch.rate_feedback = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
+            this.Pitch.rate_feedback = (short)(2* (bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
             //Debug.WriteLine("PR= " + Thrust.thrust_cmd.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
-            this.Yaw.rate_feedback = (short)(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1));
+            this.Yaw.rate_feedback = (short)(2* (bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
             //Debug.WriteLine("Y= " + this.Yaw.rate_feedback.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
-    
+            //this.Yaw.rate_feedback = this.Yaw.rate_feedback * 2;
+
 
         }
 
 
         //  send the 16 bit commands 8 bits at a time 
-        //  start with the header 0xFF 0xFD so the uC know where to start parsing 
-        //  the uC DMAC will put this in a buffer
+        //  start with the header 0x80 0x80 so the uC know where to start parsing 
         private void SendCommand_SerailPort()
         {
             try
             {
-                //// Data header: 
-                //byte upperByte = (byte)(0xCC);
-                //byte lowerByte = (byte)(0xCC);
-                // Data header: 
+
                 byte upperByte = (byte)(END_PACKET_CHAR);
                 byte lowerByte = (byte)(END_PACKET_CHAR);
                 byte[] buffer = new byte[] { upperByte, lowerByte };
@@ -387,19 +361,9 @@ namespace IMU
                 buffer[0] = (byte)(this.cmd >> 8);
                 buffer[1] = (byte)(this.cmd & 0xff);
                 this._serialPort.Write(buffer, 0, 2);
-            
 
-                //buffer[0] = (byte)((short)this.numericUpDownKi_Roll.Value >> 8);
-                //buffer[1] = (byte)((short)this.numericUpDownKi_Roll.Value & 0xff);
-                //this._serialPort.Write(buffer, 0, 2);
-
-
-                //buffer[0] = (byte)((short)this.numericUpDownKd_Roll.Value >> 8);
-                //buffer[1] = (byte)((short)this.numericUpDownKd_Roll.Value & 0xff);
-                //this._serialPort.Write(buffer, 0, 2);
-
-
-               this.cmd = 0x0000;        //clear command byte after it's sent
+                //clear command byte after it's sent
+               this.cmd = 0x0000;        
               
                 
             }
@@ -411,7 +375,11 @@ namespace IMU
 
         }
 
-
+  /**********************************************************************************************************
+  INPUT:
+  OUTPUT:
+  DISCRIPTION:   Close the serial port and plot form
+  ***********************************************************************************************************/
         private void Update_UI()
         {
             //float filtRoll = filter.complementaryFilter(this.Pitch.
@@ -441,48 +409,25 @@ namespace IMU
             this.textBoxcmdRoll.Text = this.Roll.attitude_command.ToString();
             this.textBoxcmdYaw.Text = this.Yaw.attitude_command.ToString(); 
 
-            //this.textBoxPitchPIDout.Text = this.Pitch.attitude_pid_out.ToString();
-            //// update the form with acceleration data
 
             // update the zedgraph plot with new data
             if (this.checkBoxPlotForm.Checked == true)
             {
-                //this.PlotChartForm.UpdateGraph(DateTime.Now, this.int_imu_Yaw , this.int_Roll_Command , this.int_imu_Pitch , 
-                //    this.int_Roll_Error , this.int_Roll_Rate_PID);
-
                // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
                 //this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.int16_GPS_E);
-                this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.Roll.attitude_feedback,this.Pitch.attitude_feedback,this.Yaw.attitude_feedback);
-                Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
-                Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
-
-                //this.PlotChartForm.UpdateGraph(DateTime.Now, this.int_imu_Yaw, this.int_imu_Pitch, this.int_imu_Roll, this.int_Roll_Error, 
-                //    this.int_Roll_Command, this.int_Roll_PID);
-
-
-                //this.PlotChartForm.UpdateGraph(DateTime.Now, this.int_imu_Roll, this.int_Roll_Error,
-                //    this.int_Roll_Command, this.int_Roll_PID);
-
+                //this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.attitude_command), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.Roll.attitude_feedback, this.Pitch.attitude_feedback, this.Yaw.attitude_feedback);
+                //Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
+               // Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
+                TimeSpan elapsedTime =  DateTime.Now - startTime;
+                // Time is measured in seconds
+                double time = (Environment.TickCount - tickStart) / 1000.0;
+                this.PlotChartForm.UpdateGraph(time, 0.0, 0.0, 0.0, this.Roll.attitude_command, 0.0, 0.0);
             }
         }
 
-        private short GetAutoCommand()
-        {
-            if (this.intAutoCommandCounter < 500)
-            {
-                return 0;
-            }
-            else if (this.intAutoCommandCounter >= 200 && this.intAutoCommandCounter < 400)
-            {
-                return -1000;
-            }
-            else
-            {
-                return 2000;
-                
-            }
 
-        }
+
+
 
         private bool GetAvaliableJoystickControls()
         {
@@ -524,7 +469,6 @@ namespace IMU
                 if ((this.Yaw.attitude_command = (short)((16383/yawCommandScale * status.RAxis))) >= minusJoystickDeadZone && this.Yaw.attitude_command <= plusJoystickDeadZone)
                 {
                    this.Yaw.attitude_command = 0;
-                   
                 }
                 if ((this.Pitch.attitude_command = (short)((8192/pitchCommandScale * status.YAxis))) >= minusJoystickDeadZone && this.Pitch.attitude_command <= plusJoystickDeadZone)
                 {
@@ -533,21 +477,20 @@ namespace IMU
                 }
                 if ((this.Roll.attitude_command = (short)((16383/rollCommandScale * status.XAxis))) >= minusJoystickDeadZone && this.Roll.attitude_command <= plusJoystickDeadZone)
                 {
-                    this.Roll.attitude_command = 0;
-                   // this.Roll.attitude_command = this.GetAutoCommand();
+                    //this.Roll.attitude_command = 0;
+                    //this.Roll.attitude_command = this.GetStepCommand();
+                    this.Roll.attitude_command = (short)(1000 * Command.GetSinCommand()); 
                 }
 
                 //this.Roll.attitude_command = this.GetAutoCommand();
             }
             else
             {
-
                 this.Yaw.attitude_command = 0;
 
                 this.Pitch.attitude_command = 0;
 
-                this.Roll.attitude_command = 0; // (short)(this.int_Step_Command_Increment);
-              
+                this.Roll.attitude_command = 0; // (short)(this.int_Step_Command_Increment);             
             }
         }
 
@@ -568,7 +511,9 @@ namespace IMU
                     break;
             }
         }
+        
 
+        //call to update the message textbox
         private void send_UI_message(string message)
         {
 
@@ -585,6 +530,9 @@ namespace IMU
 
 
 
+
+        // send command packet to quad, then parseout the data in the recived buffer, 
+        //  update the UI with orentaion data
         void timer_Tick(object sender, EventArgs e)
         {
             if (this.gotJoystick == true)
@@ -594,6 +542,7 @@ namespace IMU
                 this.GetJoystickCommands();
                 this.Update_UI();
                 this.intAutoCommandCounter++;
+                
                 if (this.intAutoCommandCounter >= 1000)
                 {
                     this.intAutoCommandCounter = 0;
@@ -609,12 +558,7 @@ namespace IMU
 
           }
 
-        //void timer_Tick_USART(object sender, EventArgs e)
-        //{
-       
-        //        this.SendCommand_SerailPort();
 
-        //}
         
 
 
@@ -639,10 +583,7 @@ namespace IMU
             UpdateUI_timer.Enabled = true;                           // Enable the timer
             UpdateUI_timer.Start();                                  // Start the timer
 
-            //Send_UART_timer.Tick += new EventHandler(timer_Tick_USART);     // Everytime timer ticks], timer_Tick will be called
-            //Send_UART_timer.Interval = intUI_Update_mSec;            // Timer will tick evert 10 seconds
-            //Send_UART_timer.Enabled = true;                           // Enable the timer
-            //Send_UART_timer.Start();   
+
         }
 
         private void numericUpDownKi_Pitch_ValueChanged(object sender, EventArgs e)

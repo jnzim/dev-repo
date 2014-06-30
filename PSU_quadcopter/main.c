@@ -162,26 +162,25 @@ void ControlLoop()
 	int16counter++;
 
 	UpdateEulerAngles();
-	//UpdateEulerAngles_YEI_fast();
 
 	PI_attitude_rate(&pitchAxis);
 	PI_attitude_rate(&yawAxis);
 	PI_attitude_rate(&rollAxis);
-
-	////PI_rate(&pitchAxis);
-	////PI_rate(&yawAxis);
-	////PI_rate(&rollAxis);
-	
+//
+	//PI_rate(&pitchAxis);
+	//PI_rate(&yawAxis);
+	//PI_rate(&rollAxis);
+	//
 	SetPulseWidths();
-	//sendUM6_Data();
+	sendUM6_Data();
+	
+	//  write to the ATmega com buffer 31*.0033 ~ 100mSec
 	if (int16counter >= 31)
 	
 	{
-	
 		WriteToPC_SPI();	// 400uSec
 		int16counter = 0;
 		
-	
 	}
 	
 
@@ -218,27 +217,31 @@ void SetPulseWidths()
 	}
 }
 
-
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:   Default PID gains
+*********************************************************************************************************** */
 void intPID_gains()
 {
 
 		
 	pitchAxis.Kp =6;
 	pitchAxis.Ki =3;
-	pitchAxis.Kp_rate = 3;
-	pitchAxis.Ki_rate =2;
+	pitchAxis.Kp_rate = 4;
+	pitchAxis.Ki_rate =0;
 	
 	
 	yawAxis.Kp = 6;
 	yawAxis.Ki =3;
-	yawAxis.Kp_rate = 3;
-	yawAxis.Ki_rate =2;
+	yawAxis.Kp_rate = 4;
+	yawAxis.Ki_rate =0;
 	
 	
 	rollAxis.Kp = 6;
 	rollAxis.Ki =3;
-	rollAxis.Kp_rate = 3;
-	rollAxis.Ki_rate =2;
+	rollAxis.Kp_rate = 4;
+	rollAxis.Ki_rate =0;
 	
 	
 	rollAxis.windupGuard = 200;
@@ -258,14 +261,10 @@ DISCRIPTION:   Send 16 bit data type over the standard serial port
 void sendUM6_Data()
 {
 
-		sendData_int16_t(0x8080);					//0xCCCC is the headersendData_int16_t(rollAxis.attitude_feedback);
-		sendData_int16_t(0x000);
+		sendData_int16_t(0xCCCC);					//0xCCCC is the headersendData_int16_t(rollAxis.attitude_feedback);
+		sendData_int16_t(rollAxis.attitude_command);
 		sendData_int16_t(rollAxis.attitude_feedback);
-		sendData_int16_t(pitchAxis.attitude_feedback);
-		sendData_int16_t(yawAxis.attitude_feedback);
-		sendData_int16_t(rollAxis.rate_feedback);
-		sendData_int16_t(pitchAxis.rate_feedback);
-		sendData_int16_t(yawAxis.rate_feedback);
+	
 
 }
 
@@ -322,9 +321,7 @@ int16_t WriteToPC_SPI()
 	yawAxis.Ki = pitchAxis.Ki;
 	yawAxis.Kd = pitchAxis.Kd;
 	
-	rollAxis.attitude_command = 0;
-	yawAxis.attitude_command = 0;
-	pitchAxis.attitude_command = 0;
+
 	
 	return command;
 	
@@ -346,7 +343,7 @@ void UpdateEulerAngles()
 		//psi = yaw  phi = roll    theta = pitch
 		dummy_read = spiIMU_write_read(READ_COMMAND);
 		dummy_read = spiIMU_write_read(UM6_EULER_PHI_THETA);
-		//delay_us(50);
+		
 		rollAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 		rollAxis.attitude_feedback_15 = rollAxis.attitude_feedback /2;
 		

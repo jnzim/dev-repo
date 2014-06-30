@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Bode.cs" />
     <Compile Include="clsAxis.cs" />
+    <Compile Include="clsCommand.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
@@ -80,6 +81,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmBodePlot.resx">
       <DependentUpon>frmBodePlot.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPlotChart.resx">
       <DependentUpon>frmPlotChart.cs</DependentUpon>
