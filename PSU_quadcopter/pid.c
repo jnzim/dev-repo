@@ -54,7 +54,8 @@ void PI_rate(PID_data *pid_data)
 	pid_data->previousRateError2 = pid_data->rate_error;
 
 	// calculate the current rate error
-	pid_data->rate_error = (0 - pid_data->rate_feedback)/10;
+	//pid_data->rate_error = (0 - pid_data->rate_feedback)/10;
+	pid_data->rate_error = (pid_data->attitude_command - pid_data->rate_feedback)/10;
 	
 	// integrate the rate error
 	pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer + 
@@ -119,12 +120,14 @@ void PI_attitude_rate(PID_data *pid_data)
 	pid_data->i_term_rate = 0; //(pid_data->rate_total_error  * pid_data->Ki_rate);
 	
 	pid_data->pid_total =(pid_data->p_term_rate + pid_data->i_term_rate);
-	
 
-	
 }
 
-
+	//rollAxis.Kp =94;  /1000  .094
+	//rollAxis.Ki =23;  /100   .23
+	//rollAxis.Kp_rate = 4;
+	//rollAxis.Ki_rate =0;
+	
 
 //  pid  position control loop
 void pid(PID_data * pid_data)

@@ -777,7 +777,7 @@
             // 
             this.numericUpDownKp_Pitch.Location = new System.Drawing.Point(39, 56);
             this.numericUpDownKp_Pitch.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});

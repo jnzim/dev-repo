@@ -36,6 +36,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../command.c \
 ../FILTER.c \
 ../pid.c \
 ../main.c \
@@ -53,6 +54,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+command.o \
 FILTER.o \
 pid.o \
 main.o \
@@ -63,6 +65,7 @@ uart.o \
 usart_driver.o
 
 OBJS_AS_ARGS +=  \
+command.o \
 FILTER.o \
 pid.o \
 main.o \
@@ -73,6 +76,7 @@ uart.o \
 usart_driver.o
 
 C_DEPS +=  \
+command.d \
 FILTER.d \
 pid.d \
 main.d \
@@ -83,6 +87,7 @@ uart.d \
 usart_driver.d
 
 C_DEPS_AS_ARGS +=  \
+command.d \
 FILTER.d \
 pid.d \
 main.d \
@@ -103,6 +108,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

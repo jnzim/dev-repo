@@ -17,6 +17,7 @@
 #include "pid.h"
 #include "PWM.h"
 #include "spi.h"
+#include "command.h"
 
 #define LEDPORT PORTA
 
@@ -166,13 +167,15 @@ void ControlLoop()
 	PI_attitude_rate(&pitchAxis);
 	PI_attitude_rate(&yawAxis);
 	PI_attitude_rate(&rollAxis);
-//
+	
 	//PI_rate(&pitchAxis);
 	//PI_rate(&yawAxis);
 	//PI_rate(&rollAxis);
 	//
 	SetPulseWidths();
 	sendUM6_Data();
+	//rollAxis.attitude_command =(int16_t)(GetSinCommand(1500, pitchAxis.Kp));
+	//rollAxis.attitude_command =(int16_t)( 2000* AWGN_generator());
 	
 	//  write to the ATmega com buffer 31*.0033 ~ 100mSec
 	if (int16counter >= 31)
@@ -226,22 +229,27 @@ void intPID_gains()
 {
 
 		
-	pitchAxis.Kp =6;
-	pitchAxis.Ki =3;
-	pitchAxis.Kp_rate = 4;
-	pitchAxis.Ki_rate =0;
-	
-	
-	yawAxis.Kp = 6;
-	yawAxis.Ki =3;
-	yawAxis.Kp_rate = 4;
-	yawAxis.Ki_rate =0;
-	
-	
-	rollAxis.Kp = 6;
+	//pitchAxis.Kp =6;
+	//pitchAxis.Ki =3;
+	//pitchAxis.Kp_rate = 4;
+	//pitchAxis.Ki_rate =0;
+	//
+	//
+	//yawAxis.Kp = 6;
+	//yawAxis.Ki =3;
+	//yawAxis.Kp_rate = 4;
+	//yawAxis.Ki_rate =0;
+	//
+	//  standard gains should be used to compare new controllers
+	rollAxis.Kp =4;
 	rollAxis.Ki =3;
 	rollAxis.Kp_rate = 4;
 	rollAxis.Ki_rate =0;
+	
+	//rollAxis.Kp =1;
+	//rollAxis.Ki =20;
+	//rollAxis.Kp_rate =4;
+	//rollAxis.Ki_rate =0;
 	
 	
 	rollAxis.windupGuard = 200;
@@ -296,7 +304,7 @@ int16_t WriteToPC_SPI()
 	pitchAxis.Kp = spiPC_write_read(upperByte16(rollAxis.rate_feedback_15 ))<< 8;
 	pitchAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.rate_feedback_15 ));							
 	
-	//pitchAxis.rate_feedback_15 = 0x8080;
+	//pitchAxis.rate_feedback_15 = rollAxis.attitude_command/2;
 	pitchAxis.Ki = spiPC_write_read(upperByte16(pitchAxis.rate_feedback_15  )) << 8;					
 	pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback_15 ));							
 	
@@ -304,7 +312,7 @@ int16_t WriteToPC_SPI()
 	pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
 	pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
 	
-	//yawAxis.rate_feedback_15 = 0x0080;
+	//yawAxis.rate_feedback_15 = rollAxis.attitude_command/2;
 	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
 	command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
 	
@@ -313,20 +321,87 @@ int16_t WriteToPC_SPI()
 
 	PORTE.OUTSET = PIN4_bm;
 	
-	rollAxis.Kp = pitchAxis.Kp;
-	rollAxis.Ki = pitchAxis.Ki;
-	rollAxis.Kd = pitchAxis.Kd;
+	//rollAxis.Kp = pitchAxis.Kp;
+	//rollAxis.Ki = pitchAxis.Ki;
+	//rollAxis.Kd = pitchAxis.Kd;
+	//
+	//yawAxis.Kp = pitchAxis.Kp;
+	//yawAxis.Ki = pitchAxis.Ki;
+	//yawAxis.Kd = pitchAxis.Kd;
 	
-	yawAxis.Kp = pitchAxis.Kp;
-	yawAxis.Ki = pitchAxis.Ki;
-	yawAxis.Kd = pitchAxis.Kd;
 	
-
 	
 	return command;
 	
 	
 }
+
+
+
+
+
+///***********************************************************************************************************
+  //INPUT:
+  //OUTPUT:
+  //DI/SCRIPTION:  Write data packet to the SPI bus connected to the ATmega, 
+  //the ATmega should be set up to parse this data.
+//*********************************************************************************************************** */
+//int16_t WriteToPC_SPI()
+//{
+	//PORTE.OUTCLR = PIN4_bm;
+	//
+	//throttleAxis.thrust = spiPC_write_read(upperByte16(dummy_read)) << 8;						
+	//throttleAxis.thrust += spiPC_write_read(lowerByte16(dummy_read));							
+	//
+	////rollAxis.attitude_feedback_15 = throttleAxis.thrust;
+	//
+	//dummy_read = spiPC_write_read(upperByte16(rollAxis.attitude_feedback_15)) << 8;
+	//dummy_read  += spiPC_write_read(lowerByte16(rollAxis.attitude_feedback_15));
+	//
+	////pitchAxis.attitude_feedback_15 = rollAxis.attitude_command/2;
+	////pitchAxis.attitude_feedback_15 = 0;
+	//pitchAxis.attitude_command = spiPC_write_read(upperByte16(pitchAxis.attitude_feedback_15)) << 8;
+	//pitchAxis.attitude_command += spiPC_write_read(lowerByte16(pitchAxis.attitude_feedback_15));
+	//
+	////yawAxis.attitude_feedback = 0;
+	//yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback_15)) << 8;
+	//yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback_15));
+	//
+	////rollAxis.rate_feedback_15 = rollAxis.attitude_command/2;	
+	//pitchAxis.Kp = spiPC_write_read(upperByte16(rollAxis.rate_feedback_15 ))<< 8;
+	//pitchAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.rate_feedback_15 ));							
+	//
+	//pitchAxis.rate_feedback_15 = rollAxis.attitude_command/2;	
+	//pitchAxis.Ki = spiPC_write_read(upperByte16(pitchAxis.rate_feedback_15  )) << 8;					
+	//pitchAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback_15 ));							
+	//
+	////yawAxis.rate_feedback = rollAxis.pid_total;
+	//pitchAxis.Kd= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
+	//pitchAxis.Kd+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
+	//
+	////yawAxis.rate_feedback_15 = rollAxis.attitude_command/2;
+	//command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
+	//command+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
+	//
+	//dummy_read = spiPC_write_read(END_PACKET_CHAR);													
+	//dummy_read = spiPC_write_read(END_PACKET_CHAR);			
+//
+	//PORTE.OUTSET = PIN4_bm;
+	//
+	////rollAxis.Kp = pitchAxis.Kp;
+	////rollAxis.Ki = pitchAxis.Ki;
+	////rollAxis.Kd = pitchAxis.Kd;
+	////
+	////yawAxis.Kp = pitchAxis.Kp;
+	////yawAxis.Ki = pitchAxis.Ki;
+	////yawAxis.Kd = pitchAxis.Kd;
+	//
+	//
+	//
+	//return command;
+	//
+	//
+//}
 
 /***********************************************************************************************************
 INPUT:
@@ -369,6 +444,8 @@ void UpdateEulerAngles()
 		dummy_read =  spiIMU_write_read(DUMMY_READ);
 		
 		PORTF.OUTSET = PIN4_bm;	
+		
+		
 }
 
 

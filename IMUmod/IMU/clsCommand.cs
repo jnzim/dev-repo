@@ -126,17 +126,14 @@ namespace IMU
 
         public short GetAutoCommand()
         {
-            if (this.intAutoCommandCounter < 500)
+            if (this.intAutoCommandCounter < 100)
             {
                 return 0;
             }
-            else if (this.intAutoCommandCounter >= 200 && this.intAutoCommandCounter < 400)
-            {
-                return 0;
-            }
+
             else
             {
-                return 2000;
+                return 1500;
 
             }
         }

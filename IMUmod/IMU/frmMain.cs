@@ -44,7 +44,7 @@ namespace IMU
                 ///  
         short int_Step_Command_Increment = 0;
         int intUI_Update_mSec = 100;
-        int intAutoCommandCounter = 0;
+       
         List<byte> bBuffer = new List<byte>();
         
   
@@ -63,7 +63,7 @@ namespace IMU
        const Int16 ARM_SYSTEM               =0x0002;
        const Int16 DISARM                   =0x0005;
        const short END_PACKET_CHAR          =0x80;
-
+        
 
 
         Joystick joystick;    
@@ -413,15 +413,16 @@ namespace IMU
             // update the zedgraph plot with new data
             if (this.checkBoxPlotForm.Checked == true)
             {
-               // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
-                //this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.int16_GPS_E);
-                //this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.attitude_command), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.Roll.attitude_feedback, this.Pitch.attitude_feedback, this.Yaw.attitude_feedback);
+                double time = (Environment.TickCount - tickStart) / 1000.0;
+                // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
+               // this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.int16_GPS_E);
+                this.PlotChartForm.UpdateGraph(time, (double)(this.Roll.attitude_command), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.Roll.attitude_feedback, this.Pitch.attitude_feedback, this.Yaw.attitude_feedback);
                 //Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
                // Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
                 TimeSpan elapsedTime =  DateTime.Now - startTime;
                 // Time is measured in seconds
-                double time = (Environment.TickCount - tickStart) / 1000.0;
-                this.PlotChartForm.UpdateGraph(time, 0.0, 0.0, 0.0, this.Roll.attitude_command, 0.0, 0.0);
+               
+                //this.PlotChartForm.UpdateGraph(time, 0.0, 0.0, 0.0, this.Roll.attitude_command, 0.0, 0.0);
             }
         }
 
@@ -477,12 +478,12 @@ namespace IMU
                 }
                 if ((this.Roll.attitude_command = (short)((16383/rollCommandScale * status.XAxis))) >= minusJoystickDeadZone && this.Roll.attitude_command <= plusJoystickDeadZone)
                 {
-                    //this.Roll.attitude_command = 0;
+                    this.Roll.attitude_command = 0;
                     //this.Roll.attitude_command = this.GetStepCommand();
-                    this.Roll.attitude_command = (short)(1000 * Command.GetSinCommand()); 
+                    //this.Roll.attitude_command = (short)(1000 * Command.GetSinCommand()); 
                 }
 
-                //this.Roll.attitude_command = this.GetAutoCommand();
+                this.Roll.attitude_command = this.Command.GetAutoCommand();
             }
             else
             {
@@ -541,11 +542,11 @@ namespace IMU
                 this.ProcessData();
                 this.GetJoystickCommands();
                 this.Update_UI();
-                this.intAutoCommandCounter++;
-                
-                if (this.intAutoCommandCounter >= 1000)
+                this.Command.AutoCommandCounter++;
+
+                if (this.Command.AutoCommandCounter >= 200)
                 {
-                    this.intAutoCommandCounter = 0;
+                    this.Command.AutoCommandCounter = 0;
                 }
             }
          
