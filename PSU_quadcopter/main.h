@@ -73,6 +73,7 @@ PID_data rollAxis,yawAxis,pitchAxis,throttleAxis;
 #define SYSTEM_ARM				0x0002
 #define SYSTEM_STATE_FLY		0x0004
 #define SYSTEM_DISARM			0x0005
+#define SET_TRIM				0x0006
 
 #define CONVERT_GYRO_REG_TO_DPS 16		//  1/ 0.0610352  ~ 16.34  ~16
 #define  CONVERT_EULER_TO_DEG   91		// 1/ 0.0109863 = 91.002 ~ 91

@@ -55,7 +55,7 @@ typedef struct PID_data
 	int16_t attitude_loop_out;
 	int16_t PI_rate_max;
 	int16_t PI_attitude_max;
-	
+	int16_t trim;
 	
 	
 

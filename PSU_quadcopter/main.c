@@ -44,6 +44,7 @@ uint8_t systemState;
 uint8_t dummy_read;
 uint16_t int16counter;
 int16_t command;
+int16_t cmdBytes;	
 
 
 
@@ -101,10 +102,6 @@ void State()
 			_delay_ms(100);
 			UpdateEulerAngles();
 		
-			
-		
-			
-			int16_t cmdBytes;	
 			//  get the last command sent form the PC, either zero the IMU or get ready to arm the system
 			if ((cmdBytes = WriteToPC_SPI()) == SYSTEM_ZERO)
 			{
@@ -129,6 +126,11 @@ void State()
 		case SYSTEM_STATE_FLY:
 			// run the control loop
 			LEDPORT.OUTTGL = PIN1_bm;
+				if (cmdBytes  == SET_TRIM)
+			{
+				LEDPORT.OUTTGL = PIN2_bm;
+				trim();
+			}
 			ControlLoop();
 			
 			
@@ -181,7 +183,7 @@ void ControlLoop()
 	if (int16counter >= 31)
 	
 	{
-		WriteToPC_SPI();	// 400uSec
+		cmdBytes = WriteToPC_SPI();	// 400uSec
 		int16counter = 0;
 		
 	}
@@ -201,15 +203,15 @@ void SetPulseWidths()
 	if(throttleAxis.thrust > 2000 && throttleAxis.thrust <= 4095)
 	{
 		doPWM(
-		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total ,
-		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total ,
-		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total ,
-		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total
+		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total + rollAxis.trim,
+		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total + pitchAxis.trim,
+		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total - rollAxis.trim,
+		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total - pitchAxis.trim
 
-		//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total - yawAxis.pid_total,
-		//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total,
-		//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total,
-		//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total  + yawAxis.pid_total
+		//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total -  yawAxis.pid_total + rollAxis.trim - yawAxis.trim,
+		//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total + pitchAxis.trim - yawAxis.trim,
+		//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total - rollAxis.trim + yawAxis.trim,
+		//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total  + yawAxis.pid_total - pitchAxis.trim + - yawAxis.trim
 	
 		);
 		
@@ -448,6 +450,13 @@ void UpdateEulerAngles()
 		
 }
 
+void trim()
+{
+	rollAxis.trim = rollAxis.attitude_command;
+	pitchAxis.trim = pitchAxis.attitude_command;
+	pitchAxis.trim = pitchAxis.attitude_command;
+	
+}
 
 
 /***********************************************************************************************************
@@ -465,7 +474,9 @@ uint8_t initSystem()
 	zeroSensor();
 	_delay_ms(2000);
 	zeroSensor();
-
+	yawAxis.trim = 0;
+	rollAxis.trim = 0;
+	pitchAxis.trim = 0;
 	return 1;
 
 }

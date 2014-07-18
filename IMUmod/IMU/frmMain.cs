@@ -62,6 +62,7 @@ namespace IMU
        const Int16 ZERO_SENSORS             =0x0001;
        const Int16 ARM_SYSTEM               =0x0002;
        const Int16 DISARM                   =0x0005;
+       const Int16 TRIM                     =0x0006;
        const short END_PACKET_CHAR          =0x80;
         
 
@@ -362,7 +363,10 @@ namespace IMU
                 buffer[1] = (byte)(this.cmd & 0xff);
                 this._serialPort.Write(buffer, 0, 2);
 
-                //clear command byte after it's sent
+                if (this.cmd == TRIM)
+                {
+                    this.cmd = NULL_COMMAND;
+                } 
                this.cmd = 0x0000;        
               
                 
@@ -483,6 +487,10 @@ namespace IMU
                     //this.Roll.attitude_command = (short)(1000 * Command.GetSinCommand()); 
                 }
 
+                if (status.IsButtonPressed(Joystick.Buttons.Button1))
+                {
+                    this.cmd = TRIM;
+                }
                 this.Roll.attitude_command = this.Command.GetAutoCommand();
             }
             else
