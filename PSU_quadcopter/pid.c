@@ -74,7 +74,7 @@ void PI_rate(PID_data *pid_data)
 /***********************************************************************************************************
 INPUT:
 OUTPUT:
-DISCRIPTION:  nest PI loops, with the rate loop on the insidea
+DISCRIPTION:  nest PI / P loop, with the rate loop on the inside
 *********************************************************************************************************** */
 void PI_attitude_rate(PID_data *pid_data)
 {
@@ -86,7 +86,7 @@ void PI_attitude_rate(PID_data *pid_data)
 	////  calculate the new error
 	////10 - 23 = -13
 	
-	pid_data->attitude_error = (pid_data->attitude_command - pid_data->attitude_feedback)/10;
+	pid_data->attitude_error = ((pid_data->attitude_command + pid_data->trim) - pid_data->attitude_feedback)/10;
 	
 
 	pid_data->attitude_total_error = (pid_data->previousError0/integral_addup_reducer + pid_data->previousError1/integral_addup_reducer +
@@ -123,10 +123,41 @@ void PI_attitude_rate(PID_data *pid_data)
 
 }
 
-	//rollAxis.Kp =94;  /1000  .094
-	//rollAxis.Ki =23;  /100   .23
-	//rollAxis.Kp_rate = 4;
-	//rollAxis.Ki_rate =0;
+
+
+
+/***********************************************************************************************************
+INPUT:
+OUTPUT:
+DISCRIPTION:  nest PI loops inner loop is proportional, outer is PII to increase system type
+*********************************************************************************************************** */
+void PII_attitude_rate(PID_data *pid_data)
+{
+
+	////  save the last error calculation so we can calculate the derivative
+	pid_data->previousError0 = pid_data->previousError1;
+	pid_data->previousError1 = pid_data->previousError2;
+	pid_data->previousError2 = pid_data->attitude_error;
+	//pid_data->previousError0 = pid_data->error;
+	////  calculate the new error
+	////10 - 23 = -13
+	
+	pid_data->attitude_error = ((pid_data->attitude_command + pid_data->trim) - pid_data->attitude_feedback);
+	
+	double pidconst1 = (pid_data->Kp)/3 +(pid_data->Ki)/900;
+	double pidconst2 = (pid_data->Kp)/900;
+	
+	pid_data->attitude_loop_out = ((pidconst1 * pid_data->attitude_error) - pidconst2)  / 
+	(pid_data->attitude_error - 2*pid_data->previousError1 + 1 );
+ 
+ 
+	pid_data->rate_error = (pid_data->attitude_loop_out- pid_data->rate_feedback)/10;
+	
+	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp_rate);
+
+	pid_data->pid_total =pid_data->p_term_rate;
+
+}
 	
 
 //  pid  position control loop

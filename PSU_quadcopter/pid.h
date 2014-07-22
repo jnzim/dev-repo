@@ -17,6 +17,7 @@ void pid_attitude_rate(PID_data * pid_data);
 void pid(PID_data * pid_data);
 void PI_rate(PID_data *pid_data);
 void PI_attitude_rate(PID_data *pid_data);
+void PII_attitude_rate(PID_data *pid_data);
 
 
 

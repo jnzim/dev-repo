@@ -325,8 +325,10 @@ namespace IMU
 
 
                 //this.Roll.attitude_command = 0x0005;
-                buffer[0] = (byte)(this.Roll.attitude_command >> 8);
-                buffer[1] = (byte)(this.Roll.attitude_command & 0xff);
+                //buffer[0] = (byte)(this.Roll.attitude_command >> 8);
+                //buffer[1] = (byte)(this.Roll.attitude_command & 0xff);
+                buffer[0] = (byte)(END_PACKET_CHAR);
+                buffer[1] = (byte)(END_PACKET_CHAR);
                 //Debug.WriteLine(buffer[0].ToString("x"));
                 //Debug.WriteLine(buffer[1].ToString("x"));
                 this._serialPort.Write(buffer, 0, 2);
@@ -483,15 +485,15 @@ namespace IMU
                 if ((this.Roll.attitude_command = (short)((16383/rollCommandScale * status.XAxis))) >= minusJoystickDeadZone && this.Roll.attitude_command <= plusJoystickDeadZone)
                 {
                     this.Roll.attitude_command = 0;
-                    //this.Roll.attitude_command = this.GetStepCommand();
-                    //this.Roll.attitude_command = (short)(1000 * Command.GetSinCommand()); 
+                  
                 }
 
                 if (status.IsButtonPressed(Joystick.Buttons.Button1))
                 {
                     this.cmd = TRIM;
                 }
-                this.Roll.attitude_command = this.Command.GetAutoCommand();
+
+                //this.Roll.attitude_command = this.Command.GetAutoCommand();
             }
             else
             {

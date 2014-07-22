@@ -129,7 +129,7 @@ void State()
 				if (cmdBytes  == SET_TRIM)
 			{
 				LEDPORT.OUTTGL = PIN2_bm;
-				trim();
+				//trim();
 			}
 			ControlLoop();
 			
@@ -169,7 +169,11 @@ void ControlLoop()
 	PI_attitude_rate(&pitchAxis);
 	PI_attitude_rate(&yawAxis);
 	PI_attitude_rate(&rollAxis);
-	
+	//
+	//PII_attitude_rate(&pitchAxis);
+	//PII_attitude_rate(&yawAxis);
+	//PII_attitude_rate(&rollAxis);
+	//
 	//PI_rate(&pitchAxis);
 	//PI_rate(&yawAxis);
 	//PI_rate(&rollAxis);
@@ -203,15 +207,15 @@ void SetPulseWidths()
 	if(throttleAxis.thrust > 2000 && throttleAxis.thrust <= 4095)
 	{
 		doPWM(
-		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total + rollAxis.trim,
-		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total + pitchAxis.trim,
-		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total - rollAxis.trim,
-		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total - pitchAxis.trim
+		throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total ,
+		throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total ,
+		throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total,
+		throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total 
 
-		//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total -  yawAxis.pid_total + rollAxis.trim - yawAxis.trim,
-		//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total + pitchAxis.trim - yawAxis.trim,
-		//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total - rollAxis.trim + yawAxis.trim,
-		//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total  + yawAxis.pid_total - pitchAxis.trim + - yawAxis.trim
+		//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total -  yawAxis.pid_total ,
+		//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total ,
+		//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total,
+		//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total  + yawAxis.pid_total
 	
 		);
 		
@@ -242,7 +246,7 @@ void intPID_gains()
 	//yawAxis.Kp_rate = 4;
 	//yawAxis.Ki_rate =0;
 	//
-	//  standard gains should be used to compare new controllers
+	////  standard gains should be used to compare new controllers
 	rollAxis.Kp =4;
 	rollAxis.Ki =3;
 	rollAxis.Kp_rate = 4;
@@ -302,9 +306,10 @@ int16_t WriteToPC_SPI()
 	//yawAxis.attitude_feedback = 0;
 	yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback_15)) << 8;
 	yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback_15));
-		
-	pitchAxis.Kp = spiPC_write_read(upperByte16(rollAxis.rate_feedback_15 ))<< 8;
-	pitchAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.rate_feedback_15 ));							
+	
+	rollAxis.attitude_loop_out  = rollAxis.attitude_loop_out /2;
+	pitchAxis.Kp = spiPC_write_read(upperByte16(rollAxis.attitude_loop_out ))<< 8;
+	pitchAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.attitude_loop_out ));							
 	
 	//pitchAxis.rate_feedback_15 = rollAxis.attitude_command/2;
 	pitchAxis.Ki = spiPC_write_read(upperByte16(pitchAxis.rate_feedback_15  )) << 8;					
@@ -323,13 +328,13 @@ int16_t WriteToPC_SPI()
 
 	PORTE.OUTSET = PIN4_bm;
 	
-	//rollAxis.Kp = pitchAxis.Kp;
-	//rollAxis.Ki = pitchAxis.Ki;
-	//rollAxis.Kd = pitchAxis.Kd;
-	//
-	//yawAxis.Kp = pitchAxis.Kp;
-	//yawAxis.Ki = pitchAxis.Ki;
-	//yawAxis.Kd = pitchAxis.Kd;
+	rollAxis.Kp = pitchAxis.Kp;
+	rollAxis.Ki = pitchAxis.Ki;
+	rollAxis.Kd = pitchAxis.Kd;
+	
+	yawAxis.Kp = pitchAxis.Kp;
+	yawAxis.Ki = pitchAxis.Ki;
+	yawAxis.Kd = pitchAxis.Kd;
 	
 	
 	
