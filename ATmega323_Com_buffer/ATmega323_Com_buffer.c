@@ -93,7 +93,7 @@ int main()
 *********************************************************************************************************** */
 TransactWithPC()
 {
-	
+			
 			Read_USART_CommandData();
 			Send_USART_PC_Data();
 			RefreshCommandPacket();
@@ -128,36 +128,37 @@ ISR(SPI_STC_vect)
 void RefreshCommandPacket()
 {
 
+	
 	int i = 0;
 
 
-		// preload the first byte so the master doesn't get junk on the first transaction
-		SPDR = upperByte(throttleAxis.thrust);
-		commandPacket[i++] = lowerByte(throttleAxis.thrust);
-		
-		commandPacket[i++] = upperByte(rollAxis.attitude_command);
-		commandPacket[i++] = lowerByte(rollAxis.attitude_command);
-		
-		commandPacket[i++] = upperByte(pitchAxis.attitude_command);
-		commandPacket[i++] = lowerByte(pitchAxis.attitude_command);
+	// preload the first byte so the master doesn't get junk on the first transaction
+	SPDR = upperByte(throttleAxis.thrust);
+	commandPacket[i++] = lowerByte(throttleAxis.thrust);
 
-		commandPacket[i++] = upperByte(yawAxis.attitude_command);
-		commandPacket[i++] = lowerByte(yawAxis.attitude_command);
-		
-		commandPacket[i++] = upperByte(pitchAxis.Kp_attitude);
-		commandPacket[i++] = lowerByte(pitchAxis.Kp_attitude);
-		
-		commandPacket[i++] = upperByte(pitchAxis.Ki_attitude);
-		commandPacket[i++] = lowerByte(pitchAxis.Ki_attitude);
-		
-		commandPacket[i++] = upperByte(pitchAxis.Kd_attitude);
-		commandPacket[i++] = lowerByte(pitchAxis.Kd_attitude);
-		
-		commandPacket[i++] = upperByte(command);
-		commandPacket[i++] = lowerByte(command);
+	commandPacket[i++] = upperByte(rollAxis.attitude_command);
+	commandPacket[i++] = lowerByte(rollAxis.attitude_command);
 
-		commandPacket[i++] = PACKET_END_CHAR;
-		commandPacket[i++] = PACKET_END_CHAR;
+	commandPacket[i++] = upperByte(pitchAxis.attitude_command);
+	commandPacket[i++] = lowerByte(pitchAxis.attitude_command);
+
+	commandPacket[i++] = upperByte(yawAxis.attitude_command);
+	commandPacket[i++] = lowerByte(yawAxis.attitude_command);
+
+	commandPacket[i++] = upperByte(pitchAxis.Kp_attitude);
+	commandPacket[i++] = lowerByte(pitchAxis.Kp_attitude);
+
+	commandPacket[i++] = upperByte(pitchAxis.Ki_attitude);
+	commandPacket[i++] = lowerByte(pitchAxis.Ki_attitude);
+
+	commandPacket[i++] = upperByte(pitchAxis.Kd_attitude);
+	commandPacket[i++] = lowerByte(pitchAxis.Kd_attitude);
+
+	commandPacket[i++] = upperByte(command);
+	commandPacket[i++] = lowerByte(command);
+
+	commandPacket[i++] = PACKET_END_CHAR;
+	commandPacket[i++] = PACKET_END_CHAR;
 
 }
 //
@@ -390,7 +391,7 @@ uint8_t Read_USART_CommandData()
 				}
 			}
 		}
-		
+
 		throttleAxis.thrust = (USART_receive() << 8) | USART_receive();
 		rollAxis.attitude_command = (USART_receive() << 8) | USART_receive();
 		pitchAxis.attitude_command = (USART_receive() << 8) | USART_receive();
@@ -399,7 +400,7 @@ uint8_t Read_USART_CommandData()
 		pitchAxis.Ki_attitude = (USART_receive() << 8) | USART_receive();
 		pitchAxis.Kd_attitude = (USART_receive() << 8) | USART_receive();
 		command = (USART_receive() << 8) | USART_receive();
-		
+
 		return 1;
 			
 }

@@ -458,9 +458,9 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x22a ATmega323_Com_buffer.o
 
-.debug_line     0x00000000      0x2f6
+.debug_line     0x00000000      0x2f4
  *(.debug_line)
- .debug_line    0x00000000      0x2f6 ATmega323_Com_buffer.o
+ .debug_line    0x00000000      0x2f4 ATmega323_Com_buffer.o
 
 .debug_frame    0x00000000      0x1b0
  *(.debug_frame)

@@ -28,6 +28,15 @@ float GetSinCommand(int A, int16_t f)
 	return y;
 }
 
+float GetCosCommand(int A, int16_t f)
+{
+	t += delta_t;
+	double y;
+	float frequency = (float)((f)/100);
+	//y = 1500 * sin(2.0* 3.14159 * t * frequency);
+	y = 1500 * cos(2.0 * 3.14 * t * frequency);
+	return y;
+}
 
 
 double AWGN_generator()

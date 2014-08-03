@@ -11,7 +11,7 @@
 
 float GetSinCommand();
 double AWGN_generator();
-
+float GetCosCommand();
 
 
 

@@ -142,7 +142,7 @@ namespace IMU
         public double GetSinCommand()
         {
             t += delta_t;
-            Debug.WriteLine(t);
+            //Debug.WriteLine(t);
             double y;
            
             y = A * Math.Sin(2 * Math.PI * t * f);

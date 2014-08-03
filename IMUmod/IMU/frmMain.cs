@@ -38,7 +38,7 @@ namespace IMU
         const int yawCommandScale = 10;
         // Starting time in milliseconds
         int tickStart = 0;
-        
+        short  rollTrimRight, pitchTrimRight,throttleTrim;
        
         int cmd;  ///  hold command from text box enter event
                 ///  
@@ -273,7 +273,7 @@ namespace IMU
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
             this.Roll.attitude_feedback = (short)(2*(bBuffer.ElementAt(0) << 8 | bBuffer.ElementAt(1)));
-            // Debug.WriteLine("R " + Roll.attitude_feedback.ToString());
+           Debug.WriteLine("R " + Roll.attitude_feedback.ToString("x"));
             bBuffer.RemoveAt(0); bBuffer.RemoveAt(0);
 
 
@@ -317,30 +317,30 @@ namespace IMU
                 //Debug.WriteLine(lowerByte.ToString("x"));
                 this._serialPort.Write(buffer, 0, 2);
 
-                //this.Thrust.thrust_cmd = 0x0009;
+               // this.Thrust.thrust_cmd = 0x1010;
                 buffer[0] = (byte)(this.Thrust.thrust_cmd >> 8);
                 buffer[1] = (byte)(this.Thrust.thrust_cmd & 0xff);
-                this._serialPort.Write(buffer, 0, 2);
-                //Debug.WriteLine(buffer[0]); Debug.WriteLine(buffer[1]);
-
-
-                //this.Roll.attitude_command = 0x0005;
-                //buffer[0] = (byte)(this.Roll.attitude_command >> 8);
-                //buffer[1] = (byte)(this.Roll.attitude_command & 0xff);
-                buffer[0] = (byte)(END_PACKET_CHAR);
-                buffer[1] = (byte)(END_PACKET_CHAR);
                 //Debug.WriteLine(buffer[0].ToString("x"));
                 //Debug.WriteLine(buffer[1].ToString("x"));
                 this._serialPort.Write(buffer, 0, 2);
+               // Debug.WriteLine(buffer[0]); Debug.WriteLine(buffer[1]);
 
-               // this.Pitch.attitude_command = 0x0003;
+
+               // this.Roll.attitude_command = 0;
+                buffer[0] = (byte)(this.Roll.attitude_command >> 8);
+                buffer[1] = (byte)(this.Roll.attitude_command & 0xff);
+                Debug.WriteLine(buffer[0].ToString("x"));
+                Debug.WriteLine(buffer[1].ToString("x"));
+                this._serialPort.Write(buffer, 0, 2);
+
+               //this.Pitch.attitude_command = 0;
                 buffer[0] = (byte)(this.Pitch.attitude_command >> 8);
                 buffer[1] = (byte)(this.Pitch.attitude_command & 0xff);
                 //Debug.WriteLine(buffer[0].ToString("x"));
                 //Debug.WriteLine(buffer[1].ToString("x"));
                 this._serialPort.Write(buffer, 0, 2);
 
-                //this.Yaw.attitude_command = 0x0004;
+                //this.Yaw.attitude_command = 0;
                 buffer[0] = (byte)(this.Yaw.attitude_command >> 8);
                 buffer[1] = (byte)(this.Yaw.attitude_command & 0xff);
                 //Debug.WriteLine(buffer[0].ToString("x"));
@@ -365,10 +365,7 @@ namespace IMU
                 buffer[1] = (byte)(this.cmd & 0xff);
                 this._serialPort.Write(buffer, 0, 2);
 
-                if (this.cmd == TRIM)
-                {
-                    this.cmd = NULL_COMMAND;
-                } 
+          
                this.cmd = 0x0000;        
               
                 
@@ -470,7 +467,48 @@ namespace IMU
            
            AForge.Controls.Joystick.Status status = joystick.GetCurrentStatus();
 
-            this.Thrust.thrust_cmd = (short)(2047 * (1 + -status.ZAxis));
+
+
+           if (status.IsButtonPressed(Joystick.Buttons.Button3))
+           {
+               this.pitchTrimRight += 5;
+           }
+           //top right bottom
+           if (status.IsButtonPressed(Joystick.Buttons.Button4))
+           {
+               this.pitchTrimRight -= 5;
+           }
+
+
+           //top left top
+           if (status.IsButtonPressed(Joystick.Buttons.Button5))
+           {
+               this.rollTrimRight += 5;
+           }
+
+           //top right top
+           if (status.IsButtonPressed(Joystick.Buttons.Button6))
+           {
+               this.rollTrimRight -= 5;
+           }
+
+           //top right top
+           if (status.IsButtonPressed(Joystick.Buttons.Button7))
+           {
+               this.throttleTrim += 2;
+           }
+           //button 9, minus throttle trim
+           if (status.IsButtonPressed(Joystick.Buttons.Button9))
+           {
+               this.throttleTrim -= 2;
+           }
+
+           if ((short)(2047 * (1 + -status.ZAxis) + this.throttleTrim) <= 10) this.Thrust.thrust_cmd = 0;
+           else if ((short)(2047 * (1 + -status.ZAxis) + this.throttleTrim) >= 3000) this.Thrust.thrust_cmd = 3000;
+           else this.Thrust.thrust_cmd = (short)(2047 * (1 + -status.ZAxis) + this.throttleTrim);
+
+          
+
             if (this.checkBoxStepCommandOn.Checked == false)
             {
                 if ((this.Yaw.attitude_command = (short)((16383/yawCommandScale * status.RAxis))) >= minusJoystickDeadZone && this.Yaw.attitude_command <= plusJoystickDeadZone)
@@ -487,11 +525,9 @@ namespace IMU
                     this.Roll.attitude_command = 0;
                   
                 }
+                this.Roll.attitude_command += this.rollTrimRight;
 
-                if (status.IsButtonPressed(Joystick.Buttons.Button1))
-                {
-                    this.cmd = TRIM;
-                }
+                this.Pitch.attitude_command += this.pitchTrimRight;
 
                 //this.Roll.attitude_command = this.Command.GetAutoCommand();
             }
@@ -581,7 +617,6 @@ namespace IMU
             this.buttonStop.Enabled = true;
             this.comboBoxComPort.Enabled = false;
             this.buttonStop.Enabled = true;
-
 
         }
 

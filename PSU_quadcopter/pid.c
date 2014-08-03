@@ -23,9 +23,10 @@ int16_t p_attitude_divisor = 50;
 int16_t i_attitude_divisor = 100;
 int16_t integral_addup_reducer = 10;
 int16_t attitude_loop_out;
-
-
-
+int16_t attitude_loop_out;
+int16_t i_outMin = -3000; 
+int16_t i_outMax = 3000;
+uint16_t previousIntegral= 0;
 //  pid  position control loop
 void pid_attitude_rate(PID_data * pid_data);
 
@@ -70,56 +71,53 @@ void PI_rate(PID_data *pid_data)
 }
 
 
-
 /***********************************************************************************************************
 INPUT:
 OUTPUT:
-DISCRIPTION:  nest PI / P loop, with the rate loop on the inside
+DISCRIPTION:  nest PI loops, with the rate loop on the inside
 *********************************************************************************************************** */
 void PI_attitude_rate(PID_data *pid_data)
 {
+	
 	////  save the last error calculation so we can calculate the derivative
 	pid_data->previousError0 = pid_data->previousError1;
 	pid_data->previousError1 = pid_data->previousError2;
 	pid_data->previousError2 = pid_data->attitude_error;
-	//pid_data->previousError0 = pid_data->error;
-	////  calculate the new error
-	////10 - 23 = -13
-	
-	pid_data->attitude_error = ((pid_data->attitude_command + pid_data->trim) - pid_data->attitude_feedback)/10;
+
+	// calculate error
+	pid_data->attitude_error = (pid_data->attitude_command - pid_data->attitude_feedback);
+	//pid_data->attitude_error = (pid_data->attitude_command - 0);
+
+	//backward approximation modified
+	//pid_data->i_term_attitude +=(pid_data->attitude_error * pid_data->Ki)/300;
+		
+	////backward approximation modified 
+	//pid_data->i_term_attitude =(pid_data->attitude_error * pid_data->Ki)/300 + (pid_data->previousError2 * pid_data->Ki)/300 +
+	//(pid_data->previousError1 * pid_data->Ki)/300 + (pid_data->previousError0 * pid_data->Ki)/300;
 	
 
-	pid_data->attitude_total_error = (pid_data->previousError0/integral_addup_reducer + pid_data->previousError1/integral_addup_reducer +
-	pid_data->previousError2/integral_addup_reducer + pid_data->attitude_error/integral_addup_reducer);
-
-
-
-	pid_data->p_term_attitude = (pid_data->attitude_error  *  pid_data->Kp);
+	//Tustin approximation
+	pid_data->i_term_attitude += (pid_data->Ki*(pid_data->attitude_error + pid_data->previousError2))/600;          
 	
-	//calculate integral term
-	pid_data->i_term_attitude =(pid_data->attitude_total_error  * pid_data->Ki);
+	
+	//pid_data->i_term_attitude = pid_data->i_term_attitude/1000;
+	//  limit integral wind up
+	if(pid_data->i_term_attitude> i_outMax) pid_data->i_term_attitude= i_outMax;
+	else if(pid_data->i_term_attitude< i_outMin) pid_data->i_term_attitude= i_outMin;
+	
+	//calculate attitude p term
+	pid_data->p_term_attitude =(pid_data->attitude_error * pid_data->Kp)/10;
 
-	
-	// calculate the pid output
-	pid_data->attitude_loop_out = (pid_data->p_term_attitude + pid_data->i_term_attitude);
-	//pid_rate(pid_data);
+	//  sum the p and i term for the attitude controller (outer loop)
+	pid_data->attitude_loop_out = (pid_data->p_term_attitude);  // + pid_data->i_term_attitude);
 
-	
-	//  rate calculations start here
-	pid_data->previousRateError0 = pid_data->previousRateError1;
-	pid_data->previousRateError1 = pid_data->previousRateError2;
-	pid_data->previousRateError2 = pid_data->rate_error;
-	
+	//  calculate the rate error, the input to the rate loop is the output of the attitude loop
 	pid_data->rate_error = (pid_data->attitude_loop_out- pid_data->rate_feedback)/10;
-	
-	//pid_data->rate_integral = pid_data->rate_error/integral_addup_reducer + pid_data->previousRateError0/integral_addup_reducer +
-	//pid_data->previousRateError1/integral_addup_reducer + pid_data->previousRateError2/integral_addup_reducer;
-	
+
+	//  p term for rate loop
 	pid_data->p_term_rate = (pid_data->rate_error * pid_data->Kp_rate);
-	
-	pid_data->i_term_rate = 0; //(pid_data->rate_total_error  * pid_data->Ki_rate);
-	
-	pid_data->pid_total =(pid_data->p_term_rate + pid_data->i_term_rate);
+
+	pid_data->pid_total =pid_data->p_term_rate;
 
 }
 
@@ -147,9 +145,7 @@ void PII_attitude_rate(PID_data *pid_data)
 	double pidconst1 = (pid_data->Kp)/3 +(pid_data->Ki)/900;
 	double pidconst2 = (pid_data->Kp)/900;
 	
-	pid_data->attitude_loop_out = ((pidconst1 * pid_data->attitude_error) - pidconst2)  / 
-	(pid_data->attitude_error - 2*pid_data->previousError1 + 1 );
- 
+	pid_data->attitude_loop_out = ((pidconst1 * pid_data->attitude_error) - pidconst2)  /  (pid_data->attitude_error - 2*pid_data->previousError1 + 1 );
  
 	pid_data->rate_error = (pid_data->attitude_loop_out- pid_data->rate_feedback)/10;
 	
@@ -159,8 +155,21 @@ void PII_attitude_rate(PID_data *pid_data)
 
 }
 	
+	
+	
+//void stateSpace(PID_data * pid_data)
+//{
+	//uint16_t k1 = 25.6;
+	//uint16_t k2 = 1531;
+	//uint16_t k3 = 1098;
+	//
+	//uint16_t c_out = pid_data->attitude_command - 
+	//
+	//
+	//
+//}
+	
 
-//  pid  position control loop
 void pid(PID_data * pid_data)
 {
 	

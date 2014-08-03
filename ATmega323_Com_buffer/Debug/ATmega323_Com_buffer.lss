@@ -21,7 +21,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_abbrev 0000022a  00000000  00000000  00001617  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   000002f6  00000000  00000000  00001841  2**0
+  9 .debug_line   000002f4  00000000  00000000  00001841  2**0
                   CONTENTS, READONLY, DEBUGGING
  10 .debug_frame  000001b0  00000000  00000000  00001b38  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -90,85 +90,85 @@ Disassembly of section .text:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000090 <RefreshCommandPacket>:
-
+	
 	int i = 0;
 
 
-		// preload the first byte so the master doesn't get junk on the first transaction
-		SPDR = upperByte(throttleAxis.thrust);
+	// preload the first byte so the master doesn't get junk on the first transaction
+	SPDR = upperByte(throttleAxis.thrust);
   90:	e5 eb       	ldi	r30, 0xB5	; 181
   92:	f1 e0       	ldi	r31, 0x01	; 1
   94:	81 81       	ldd	r24, Z+1	; 0x01
   96:	8e bd       	out	0x2e, r24	; 46
-		commandPacket[i++] = lowerByte(throttleAxis.thrust);
+	commandPacket[i++] = lowerByte(throttleAxis.thrust);
   98:	80 81       	ld	r24, Z
   9a:	80 93 d7 01 	sts	0x01D7, r24
-		
-		commandPacket[i++] = upperByte(rollAxis.attitude_command);
+
+	commandPacket[i++] = upperByte(rollAxis.attitude_command);
   9e:	ed e0       	ldi	r30, 0x0D	; 13
   a0:	f1 e0       	ldi	r31, 0x01	; 1
   a2:	80 81       	ld	r24, Z
   a4:	91 81       	ldd	r25, Z+1	; 0x01
   a6:	90 93 d8 01 	sts	0x01D8, r25
-		commandPacket[i++] = lowerByte(rollAxis.attitude_command);
+	commandPacket[i++] = lowerByte(rollAxis.attitude_command);
   aa:	80 93 d9 01 	sts	0x01D9, r24
-		
-		commandPacket[i++] = upperByte(pitchAxis.attitude_command);
+
+	commandPacket[i++] = upperByte(pitchAxis.attitude_command);
   ae:	e5 e4       	ldi	r30, 0x45	; 69
   b0:	f1 e0       	ldi	r31, 0x01	; 1
   b2:	80 81       	ld	r24, Z
   b4:	91 81       	ldd	r25, Z+1	; 0x01
   b6:	90 93 da 01 	sts	0x01DA, r25
-		commandPacket[i++] = lowerByte(pitchAxis.attitude_command);
+	commandPacket[i++] = lowerByte(pitchAxis.attitude_command);
   ba:	80 93 db 01 	sts	0x01DB, r24
 
-		commandPacket[i++] = upperByte(yawAxis.attitude_command);
+	commandPacket[i++] = upperByte(yawAxis.attitude_command);
   be:	eb ee       	ldi	r30, 0xEB	; 235
   c0:	f1 e0       	ldi	r31, 0x01	; 1
   c2:	80 81       	ld	r24, Z
   c4:	91 81       	ldd	r25, Z+1	; 0x01
   c6:	90 93 dc 01 	sts	0x01DC, r25
-		commandPacket[i++] = lowerByte(yawAxis.attitude_command);
+	commandPacket[i++] = lowerByte(yawAxis.attitude_command);
   ca:	80 93 dd 01 	sts	0x01DD, r24
-		
-		commandPacket[i++] = upperByte(pitchAxis.Kp_attitude);
+
+	commandPacket[i++] = upperByte(pitchAxis.Kp_attitude);
   ce:	ed e3       	ldi	r30, 0x3D	; 61
   d0:	f1 e0       	ldi	r31, 0x01	; 1
   d2:	80 81       	ld	r24, Z
   d4:	91 81       	ldd	r25, Z+1	; 0x01
   d6:	90 93 de 01 	sts	0x01DE, r25
-		commandPacket[i++] = lowerByte(pitchAxis.Kp_attitude);
+	commandPacket[i++] = lowerByte(pitchAxis.Kp_attitude);
   da:	80 93 df 01 	sts	0x01DF, r24
-		
-		commandPacket[i++] = upperByte(pitchAxis.Ki_attitude);
+
+	commandPacket[i++] = upperByte(pitchAxis.Ki_attitude);
   de:	ef e3       	ldi	r30, 0x3F	; 63
   e0:	f1 e0       	ldi	r31, 0x01	; 1
   e2:	80 81       	ld	r24, Z
   e4:	91 81       	ldd	r25, Z+1	; 0x01
   e6:	90 93 e0 01 	sts	0x01E0, r25
-		commandPacket[i++] = lowerByte(pitchAxis.Ki_attitude);
+	commandPacket[i++] = lowerByte(pitchAxis.Ki_attitude);
   ea:	80 93 e1 01 	sts	0x01E1, r24
-		
-		commandPacket[i++] = upperByte(pitchAxis.Kd_attitude);
+
+	commandPacket[i++] = upperByte(pitchAxis.Kd_attitude);
   ee:	e1 e4       	ldi	r30, 0x41	; 65
   f0:	f1 e0       	ldi	r31, 0x01	; 1
   f2:	80 81       	ld	r24, Z
   f4:	91 81       	ldd	r25, Z+1	; 0x01
   f6:	90 93 e2 01 	sts	0x01E2, r25
-		commandPacket[i++] = lowerByte(pitchAxis.Kd_attitude);
+	commandPacket[i++] = lowerByte(pitchAxis.Kd_attitude);
   fa:	80 93 e3 01 	sts	0x01E3, r24
-		
-		commandPacket[i++] = upperByte(command);
+
+	commandPacket[i++] = upperByte(command);
   fe:	80 91 39 01 	lds	r24, 0x0139
  102:	90 91 3a 01 	lds	r25, 0x013A
  106:	90 93 e4 01 	sts	0x01E4, r25
-		commandPacket[i++] = lowerByte(command);
+	commandPacket[i++] = lowerByte(command);
  10a:	80 93 e5 01 	sts	0x01E5, r24
 
-		commandPacket[i++] = PACKET_END_CHAR;
+	commandPacket[i++] = PACKET_END_CHAR;
  10e:	80 e8       	ldi	r24, 0x80	; 128
  110:	80 93 e6 01 	sts	0x01E6, r24
-		commandPacket[i++] = PACKET_END_CHAR;
+	commandPacket[i++] = PACKET_END_CHAR;
  114:	80 93 e7 01 	sts	0x01E7, r24
  118:	08 95       	ret
 
@@ -404,7 +404,7 @@ void transmit_SPI_Packet()
  25a:	89 27       	eor	r24, r25
  25c:	88 b9       	out	0x08, r24	; 8
  25e:	08 95       	ret
-	//}
+	
 	//  if we have found the end of packet and we have gathered the correct number of bytes, parse the data
 	//  also we should be able to do a UART transaction before the next SPI frame starts,  depend of PC and Xmega data rates tho
 	else if ((received == (BUFSIZE-1))  && isEnd)
@@ -423,9 +423,9 @@ void transmit_SPI_Packet()
  272:	89 27       	eor	r24, r25
  274:	88 b9       	out	0x08, r24	; 8
  276:	08 95       	ret
-		////tbi(PORTC,PC5);
-			//
-	//}
+		tbi(PORTC,PC5);
+	}
+	
 	//  if we have found the end of packet and we have gathered the correct number of bytes, parse the data
 	//  also we should be able to do a UART transaction before the next SPI frame starts,  depend of PC and Xmega data rates tho
 	else if ((received == (BUFSIZE-1))  && isEnd)
@@ -560,7 +560,7 @@ uint8_t Read_USART_CommandData()
 				}
 			}
 		}
-		
+
 		throttleAxis.thrust = (USART_receive() << 8) | USART_receive();
  316:	0e 94 74 01 	call	0x2e8	; 0x2e8 <USART_receive>
  31a:	c8 2f       	mov	r28, r24
@@ -633,7 +633,7 @@ uint8_t Read_USART_CommandData()
  3cc:	28 2b       	or	r18, r24
  3ce:	30 93 3a 01 	sts	0x013A, r19
  3d2:	20 93 39 01 	sts	0x0139, r18
-		
+
 		return 1;
 			
 }
@@ -752,7 +752,7 @@ void Send_USART_PC_Data()
 *********************************************************************************************************** */
 TransactWithPC()
 {
-	
+			
 			Read_USART_CommandData();
  47e:	0e 94 7c 01 	call	0x2f8	; 0x2f8 <Read_USART_CommandData>
 			Send_USART_PC_Data();
