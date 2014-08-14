@@ -71,6 +71,12 @@ void PI_rate(PID_data *pid_data)
 }
 
 
+void P_attitude(PID_data *pid_data)
+{
+	// calculate error
+	pid_data->pid_total = ((pid_data->attitude_command - pid_data->attitude_feedback)*pid_data->Kp)/20;
+}
+
 /***********************************************************************************************************
 INPUT:
 OUTPUT:

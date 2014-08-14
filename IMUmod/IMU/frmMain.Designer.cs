@@ -352,7 +352,7 @@
             this.groupBox2.Size = new System.Drawing.Size(216, 156);
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Feedback";
+            this.groupBox2.Text = "Feedback - Postion /Rate";
             // 
             // textBoxYawRate
             // 

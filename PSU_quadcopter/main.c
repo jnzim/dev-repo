@@ -47,7 +47,7 @@ uint16_t int16counter;
 int16_t command;
 int16_t cmdBytes;	
 uint8_t testmode = 0;
-uint8_t yawControl = 1;
+uint8_t yawControl = 0;
 
 
 
@@ -169,7 +169,7 @@ void ControlLoop()
 	UpdateEulerAngles();
 
 	PI_attitude_rate(&pitchAxis);
-	PI_attitude_rate(&yawAxis);
+	P_attitude(&yawAxis);
 	PI_attitude_rate(&rollAxis);
 
 	//
@@ -226,28 +226,30 @@ void SetPulseWidths()
 	// check the signs
 	if(throttleAxis.thrust > 2000 && throttleAxis.thrust <= 4095)
 	{
-		//  may not want the yaw controller to effect the motors if testing pitch and roll
-		if(yawControl ==0)
-		{
-				doPWM(
-				throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total,
-				throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total,
-				throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total,
-				throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total
-				);
-		}
-		//  normal fight condition, yaw control on/
-		
-		if ( yawControl == 1)
-		{
+		////  may not want the yaw controller to effect the motors if testing pitch and roll
+		//if(yawControl ==0)
+		//{
+				//doPWM(
+				//throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total,
+				//throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total,
+				//throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total,
+				//throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total
+				//);
+		//}
+		////  normal fight condition, yaw control on/
+		//  all signs depend on motor direction
+		//if ( yawControl == 1)
+		//{
 				doPWM(
 				throttleAxis.thrust * SCALE_THROTTLE + rollAxis.pid_total -  yawAxis.pid_total ,
 				throttleAxis.thrust * SCALE_THROTTLE + pitchAxis.pid_total  - yawAxis.pid_total ,
 				throttleAxis.thrust * SCALE_THROTTLE - rollAxis.pid_total + yawAxis.pid_total,
 				throttleAxis.thrust * SCALE_THROTTLE - pitchAxis.pid_total  + yawAxis.pid_total
 				
+			
+				
 				);
-		}
+		//}
 		
 	}
 	
@@ -267,22 +269,41 @@ void intPID_gains()
 {
 
 		
-	pitchAxis.Kp =4;
-	pitchAxis.Ki =2; 
-	pitchAxis.Kp_rate= 6;
+	pitchAxis.Kp =6;
+	pitchAxis.Ki =1; 
+	pitchAxis.Kp_rate= 4;
 	pitchAxis.Ki_rate =0;
 	
 	
-	yawAxis.Kp = 2;
-	yawAxis.Ki =2;
-	yawAxis.Kp_rate = 2;
+	yawAxis.Kp = 3;
+	yawAxis.Ki =0;
+	yawAxis.Kp_rate = 0;
 	yawAxis.Ki_rate =0;
 	
 	//  standard gains should be used to compare new controllers
-	rollAxis.Kp =4;
-	rollAxis.Ki =2;
-	rollAxis.Kp_rate = 6;
+	rollAxis.Kp =6;
+	rollAxis.Ki =1;
+	rollAxis.Kp_rate = 4;
 	rollAxis.Ki_rate =0;
+	
+	
+	//pitchAxis.Kp =3;
+	//pitchAxis.Ki =0;
+	//pitchAxis.Kp_rate= 4;
+	//pitchAxis.Ki_rate =0;
+	//
+	//
+	//yawAxis.Kp = 3;
+	//yawAxis.Ki =0;
+	//yawAxis.Kp_rate = 4;
+	//yawAxis.Ki_rate =0;
+	//
+	////  standard gains should be used to compare new controllers
+	//rollAxis.Kp =3;
+	//rollAxis.Ki =0;
+	//rollAxis.Kp_rate = 4;
+	//rollAxis.Ki_rate =0;
+		
 	
 	
 	rollAxis.windupGuard = 200;
@@ -323,30 +344,30 @@ int16_t WriteToPC_SPI()
 	throttleAxis.thrust = spiPC_write_read(upperByte16(dummy_read)) << 8;						
 	throttleAxis.thrust += spiPC_write_read(lowerByte16(dummy_read));							
 
-	//rollAxis.attitude_feedback_15 = pitchAxis.Kp /2;
+	//rollAxis.attitude_feedback_15 = rollAxis.attitude_command ;
 	rollAxis.attitude_command = spiPC_write_read(upperByte16(rollAxis.attitude_feedback_15)) << 8;
 	rollAxis.attitude_command  += spiPC_write_read(lowerByte16(rollAxis.attitude_feedback_15));
 
 
-	//pitchAxis.attitude_feedback_15 = pitchAxis.attitude_command /2;
+	//pitchAxis.attitude_feedback_15 = pitchAxis.attitude_command;
 	pitchAxis.attitude_command = spiPC_write_read(upperByte16(pitchAxis.attitude_feedback_15)) << 8;
 	pitchAxis.attitude_command += spiPC_write_read(lowerByte16(pitchAxis.attitude_feedback_15));
 
-
+	//yawAxis.attitude_feedback_15 = yawAxis.attitude_command;
 	yawAxis.attitude_command = spiPC_write_read(upperByte16(yawAxis.attitude_feedback_15)) << 8;
 	yawAxis.attitude_command += spiPC_write_read(lowerByte16(yawAxis.attitude_feedback_15));
 	
-	rollAxis.rate_feedback_15  =  yawAxis.pid_total/2;
-	yawAxis.Kp = spiPC_write_read(upperByte16(rollAxis.rate_feedback_15 ))<< 8;
-	yawAxis.Kp += spiPC_write_read(lowerByte16(rollAxis.rate_feedback_15  ));							
+	//rollAxis.rate_feedback_15  =  yawAxis.pid_total/2;
+	trash = spiPC_write_read(upperByte16(rollAxis.rate_feedback_15 ))<< 8;
+	trash += spiPC_write_read(lowerByte16(rollAxis.rate_feedback_15  ));							
 	
-	pitchAxis.rate_feedback_15  =  yawAxis.Kp;
-	yawAxis.Ki = spiPC_write_read(upperByte16(pitchAxis.rate_feedback_15  )) << 8;					
-	yawAxis.Ki += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback_15  ));							
+	//pitchAxis.rate_feedback_15  =  pitchAxis.pid_total/2;
+	trash = spiPC_write_read(upperByte16(pitchAxis.rate_feedback_15  )) << 8;					
+	trash += spiPC_write_read(lowerByte16(pitchAxis.rate_feedback_15  ));							
 	
-	yawAxis.rate_feedback_15  =  yawAxis.Ki;
-	yawAxis.Kp_rate= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
-	yawAxis.Kp_rate+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
+	//yawAxis.rate_feedback_15  =  rollAxis.pid_total/2;
+	trash= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
+	trash+= spiPC_write_read(lowerByte16(yawAxis.rate_feedback_15));			
 	
 	//yawAxis.rate_feedback_15 = rollAxis.attitude_command/2;
 	command= (spiPC_write_read(upperByte16(yawAxis.rate_feedback_15))) << 8;
@@ -389,12 +410,12 @@ int16_t WriteToPC_SPI_test()
 	throttleAxis.thrust = spiPC_write_read(upperByte16(dummy_read)) << 8;
 	throttleAxis.thrust += spiPC_write_read(lowerByte16(dummy_read));
 
-	rollAxis.attitude_feedback_15 =  rollAxis.attitude_command /2;
+	rollAxis.attitude_feedback_15 =  0;
 	dummy_read= spiPC_write_read(upperByte16(rollAxis.attitude_feedback_15)) << 8;
 	dummy_read  += spiPC_write_read(lowerByte16(rollAxis.attitude_feedback_15));
 
 
-	pitchAxis.attitude_feedback_15 = rollAxis.attitude_command /2;
+	pitchAxis.attitude_feedback_15 = yawAxis.pid_total /2;
 	pitchAxis.attitude_command = spiPC_write_read(upperByte16(pitchAxis.attitude_feedback_15)) << 8;
 	pitchAxis.attitude_command += spiPC_write_read(lowerByte16(pitchAxis.attitude_feedback_15));
 	
@@ -462,6 +483,7 @@ void UpdateEulerAngles()
 		
 		yawAxis.attitude_feedback = (spiIMU_write_read(DUMMY_READ)<< 8) | spiIMU_write_read(DUMMY_READ);
 		yawAxis.attitude_feedback_15 = yawAxis.attitude_feedback/2;
+		//yawAxis.attitude_feedback_15 = wrap_180(yawAxis.attitude_feedback_15);
 		
 		dummy_read = spiIMU_write_read(DUMMY_READ);     
 		dummy_read =  spiIMU_write_read(UM6_GYRO_PROC_XY);			

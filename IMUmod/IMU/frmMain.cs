@@ -32,7 +32,8 @@ namespace IMU
         bool gotJoystick = false;
         const double UMT_CONVERT_EULER = 1; //0.0109863;         //  number spec'd in the UM6 data sheet to convert sensor output to degrees
         const int NUM_BYTES_TO_RECIVE = 16;
-        const int YEI_CONVERT_EULER = 1;   //const int YEI_CONVERT_EULER = (int)((1/16383)*180/Math.PI);
+        const int YEI_CONVERT_EULER = 1;   
+        //const int YEI_CONVERT_EULER = (int)((1/16383)*180/Math.PI);
         const int pitchCommandScale = 10;
         const int rollCommandScale  = 10;
         const int yawCommandScale = 10;
@@ -388,13 +389,23 @@ namespace IMU
             //float filtRoll = filter.complementaryFilter(this.Pitch.
 
 
+            //this.textIMURoll.Text = String.Format("{0:0.00}", (filter.lowPassFilter(this.Roll.attitude_feedback) / YEI_CONVERT_EULER));
+            //this.textIMUPitch.Text = String.Format("{0:0.00}", (filter.lowPassFilter(this.Pitch.attitude_feedback) / YEI_CONVERT_EULER));
+            //this.textIMUYaw.Text = String.Format("{0:0.00}", (filter.lowPassFilter(this.Yaw.attitude_feedback) / YEI_CONVERT_EULER));
+
             this.textIMURoll.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.Roll.attitude_feedback) / YEI_CONVERT_EULER));
             this.textIMUPitch.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.Pitch.attitude_feedback) / YEI_CONVERT_EULER));
-            this.textIMUYaw.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.Yaw.attitude_feedback) / YEI_CONVERT_EULER));
+            this.textIMUYaw.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.Yaw.attitude_feedback) ));
 
             this.textBoxRollRate.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.Roll.rate_feedback) ));
             this.textBoxPitchRate.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.Pitch.rate_feedback) ));
             this.textBoxYawRate.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.Yaw.rate_feedback) ));
+
+            //this.textBoxRollRate.Text = String.Format("{0:0.00}", (filter.lowPassFilter(this.Roll.attitude_feedback) / YEI_CONVERT_EULER));
+            //this.textBoxPitchRate.Text = String.Format("{0:0.00}", (filter.lowPassFilter(this.Pitch.attitude_feedback) / YEI_CONVERT_EULER));
+            //this.textBoxYawRate.Text = String.Format("{0:0.00}", (filter.lowPassFilter(this.Yaw.attitude_feedback) / YEI_CONVERT_EULER));
+
+
 
             //this.textBox_GPS_N.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.int16_GPS_N)/16383));
             //this.textBox_GPS_E.Text = String.Format("{0:0.00}", (Convert.ToDouble(this.int16_GPS_E)/16383));
@@ -419,7 +430,7 @@ namespace IMU
                 double time = (Environment.TickCount - tickStart) / 1000.0;
                 // this.PlotChartForm.UpdateGraph(DateTime.Now, this.Yaw.attitude_feedback / YEI_NVERT_EULER, this.Roll.attitude_feedback / YEI_NVERT_EULER, this.Pitch.attitude_feedback / YEI_NVERT_EULER, this.Pitch.rate_feedback );
                // this.PlotChartForm.UpdateGraph(DateTime.Now, (double)(this.Roll.rate_feedback), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.int16_GPS_E);
-                this.PlotChartForm.UpdateGraph(time, (double)(this.Roll.attitude_command), this.Pitch.rate_feedback, this.Yaw.rate_feedback, this.Roll.attitude_feedback, this.Pitch.attitude_feedback, this.Yaw.attitude_feedback);
+                this.PlotChartForm.UpdateGraph(time, (double)(this.Roll.attitude_feedback), this.Pitch.attitude_feedback, this.Yaw.attitude_feedback, this.Roll.rate_feedback, this.Pitch.rate_feedback, this.Yaw.rate_feedback);
                 //Debug.WriteLine(this.Roll.attitude_feedback.ToString() + " , " + this.Pitch.attitude_feedback.ToString() + " , " + this.Yaw.attitude_feedback.ToString() + " , " + this.Roll.rate_feedback.ToString() + " , " + this.Pitch.rate_feedback.ToString() + " , " + this.Yaw.rate_feedback.ToString());
                // Debug.WriteLine(this.Roll.attitude_feedback.ToString("x") + " , " + this.Pitch.attitude_feedback.ToString("x") + " , " + this.Yaw.attitude_feedback.ToString("x") + " , " + this.Roll.rate_feedback.ToString("x") + " , " + this.Pitch.rate_feedback.ToString("x") + " , " + this.Yaw.rate_feedback.ToString("x"));
                 TimeSpan elapsedTime =  DateTime.Now - startTime;
@@ -493,7 +504,7 @@ namespace IMU
            }
 
            //top right top
-           if (status.IsButtonPressed(Joystick.Buttons.Button7))
+           if (status.IsButtonPressed(Joystick.Buttons.Button8))
            {
                this.throttleTrim += 2;
            }
@@ -501,6 +512,17 @@ namespace IMU
            if (status.IsButtonPressed(Joystick.Buttons.Button9))
            {
                this.throttleTrim -= 2;
+           }
+
+           //top right top
+           if (status.IsButtonPressed(Joystick.Buttons.Button10))
+           {
+               this.throttleTrim += 50;
+           }
+           //button 9, minus throttle trim
+           if (status.IsButtonPressed(Joystick.Buttons.Button9))
+           {
+               this.throttleTrim -= 50;
            }
 
            if ((short)(2047 * (1 + -status.ZAxis) + this.throttleTrim) <= 10) this.Thrust.thrust_cmd = 0;

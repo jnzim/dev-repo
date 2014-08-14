@@ -159,7 +159,7 @@ namespace IMU
             // Set the Titles
             myPane.Title.Text = "Quad Copter Control";
             myPane.XAxis.Title.Text = "Time MM:ss";
-            myPane.YAxis.Title.Text = "deg";
+            myPane.YAxis.Title.Text = "Angle / Angular rate";
 
   
             // Generate a red curve with diamond
@@ -167,7 +167,7 @@ namespace IMU
 
             // Generate a blue curve with circle
             // symbols, and "Piper" in the legend
-            this.myCMD_curve = myPane.AddCurve("Yaw", this.lstYawFeedback, Color.Blue, SymbolType.None);
+            this.myCMD_curve = myPane.AddCurve("Roll", this.lstYawFeedback, Color.Blue, SymbolType.None);
              this.myCMD_curve.Line.Width = 3.0F;
              // Generate a blue curve with circle
              // symbols, and "Piper" in the legend
@@ -175,16 +175,16 @@ namespace IMU
              this.myFeedback_curve.Line.Width = 3.0F;
              // Generate a red curve with diamond
              // symbols, and "Porsche" in the legend
-             this.myPID_curve = myPane.AddCurve("Roll", this.lstRollFeedback, Color.Yellow, SymbolType.None);
+             this.myPID_curve = myPane.AddCurve("Yaw", this.lstRollFeedback, Color.Yellow, SymbolType.None);
              this.myPID_curve.Line.Width = 3.0F;
 
-             this.myCommand_curve = myPane.AddCurve("Command", this.roll_PID_List, Color.Black, SymbolType.None);
+             this.myCommand_curve = myPane.AddCurve("Roll Rate", this.roll_PID_List, Color.Black, SymbolType.None);
              this.myCommand_curve.Line.Width = 3.0F;
 
-             this.myError_curve = myPane.AddCurve("Error", this.roll_Error_List, Color.Green, SymbolType.None);
+             this.myError_curve = myPane.AddCurve("Pitch Rate", this.roll_Error_List, Color.Green, SymbolType.None);
              this.myError_curve.Line.Width = 3.0F;
 
-             this.myPID_curve = myPane.AddCurve("Roll PID", this.roll_PID_List, Color.Red, SymbolType.None);
+             this.myPID_curve = myPane.AddCurve("Yaw Rate", this.roll_PID_List, Color.Red, SymbolType.None);
              this.myPID_curve.Line.Width = 3.0F;
 
             //this.roll_Rate_PID_curve = myPane.AddCurve("Rate PID out", this.roll_Rate_PID_List, Color.Orange, SymbolType.None);

@@ -9,7 +9,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-
+#define wrap_180(x) (x < -360 ? x-360 : (x > 360 ? x + 360: x))
 PID_data rollAxis,yawAxis,pitchAxis,throttleAxis;
 
 
